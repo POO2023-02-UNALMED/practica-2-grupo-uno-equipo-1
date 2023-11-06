@@ -1,15 +1,24 @@
-from src.gestorAplicacion import Cosas.*;
+from gestorAplicacion.Personas.persona import Persona
+#from gestorAplicacion import Cosas.*
 
 class Cliente (Persona):
+	
 	def __init__(self, nombre="", cedula=000000):
 		super.__init__(nombre, cedula)
-	def getReserva(self):
-		return self.reserva
+        self.reserva = None
+        self.pedido = None
+	
+    def getReserva(self):
+        return self.reserva
+	
 	def setReserva(self, reserva):
 		self.reserva = reserva
+		
 	def getPedido(self):
 		return self.pedido
+		
     def pedirComida(self, pedido):
         self.pedido = pedido
+		
 	def puntuacion(self):
 		return "El cliente "+self.getNombre() +" no tiene puntuacion"
