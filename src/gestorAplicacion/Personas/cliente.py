@@ -1,5 +1,5 @@
 from Personas.persona import Persona
-from gestorAplicacion.Cosas import *
+from gestorAplicacion.restaurante import *
 
 class Cliente (Persona):
 	
