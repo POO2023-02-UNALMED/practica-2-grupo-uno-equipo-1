@@ -1,10 +1,17 @@
-import datetime
+from datetime import datetime
+from enum import Enum
 
-# Para tipo: TOMATES,CEBOLLAS,PAPAS,ACEITES,VINOS,QUESOS,CHAMPINONES,RES,
-# PESCADOS,CERDOS,POLLOS,PANES,AJOS,ESPECIAS,HUEVOS,ATUN,CUCHARAS,TENEDORES,PLATOS,VASOS
+class Tipo(Enum):
+    TOMATES,CEBOLLAS,PAPAS,ACEITES,VINOS = "TOMATES", "CEBOLLAS", "PAPAS", "ACEITES", "VINOS"
+    QUESOS,CHAMPINONES,RES,PESCADOS,CERDOS = "QUESOS", "CHAMPINONES", "RES", "PESCADOS", "CERDOS"
+    POLLOS,PANES,AJOS,ESPECIAS,HUEVOS = "POLLOS", "PANES", "AJOS", "ESPECIAS", "HUEVOS"
+    ATUN,CUCHARAS,TENEDORES,PLATOS,VASOS = "ATUN", "CUCHARAS", "TENEDORES", "PLATOS", "VASOS"
 class Material:
-    def __init__(self, tipo=None, cantidad=0, precioUnitario=0, fechavencimiento=datetime.date(1, 1, 1)):
-        self.tipo = tipo
+    def __init__(self, tipo, cantidad=0, precioUnitario=0, fechavencimiento=None):
+        if tipo in Tipo:
+            self.tipo = tipo
+        else:
+            self.tipo = None
         self.cantidad = cantidad
         self.precioUnitario = precioUnitario
         self.fechavencimiento = fechavencimiento
@@ -52,7 +59,7 @@ class Material:
     def botarMaterial(self, cantidad):
         self.cantidad -= cantidad
     
-    def cambiarPrecio(self, precio):
+    def cambiarPrecioUnitario(self, precio):
         self.precioUnitario = precio
     
     def fechaMaterial(self, fecha):
@@ -65,4 +72,4 @@ class Material:
         if self.fechavencimiento is None:
             return "Este material no tiene fecha de vencimiento"
         else:
-            return self.fechavencimiento.strftime("%Y-%m-%d")
+            return self.fechavencimiento.strftime("%d-%m-%Y")

@@ -57,11 +57,11 @@ class Pedido(Menu):
         return precioTotal
     
     # Metodos de funcionalidad
-    def verificarPedido(self, restaurante):
+    def verificarPedido(self, restaurante, pedido):
         mesa = restaurante.buscarMesaDisponible()
-        self.setMesa(mesa)
-        self.setVerificado(True)
-        self.actualizarInventario(restaurante)
+        pedido.setMesa(mesa)
+        pedido.setVerificado(True)
+        self.actualizarInventario(restaurante, pedido)
         return mesa
 
     def actualizarInventario(self, restaurante, pedido):

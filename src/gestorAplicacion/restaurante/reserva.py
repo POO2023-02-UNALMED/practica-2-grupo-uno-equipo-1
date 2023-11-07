@@ -31,11 +31,10 @@ class Reserva:
         self.diaReserva = diaReserva
 
     def resumenReserva(self):
-        formatoPersonalizado = "%d-%m-%Y"
         if self.mesa is None:
-            return f"Dueño de la reserva: {self.duenoReserva.getNombre()}\nCédula del reservista: {self.duenoReserva.getCedula()}\nNúmero de asistentes: {self.numAsistentes}\nMesa número: Sin mesa asignada\nFecha reservada: {self.diaReserva.strftime(formatoPersonalizado)}"
+            return f"Dueño de la reserva: {self.duenoReserva.getNombre()}\nCédula del reservista: {self.duenoReserva.getCedula()}\nNúmero de asistentes: {self.numAsistentes}\nMesa número: Sin mesa asignada\nFecha reservada: {self.diaReserva.strftime('%d-%m-%Y')}"
         else:
-            return f"Dueño de la reserva: {self.duenoReserva.getNombre()}\nCédula del reservista: {self.duenoReserva.getCedula()}\nNúmero de asistentes: {self.numAsistentes}\nMesa número: {self.mesa.getNumeroMesa()}\nFecha reservada: {self.diaReserva.strftime(formatoPersonalizado)}"
+            return f"Dueño de la reserva: {self.duenoReserva.getNombre()}\nCédula del reservista: {self.duenoReserva.getCedula()}\nNúmero de asistentes: {self.numAsistentes}\nMesa número: {self.mesa.getNumeroMesa()}\nFecha reservada: {self.diaReserva.strftime('%d-%m-%Y')}"
     
     def resumenReservaPedido(self):
         return f"Dueño de la reserva: {self.duenoReserva.getNombre()} Mesa número: {self.mesa.getNumeroMesa()}"
@@ -46,8 +45,8 @@ class Reserva:
         fecha = datetime.strptime(fechaString, formato).date()
         return fecha
     
-    @classmethod
-    def revisarFecha(cls, fecha):
-        f1 = cls.deStringAFecha(fecha)
+    @staticmethod
+    def revisarFecha(fecha):
+        f1 = Reserva.deStringAFecha(fecha)
         fechaActual = datetime.now().date()
         return f1 > fechaActual

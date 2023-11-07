@@ -60,4 +60,4 @@ class Turno:
     
     # Tostring de la clase
     def toString(self):
-        return (f"Tipo: " + self.getTipo() + "Salario: " + self.getSalario() + "Estado completado: " + self.isCompletado() + "Estado cobrado: " + self.isCobrado())
+        return (f"Tipo: {self.getTipo()} Salario: {self.getSalario()} Estado completado: {self.isCompletado()} Estado cobrado: {self.isCobrado()}")
