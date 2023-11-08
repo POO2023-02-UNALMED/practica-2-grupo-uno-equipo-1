@@ -74,23 +74,23 @@ class Empleado(Persona):
         dia = self.clasificarDia(fechaActual)
         if (tiempoPreparacion == 0):
             for turno in empleado.getTurnos():
-                if (turno.getTipo().toString().equals(dia)):
+                if (turno.getTipo().toString() == dia):
                     if not (turno.isCobrado()):
                         tiempoDisponible = turno.getHoras() * 60
                         if (tiempoDisponible > tiempoPreparacion):
                             return True
             return False
         else:
-            if(empleado.getPuesto().equals("domiciliario")):
+            if(empleado.getPuesto() == "domiciliario"):
                 for turno in empleado.getTurnos():
-                    if (turno.getTipo().toString().equals(dia)):
+                    if (turno.getTipo().toString() == dia):
                         if not (turno.isCobrado()):
                             tiempoDisponible = turno.getHoras()* 60 
-                            if (tiempoDisponible > Pedido.TIEMPO_DOMICILIO) :
+                            if (tiempoDisponible > Pedido.TIEMPO_DOMICILIO):
                                 return True
-            elif (empleado.getPuesto().equals("mesero")):
+            elif (empleado.getPuesto() == "mesero"):
                 for turno in empleado.getTurnos():
-                    if (turno.getTipo().toString().equals(dia)):
+                    if (turno.getTipo().toString() == dia):
                         if not(turno.isCobrado()):
                             tiempoDisponible = turno.getHoras()* 60 
                             if(tiempoDisponible > Pedido.TIEMPO_MESERO):

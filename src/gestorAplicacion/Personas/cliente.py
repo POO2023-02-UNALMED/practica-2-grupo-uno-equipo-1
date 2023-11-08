@@ -1,5 +1,6 @@
 from Personas.persona import Persona
-from Restaurante import *
+from Restaurante.reserva import Reserva
+from Restaurante.pedido import Pedido
 
 class Cliente (Persona):
 	
