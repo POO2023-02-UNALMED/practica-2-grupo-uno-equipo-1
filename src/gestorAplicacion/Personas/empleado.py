@@ -1,11 +1,9 @@
 from datetime import datetime
 from Personas.persona import Persona
-from gestorAplicacion.restaurante.material import Material
-from gestorAplicacion.restaurante.mesa import Mesa
-from gestorAplicacion.restaurante.pedido import Pedido
-from gestorAplicacion.restaurante.plato import Plato
-from gestorAplicacion.restaurante.restaurante import Restaurante
-from gestorAplicacion.restaurante.turno import Turno
+from Restaurante.material import Material
+from Restaurante.pedido import Pedido
+from Restaurante.turno import Turno
+from Restaurante.restaurante import Restaurante
 
 class Empleado(Persona):
     def __init__(self, nombre="", cedula=000000, puesto=None, restaurante=None, turno=None):

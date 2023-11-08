@@ -1,7 +1,7 @@
 from datetime import datetime
 from Personas.empleado import Empleado
-from gestorAplicacion.restaurante.restaurante import Restaurante
-from gestorAplicacion.restaurante.turno import Turno
+from Restaurante.turno import Turno
+from Restaurante.restaurante import Restaurante
 
 class Cocinero (Empleado):
 
