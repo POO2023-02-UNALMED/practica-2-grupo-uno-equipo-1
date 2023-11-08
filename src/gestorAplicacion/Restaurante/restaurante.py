@@ -11,7 +11,7 @@ class Restaurante():
 		for elemento in listado:
 			if (elemento != None):
 				contador += 1
-                return contador
+		return contador
 	
 	def __init__(self, listadoMesas=None, listadoEmpleados=None, listadoClientes=None, inventario=None, listadoAspEmpleados=None):
 		self.NOMBRE = "Le Quasó"
@@ -82,143 +82,117 @@ class Restaurante():
     def setMesas(self, mesas):
 		self.listadoMesas=mesas
     
-    def setInventario(Map<Tipo,Material> inv) 
+    def setInventario(self, inv):
     	self.inventario=inv
     
-    def setNumMesas(numMesas) 
+    def setNumMesas(self, numMesas):
         self.numMesas = numMesas
     
-    def setNumClientes(numClientes) 
+    def setNumClientes(self, numClientes):
         self.numClientes = numClientes
     
-    def setNumEmpleados(numEmpleados) 
+    def setNumEmpleados(self, numEmpleados):
         self.numEmpleados = numEmpleados
     
-    def setPedidos(Arra pedidos) 
+    def setPedidos(self, pedidos):
     	self.pedidos=pedidos
     
 
-    // Metodos funcionalidad gestion de pedidos
+    #Metodos funcionalidad gestion de pedidos
     
-    // Se agrega un pedido
-    def agregarPedido(Pedido pedido) 
-		pedidos.add(pedido)
+    #Se agrega un pedido
+    def agregarPedido(self, pedido):
+		self.pedidos.append(pedido)
 	
     
-    // Se verifica el menu si es apto para ofrecerlo
-	 ArrayList<Plato>  veirificarMenu(ArrayList<Plato> menu) 
-		ArrayList<Plato> menuVerificado= new ArrayList<>()
-		for(Plato plato: menu)
-			// Se verifica si cada plato cumple
-			if(plato.verificarInsumos(plato))
-				menuVerificado.add(plato)
-			
-		
-        return menuVerificado
+    #Se verifica el menu si es apto para ofrecerlo
+	def veirificarMenu(self, menu):
+		menuVerificado = []
+		for plato in menu:
+			# Se verifica si cada plato cumple
+			if (plato.verificarInsumos(plato)):
+				menuVerificado.append(plato)
+		return menuVerificado
 	
 	
 	
-	// Encontrar reserva, aqui se mira si segun los datos en el pedido hay una reserva
-	Reserva encontrarReserva(numMesa, nombre) 
-		Mesa mesa = encontrarMesa(numMesa)
-		for(Reserva reserva : mesa.def getReservas())
-			if((reserva.def getDuenoReserva().def getNombre()).equals(nombre))
+	#Encontrar reserva, aqui se mira si segun los datos en el pedido hay una reserva
+	def encontrarReserva(self, numMesa, nombre):
+		mesa = self.encontrarMesa(numMesa)
+		for reserva in mesa.getReservas():
+			if ((reserva.getDuenoReserva().getNombre()) == nombre):
+				return reserva
+		return None
+		
+	#Clasificar empleados por su tipo
+	def clasificarEmpleados(self, empleados, tipo):
+		empleadosClasificados = []
+		for empleado in empleados:
+			if (empleado.getPuesto() == tipo):
+				empleadosClasificados.append(empleado)
+		return empleadosClasificados
 	
-    return reserva
-			
-		
-        return None
-		
-	
-	// Clasificar empleados por su tipo
-	clasificarEmpleados( empleados, tipo)
-		empleadosClasificados = new ArrayList<>()
-		for(: empleados)
-			if(empleado.def getPuesto().equals(tipo))
-				empleadosClasificados.add(empleado)
-			
-		
-        return empleadosClasificados
-	
-	// Encontrar una mesa disponible en la fecha de el dia actual
-	Mesa buscarMesaDisponible() 
-		LocalDate fechaActual = LocalDate.now()
-		for(Mesa mesa : listadoMesas)
-			for(Reserva reserva : mesa.def getReservas())
-				if(!reserva.def getDiaReserva().equals(fechaActual))
-		
-        return mesa
-				
-			
-		
-        return None
+	#Encontrar una mesa disponible en la fecha de el dia actual
+	def buscarMesaDisponible(self): 
+		fechaActual = datetime.now()
+		for mesa in self.listadoMesas:
+			for reserva in mesa.getReservas():
+				if not (reserva.getDiaReserva() == fechaActual):
+					return mesa
+		return None
 	 
-	// Verificar los cocineros aptos para la cantidad de platos
-	verificarCocineros(empleados, ArrayList<Plato> platos)
-	    cocineros = clasificarEmpleados(empleados, "cocinero")
-	    cocinerosVerificados = new ArrayList<>()
-	    tiempoPreparacion = platos.def get(0).def getTiempoTotal(platos)
-	    for(: cocineros)
-	        if(empleado.verificarTiempo(empleado, tiempoPreparacion))
-	            cocinerosVerificados.add(empleado)
-	        
-	    
-        return cocinerosVerificados
+	#Verificar los cocineros aptos para la cantidad de platos
+	def verificarCocineros(self, empleados, platos):
+		cocineros = clasificarEmpleados(empleados, "cocinero")
+		cocinerosVerificados = []
+		tiempoPreparacion = platos[0].getTiempoTotal(platos)
+		for empleado in cocineros:
+			if (empleado.verificarTiempo(empleado, tiempoPreparacion)):
+				cocinerosVerificados.append(empleado)
+		return cocinerosVerificados
 	
-	//Verificar los domiciliarios aptos para entregar el pedido
-	verificarDomiciliarios(empleados) 
-	    domiciliarios = clasificarEmpleados(empleados, "domiciliario")
-	    domiciliariosVerificados = new ArrayList<>()
-	    for(: domiciliarios)
-	        if(empleado.verificarTiempo(empleado))
-	            domiciliariosVerificados.add(empleado)
-	        
-	    
-        return domiciliariosVerificados
+	#Verificar los domiciliarios aptos para entregar el pedido
+	def verificarDomiciliarios(self, empleados): 
+		domiciliarios = clasificarEmpleados(empleados, "domiciliario")
+		domiciliariosVerificados = []
+		for empleado in domiciliarios:
+			if (empleado.verificarTiempo(empleado)):
+				domiciliariosVerificados.append(empleado)
+		return domiciliariosVerificados
 	
-	// Verificar los meseros aptos para entregar
-	verificarMeseros(empleados) 
-	    meseros = clasificarEmpleados(empleados, "mesero")
-	    meserosVerificados = new ArrayList<>()
-	    for(: meseros)
-	        if(empleado.verificarTiempo(empleado))
-	        	meserosVerificados.add(empleado)
-	        
-	    
-        return meserosVerificados
-	
+	#Verificar los meseros aptos para entregar
+	def verificarMeseros(self, empleados): 
+		meseros = clasificarEmpleados(empleados, "mesero")
+		meserosVerificados = []
+		for empleado in meseros:
+			if (empleado.verificarTiempo(empleado)):
+				meserosVerificados.append(empleado)
+		return meserosVerificados
 
+    #Filtrar los pedidos consumo domicilio
+	def imprimirPedidosDomicilios(self): 
+		pedidosDomicilio = self.getPedidosDomicilio()
+		domicilios = ""
+		for i in range(len(pedidosDomicilio)):
+			domicilios += str((i + 1)) + ". " + pedidosDomicilio[i]
+			domicilios += "\n-------------------------------------------------------\n"
+		return domicilios
+	def getPedidosDomicilio(self):
+		pedidosDomicilio = []
+		for pedido in self.getPedidos():
+			if (pedido.getDomiciliario()!=None):
+				pedidosDomicilio.append(pedido)
+		return pedidosDomicilio
     
-    // Filtrar los pedidos consumo domicilio
-	imprimirPedidosDomicilios() 
-	 pedidosDomicilio = def getPedidosDomicilio()
-		domicilios=""
-		for(i = 0 i < pedidosDomicilio.size() i++)
-			domicilios+=(i + 1) + ". " + pedidosDomicilio.def get(i)
-			domicilios+="\n-------------------------------------------------------\n"
-			
-            return domicilios
+	#Filtrar los pedidos consumo(restaurante)
+	def getPedidosRestaurante(self): 
+		pedidosRestaurante = []
+		for pedido in self.getPedidos():
+			if (pedido.isVerificado() and pedido.getDomiciliario()==None and pedido.getMesero()!=None):
+				pedidosRestaurante.append(pedido)
+		return pedidosRestaurante
 	
- def getPedidosDomicilio()
-     pedidosDomicilio = new ArrayList<>()
-    	for(Pedido pedido : def getPedidos())
-		if(pedido.def getDomiciliario()!=None)
-			pedidosDomicilio.add(pedido)
-		
-
-return pedidosDomicilio
-    
-	// Filtrar los pedidos consumo(restaurante)
- def getPedidosRestaurante() 
-	 pedidosRestaurante = new ArrayList<>()
-		for(Pedido pedido : def getPedidos())
-			if(pedido.isVerificado()&& pedido.def getDomiciliario()==None && pedido.def getMesero()!=None)
-				pedidosRestaurante.add(pedido)
-			
-		
-        return pedidosRestaurante
-	
-	// Imprimir pedidos restaurante
+	#Imprimir pedidos restaurante
 	imprimirPedidosRestaurante()
 		pedidosRestaurante =""
 		for(i = 0 i < def getPedidosRestaurante().size() i++)
@@ -229,7 +203,7 @@ return pedidosDomicilio
 	
 	
 	
-	// Actualizar insumos despues de ya estar verificado el pedido
+	#Actualizar insumos despues de ya estar verificado el pedido
 	def actualizarInsumos(Pedido pedido) 
 	    for (Plato plato : pedido.def getPlatos()) 
 	        for (Map.Entry<Material, Integer> entrada : plato.def getIngredientes().entrySet()) 
@@ -239,9 +213,9 @@ return pedidosDomicilio
 	        
 	    
 	
-	   // Gestion de Pedidos
+	   #Gestion de Pedidos
     def actualizarTiempoEmpleados(Pedido pedido)
-    	// Este metodo es  para actualizar el tiempo
+    	#Este metodo es  para actualizar el tiempo
     	LocalDate fechaActual = LocalDate.now()
     	dia = pedido.def getCocinero().clasificarDia(fechaActual)
     	for(Pedido pedidoi: def getPedidos()) 
@@ -255,10 +229,10 @@ return pedidosDomicilio
     					
     				
     		
-    	// Llama metodo para cobrar turno
+    	#Llama metodo para cobrar turno
     	
     	pedido.def getCocinero().turnosCompletados(pedido.def getCocinero())
-   	 // Si el pedido es de consumo en restaurante se actualiza tiempo a mesero
+   	 #Si el pedido es de consumo en restaurante se actualiza tiempo a mesero
    	 if(pedido.def getMesero()!=None) 
        	 for(Turno turno :pedido.def getMesero().def getTurnos())
        		if(turno.def getTipo().toString().equals(dia)) 
@@ -266,12 +240,12 @@ return pedidosDomicilio
 
        			 turno.restarTiempo(turno,Pedido.TIEMPO_MESERO)
        		 
-       	 // Llama metodo para cobrar turno
+       	 #Llama metodo para cobrar turno
        		
 
        	pedido.def getMesero().turnosCompletados(pedido.def getMesero()) 
        	
-   	 // Si el pedido es de consumo en domicilio se actualiza tiempo a domiciliario
+   	 #Si el pedido es de consumo en domicilio se actualiza tiempo a domiciliario
    	 if(pedido.def getDomiciliario()!=None) 
    	 for(Turno turno : pedido.def getDomiciliario().def getTurnos())
    		if(turno.def getTipo().toString().equals(dia)) 
@@ -279,11 +253,11 @@ return pedidosDomicilio
    	
    			 turno.restarTiempo(turno,Pedido.TIEMPO_DOMICILIO)
    		 
-   	 // Llama metodo para cobrar turno
+   	 #Llama metodo para cobrar turno
    	
    	 pedido.def getDomiciliario().turnosCompletados(pedido.def getDomiciliario())
    	 
-	// Buscar un por su nombre y puesto
+	#Buscar un por su nombre y puesto
     buscarEmpleado(nombre, puesto)
     	for(: listadoEmpleados)
     		if((empleado.def getNombre()).equals(nombre) && (empleado.def getPuesto()).equals(puesto))
@@ -295,19 +269,19 @@ return pedidosDomicilio
     
     //añade un a la lista de empleados
     def contratarEmpleado(novato) 
-        self.listadoEmpleados.add(novato)
+        self.listadoEmpleados.append(novato)
         a = self.def getNumEmpleados()
         self.setNumEmpleados(a+1)
     
     //Añade el cliente a la lista de clientes
     def afiliarCliente (Cliente nuevoCliente) 
-        self.listadoClientes.add(nuevoCliente)
+        self.listadoClientes.append(nuevoCliente)
         a = self.def getNumClientes()
         self.setNumClientes(a+1)
     
     //añade la mesa a la lista de mesas
     def comprarMesa (Mesa nuevaMesa) 
-        self.listadoMesas.add(nuevaMesa)
+        self.listadoMesas.append(nuevaMesa)
         a = self.def getNumMesas()
         self.setNumMesas(a+1)
     
@@ -388,7 +362,7 @@ return pedidosDomicilio
     
     
 
-    // Gestion de Reservas
+    #Gestion de Reservas
     def borrarReservasViejas() 
         for (Mesa mesa1 : def getMesas()) 
             mesa1.borrarReservasViejas()
@@ -396,10 +370,10 @@ return pedidosDomicilio
         
     //retorna las mesas que son válidas (capacidad y fecha disponible) para la reserva
     listadoMesasValidasParaReserva(Reserva reserva) 
-        mesasFiltradas = new ArrayList<>()
+        mesasFiltradas = []
         for (Mesa mesa : listadoMesas) 
             if (mesa.suficienteCapacidad(reserva) && mesa.mesaCompatible(reserva)) 
-                mesasFiltradas.add(mesa)
+                mesasFiltradas.append(mesa)
             
         
         return mesasFiltradas
@@ -421,9 +395,9 @@ return pedidosDomicilio
     //Imprime las reservas por confirmar (sin mesa asignada)
     imprimirReservas() 
         r = ""
-        List<Reserva> listado = new ArrayList<>()
+        List<Reserva> listado = []
         for (Cliente cliente1 : def getClientes()) 
-            listado.add(cliente1.def getReserva())
+            listado.append(cliente1.def getReserva())
         
         for (Reserva reserva1 : listado) 
             if (reserva1 != None) 
@@ -439,9 +413,9 @@ return pedidosDomicilio
 	//Imprime las reservas confirmadas (con mesa asignada)
     imprimirReservas2() 
         r = ""
-        List<Reserva> listado = new ArrayList<>()
+        List<Reserva> listado = []
         for (Mesa mesa1 : def getMesas()) 
-            listado.addAll(mesa1.def getReservas())
+            listado.appendAll(mesa1.def getReservas())
         
         for (Reserva reserva1 : listado) 
             if (reserva1 != None) 
