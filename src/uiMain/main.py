@@ -68,8 +68,6 @@ def nada():
 def infoApp():
     pass
 
-def salir():
-    pass
 
 def gReserva():
     pass
