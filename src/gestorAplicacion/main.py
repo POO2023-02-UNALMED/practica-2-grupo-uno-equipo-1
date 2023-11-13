@@ -86,33 +86,30 @@ imagenesDerecha.pack(side="right", padx=10, pady=10)
 
 logoLeQuaso = Image.open("src\logo_leQuaso.png")
 localLeQuaso = Image.open("src\local_leQuaso.png")
-especialidad1 = Image.open("src\boeufbourguinon.png")
-especialidad2 = Image.open("src\coqauvin.png")
-especialidad3 = Image.open("src\ratatoulile.png")
+#especialidad1 = Image.open("src\boeufbourguinon.png")
+#especialidad2 = Image.open("src\coqauvin.png")
+#especialidad3 = Image.open("src\ratatoulile.png")
 
 # Redimensionamiento de las imágenes
 logoLeQuaso = logoLeQuaso.resize((200, 200))
 localLeQuaso = localLeQuaso.resize((200, 200))
-especialidad1 = especialidad1.resize((200, 200))
-especialidad2 = especialidad2.resize((200, 200))
-especialidad3 = especialidad3.resize((200, 200))
+#especialidad1 = especialidad1.resize((200, 200))
+#especialidad2 = especialidad2.resize((200, 200))
+#especialidad3 = especialidad3.resize((200, 200))
 
 # Creación de PhotoImage desde las imágenes redimensionadas
 logoLeQuaso_imagen = ImageTk.PhotoImage(logoLeQuaso)
 localLeQuaso_imagen = ImageTk.PhotoImage(localLeQuaso)
-especialidad1_imagen = ImageTk.PhotoImage(especialidad1)
-especialidad2_imagen = ImageTk.PhotoImage(especialidad2)
-especialidad3_imagen = ImageTk.PhotoImage(especialidad3)
+#especialidad1_imagen = ImageTk.PhotoImage(especialidad1)
+#especialidad2_imagen = ImageTk.PhotoImage(especialidad2)
+#especialidad3_imagen = ImageTk.PhotoImage(especialidad3)
 
 # Etiquetas de las imágenes
 logoLeQuaso = Label(imagenesIzquierda, image=logoLeQuaso_imagen)
 localLeQuaso = Label(imagenesIzquierda, image=localLeQuaso_imagen)
-especialidad1 = Label(imagenesIzquierda, image=especialidad1_imagen)
-especialidad2 = Label(imagenesIzquierda, image=especialidad2_imagen)
-especialidad3 = Label(imagenesIzquierda, image=especialidad3_imagen)
-
-Image
-
+#especialidad1 = Label(imagenesIzquierda, image=especialidad1_imagen)
+#especialidad2 = Label(imagenesIzquierda, image=especialidad2_imagen)
+#especialidad3 = Label(imagenesIzquierda, image=especialidad3_imagen)
 
 # Dimensiones de las imágenes
 ancho = 100
