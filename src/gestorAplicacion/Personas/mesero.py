@@ -4,7 +4,7 @@ from Restaurante.turno import Turno
 from Restaurante.restaurante import Restaurante
 
 class Mesero (Empleado):
-  
+
     def __init__(self, nombre="", cedula=000000, puesto=None, restaurante=None, turno=None):
         super().__init__(nombre, cedula, puesto, restaurante, turno)
         self.turnos = []

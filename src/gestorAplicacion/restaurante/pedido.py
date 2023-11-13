@@ -1,7 +1,7 @@
-from uiMain.menu import Menu
+#from uiMain.menu import Menu
 from Personas.empleado import Empleado
 
-class Pedido(Menu):
+class Pedido():
     tiempoDomicilio = 45
     tiempoMesero = 30
 
@@ -25,10 +25,10 @@ class Pedido(Menu):
 
     def agregarPlato(self, plato):
         self.platos.append(plato)
-    
+
     def setVerificado(self, verificado):
         self.verificado = verificado
-    
+
     # Metodos getter
     def isVerificado(self):
         return self.verificado
@@ -56,7 +56,7 @@ class Pedido(Menu):
         for plato in self.platos:
             precioTotal += plato.getPrecio()
         return precioTotal
-    
+
     # Metodos de funcionalidad
     def verificarPedido(self, restaurante, pedido):
         mesa = restaurante.buscarMesaDisponible()
@@ -74,7 +74,7 @@ class Pedido(Menu):
         for i, plato in enumerate(self.platos, 1):
             stringPlatos += f"\n   Plato número {i}: {plato.detallesPlato()}\n"
         return stringPlatos
-    
+
     # ToString de la clase
     def __str__(self):
         mesaStr = str(self.mesa) if self.mesa is not None else "N/A"

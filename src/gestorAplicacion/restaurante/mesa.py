@@ -3,7 +3,7 @@ from datetime import date
 
 class Mesa:
     numeroMesas = []
-    
+
     def __init__(self, capacidad, numeroMesa):
         self.capacidad = capacidad
         if Mesa.verificarNumero(numeroMesa):
@@ -13,34 +13,34 @@ class Mesa:
         self.ocupada = False
         self.reservas = []
         Mesa.numeroMesas.append(self.numeroMesa)
-    
+
     # Metodos getters
     def getCapacidad(self):
         return self.capacidad
-    
+
     def getReservas(self):
         return self.reservas
-    
+
     def isOcupada(self):
         return self.ocupada
-    
+
     def getNumeroMesa(self):
         return self.numeroMesa
-    
+
     # Metodos setters
     def setCapacidad(self, nuevaCapacidad):
         self.capacidad = nuevaCapacidad
-    
+
     def setReservas(self, reservas):
         self.reservas = reservas
-    
+
     def setOcupada(self, ocupacion):
         self.ocupada = ocupacion
-    
+
     def setNumeroMesa(self, numeroMesa):
         if not Mesa.verificarNumero(numeroMesa):
             self.numeroMesa = numeroMesa
-    
+
     # Metoddos estaticos
     @staticmethod
     def generarNumeroMesa():
@@ -53,11 +53,11 @@ class Mesa:
     def verificarNumero(numero):
         return numero in Mesa.numeroMesas
 
-    # Metodos de clase    
+    # Metodos de clase
     @classmethod
     def getNumeroMesas(cls):
         return cls.numeroMesas
-    
+
     # Metodos para funcionalidad
     def anadirNumero(self, a):
         self.getNumeroMesas().append(a)
@@ -84,7 +84,7 @@ class Mesa:
 
     def resumenMesa(self):
         return f"Capacidad de la mesa: {self.capacidad}\nNúmero de la mesa: {self.numeroMesa}"
-    
+
     #ToString de la clase
     def __str__(self):
         return f"mesa numero: {self.numeroMesa} con capacidad: {self.capacidad}"

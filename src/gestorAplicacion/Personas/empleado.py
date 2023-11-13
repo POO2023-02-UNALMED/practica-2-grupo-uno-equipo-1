@@ -85,14 +85,14 @@ class Empleado(Persona):
                 for turno in empleado.getTurnos():
                     if (turno.getTipo().toString() == dia):
                         if not (turno.isCobrado()):
-                            tiempoDisponible = turno.getHoras()* 60 
+                            tiempoDisponible = turno.getHoras()* 60
                             if (tiempoDisponible > Pedido.TIEMPO_DOMICILIO):
                                 return True
             elif (empleado.getPuesto() == "mesero"):
                 for turno in empleado.getTurnos():
                     if (turno.getTipo().toString() == dia):
                         if not(turno.isCobrado()):
-                            tiempoDisponible = turno.getHoras()* 60 
+                            tiempoDisponible = turno.getHoras()* 60
                             if(tiempoDisponible > Pedido.TIEMPO_MESERO):
                                 return True
             return False
@@ -115,7 +115,7 @@ class Empleado(Persona):
         return None
 
     def toString(self):
-        return "Nombre: " + self.getNombre()+ " Puesto: "+ self.getPuesto()  
+        return "Nombre: " + self.getNombre()+ " Puesto: "+ self.getPuesto()
 
     def agregarTurno(self, turno):
         self.turnos.append(turno)

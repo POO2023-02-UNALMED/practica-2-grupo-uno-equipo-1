@@ -8,7 +8,7 @@ class Plato:
         self.tiempoPreparacion = tiempoPreparacion
         self.ingredientes = {}
         self.verificadoInsumos = False
-    
+
     # Métodos getter
     def getNombre(self):
         return self.nombre
@@ -27,16 +27,16 @@ class Plato:
         for plato in platos:
             tiempoTotal += plato.getTiempoPreparacion()
         return tiempoTotal
-    
+
     def getNumeroDeIngredientes(self):
         return len(self.ingredientes)
-    
+
     def getTiempoPreparacion(self):
         return self.tiempoPreparacion
 
     def isVerificadoInsumos(self):
         return self.verificadoInsumos
-    
+
     # Métodos setter
     def setNombre(self, nombre):
         self.nombre = nombre
@@ -49,25 +49,25 @@ class Plato:
 
     def setIngredientes(self, ingredientes):
         self.ingredientes = ingredientes
-    
-    def setTiempoPreparacion(self, tiempoPreparacion): 
+
+    def setTiempoPreparacion(self, tiempoPreparacion):
         self.tiempoPreparacion = tiempoPreparacion
-    
+
     def setVerificadoInsumos(self,verificadoInsumos):
         self.verificadoInsumos = verificadoInsumos
-    
+
     # Metodo para verificar los insumos de un plato
     def verificar_insumos(self, plato):
         for ingrediente, cantidad_plato in plato.get_ingredientes().items():
             if ingrediente.get_cantidad() >= cantidad_plato:
                 self.setVerificadoInsumos(True)
         return self.isVerificadoInsumos()
-    
+
     def mostrarIngredientes(self):
         tipos=[]
         for ingrediente in self.ingredientes:
             tipos.append(ingrediente.getNombre())
         return tipos
-    
+
     def detallesPlato(self):
         print(f"\nNombre: {self.getNombre()}\nPrecio: {self.getPrecio()}\nDescripcion: {self.getDescripcion()}\nTiempo de preparacion: {self.getTiempoPreparacion()}\nIngredientes: {self.mostrarIngredientes().__str__()}")

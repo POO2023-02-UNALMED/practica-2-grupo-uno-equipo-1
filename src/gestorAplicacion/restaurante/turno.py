@@ -42,14 +42,14 @@ class Turno:
 
     def setHoras(self, horas):
         self.horas = horas
-    
+
     # Metodo para actualizar tiempo
     def actualizarTiempo(self, turno, tiempo):
         if(self.horas*60)-tiempo>=20:
             self.horas = (self.horas*60-tiempo)/60
             if turno.getHoras*60-tiempo<=20:
                 turno.setCompletado(True)
-    
+
     # Metodo para calcualr las horas extra
     def HorasExtras(self):
         horasRegulares = 8
@@ -57,7 +57,7 @@ class Turno:
             return self.horas - horasRegulares
         else:
             return 0
-    
+
     # Tostring de la clase
     def toString(self):
         return (f"Tipo: {self.getTipo()} Salario: {self.getSalario()} Estado completado: {self.isCompletado()} Estado cobrado: {self.isCobrado()}")

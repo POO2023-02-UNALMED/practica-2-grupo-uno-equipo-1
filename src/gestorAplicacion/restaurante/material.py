@@ -15,20 +15,20 @@ class Material:
         self.cantidad = cantidad
         self.precioUnitario = precioUnitario
         self.fechavencimiento = fechavencimiento
-    
+
     # Métodos getters
     def getTipo(self):
         return self.tipo
-    
+
     def getCantidad(self):
         return self.cantidad
-    
+
     def getPrecioUnitario(self):
         return self.precioUnitario
-    
+
     def getFechaVencimiento(self):
         return self.fechavencimiento
-    
+
     # Métodos setters
     def setTipo(self, tipo):
         self.tipo = tipo
@@ -55,16 +55,16 @@ class Material:
     # Metodos para modificar cantidades
     def comprarMaterial(self, cantidad):
         self.cantidad += cantidad
-    
+
     def botarMaterial(self, cantidad):
         self.cantidad -= cantidad
-    
+
     def cambiarPrecioUnitario(self, precio):
         self.precioUnitario = precio
-    
+
     def fechaMaterial(self, fecha):
         self.fechavencimiento = fecha
-    
+
     def restarCantidad(self, cantidad):
         self.cantidad -= cantidad
 

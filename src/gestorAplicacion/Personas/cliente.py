@@ -3,7 +3,7 @@ from Restaurante.reserva import Reserva
 from Restaurante.pedido import Pedido
 
 class Cliente (Persona):
-	
+
     def __init__(self, nombre="", cedula=000000):
         super().__init__(nombre, cedula)
         self.reserva = None

@@ -4,7 +4,7 @@ class Persona(ABC):
     def __init__(self, nombre="", cedula=000000):
         self.nombre = nombre
         self.cedula = cedula
-    
+
     def getNombre(self):
         return self.nombre
 
