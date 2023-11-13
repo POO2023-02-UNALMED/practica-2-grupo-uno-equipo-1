@@ -15,20 +15,12 @@ from Personas.empleado import Empleado
 from Personas.mesero import Mesero
 from Personas.persona import Persona
 
-class Administrador (Menu):
-	if __name__ == __main__:
-		gestor = Gestor()
-		restaurante = gestor.getRestaurante()
-		restaurante.setClientes(gestor.getClientes())
-		restaurante.setEmpleados(gestor.getEmpleados())
-		restaurante.setMesas(gestor.getMesas())
-		restaurante.setEmpleadoDelMes(gestor.getEmpleadoDelMes())
-		restaurante.setInventario(gestor.getInventario())
-		restaurante.setPedidos(gestor.getPedidos())
-	
-    	#Crear un objeto Financia 
-		financia = Financia(restaurante)  	
-		menu = Menu.crearMenu()
+class Administrador ():
+	if __name__ == "__main__":
+		restaurante = Restaurante()
+
+#Crear un objeto Financia
+		financia = Financia(restaurante)
 		res = Material(Tipo.RES.value, 100, 100)
 		especias = Material(Tipo.ESPECIAS.value, 100, 50)
 		aceites = Material(Tipo.ACEITES.value, 100, 100)

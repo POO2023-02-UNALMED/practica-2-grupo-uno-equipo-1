@@ -17,7 +17,7 @@ def cambiarHojaVida(hojaVida):
     """
     En esta funcion se cambia la hoja de vida
     segun el indice de la hoja de vida actual,
-    el modulo se tien en cuenta para que este 
+    el modulo se tien en cuenta para que este
     en el rango de las hojas de vidas disponibles
     """
     global indice_texto
@@ -59,7 +59,7 @@ def cambiarImagen(widget, event):
 
     if x_inicio <= x_raton <= x_final and y_inicio <= y_raton <= y_final:
         indice_imagen = (indice_imagen + 1) % len(imagenesP5)
-        imagen_mostrar = Label(imagenesIzquierda, image=imagenesP5[indice_imagen]) 
+        imagen_mostrar = Label(imagenesIzquierda, image=imagenesP5[indice_imagen])
         imagen_mostrar.grid(row=0, column=0, padx=5, pady=5)
 
 # Funciones ventana principal
@@ -69,6 +69,9 @@ def nada():
 def infoApp():
     opcion=messagebox.showinfo("Información sobre la aplicación","Esta aplicacion esta diseñada para que puedas llevar toda la gestion de tu restaurante como administrador, reservas, pedidos, empleados y materiales")
 
+def volverAInicio():
+    ventanaInicio.deiconify()
+    ventanaPrincipal.withdraw()
 
 def gReserva():
     pass
@@ -96,8 +99,8 @@ ventanaInicio.geometry("800x600")
 
 
 # Creacion  de frames
-frameIzquierdo = Frame(ventanaInicio, highlightthickness=2)
-frameDerecho = Frame(ventanaInicio, highlightthickness=2)
+frameIzquierdo = Frame(ventanaInicio,bd=2, relief="solid")
+frameDerecho = Frame(ventanaInicio,bd=2, relief="solid")
 frameDerecho.pack(side="right", padx=10, pady=10)
 frameIzquierdo.pack(side="left", padx=10, pady=10)
 
@@ -105,15 +108,15 @@ frameIzquierdo.pack(side="left", padx=10, pady=10)
 # Etiqueta de bienvenida(Creacion de p3)
 saludoBienvenida = Text(
     frameIzquierdo,
-    width=40,
+    width=50,
     height=5,
-    font=("Arial", 11),
+    font=("Arial", 10),
     )
 # indice_imagen
 indice_imagen = 0
 
 # agregar el texto a la etiqueta
-saludoBienvenida.insert(END, "Bienvenido al Sistema de Gestión de Restaurante, Esta aplicacion esta diseñada para que puedas llevar toda la gestion de tu restaurante como administrador, reservas, pedidos, empleados y materiales")
+saludoBienvenida.insert(END, "Bienvenido al Sistema de Gestión de Restaurante\nEsta aplicacion esta diseñada para que puedas llevar toda lagestion de tu restaurante.")
 saludoBienvenida.config(state="disabled")
 
 # Posicionamiento de la etiqueta de bienvenida
@@ -259,7 +262,7 @@ menuBar.add_cascade(label="Ayuda",menu=menu3)
 menuBar.add_separator()
 
 menu1.add_command(label="Aplicación",command=infoApp)
-menu1.add_command(label="Salir",command=salir)
+menu1.add_command(label="Salir",command=volverAInicio)
 
 menu2.add_command(label="Gestión de Reservas",command=gReserva)
 menu2.add_command(label="Gestión de Pedidos",command=gPedido)
