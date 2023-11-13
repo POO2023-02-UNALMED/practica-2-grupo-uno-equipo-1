@@ -4,7 +4,7 @@ from Personas.cliente import Cliente
 from Restaurante.pedido import Pedido
 from Restaurante.reserva import Reserva
 from Restaurante.mesa import Mesa
-from baseDatos.deserializador import Deserializador
+#from baseDatos.deserializador import Deserializador
 
 class Restaurante():
 	
@@ -81,34 +81,34 @@ class Restaurante():
 		
 	def setClientes(self, clientes):
 	    self.listadoClientes=clientes
-		
-    def setMesas(self, mesas):
-		self.listadoMesas=mesas
-    
-    def setInventario(self, inv):
-    	self.inventario=inv
-    
-    def setNumMesas(self, numMesas):
-        self.numMesas = numMesas
-    
-    def setNumClientes(self, numClientes):
-        self.numClientes = numClientes
-    
-    def setNumEmpleados(self, numEmpleados):
-        self.numEmpleados = numEmpleados
-    
-    def setPedidos(self, pedidos):
-    	self.pedidos=pedidos
-    
-
-    #Metodos funcionalidad gestion de pedidos
-    
-    #Se agrega un pedido
-    def agregarPedido(self, pedido):
-		self.pedidos.append(pedido)
 	
-    
-    #Se verifica el menu si es apto para ofrecerlo
+	def setMesas(self, mesas):
+		self.listadoMesas=mesas
+
+	def setInventario(self, inv):
+		self.inventario=inv
+
+	def setNumMesas(self, numMesas):
+		self.numMesas = numMesas
+
+	def setNumClientes(self, numClientes):
+		self.numClientes = numClientes
+
+	def setNumEmpleados(self, numEmpleados):
+		self.numEmpleados = numEmpleados
+
+	def setPedidos(self, pedidos):
+		self.pedidos=pedidos
+
+
+	#Metodos funcionalidad gestion de pedidos
+
+	#Se agrega un pedido
+	def agregarPedido(self, pedido):
+		self.pedidos.append(pedido)
+
+
+	#Se verifica el menu si es apto para ofrecerlo
 	def veirificarMenu(self, menu):
 		menuVerificado = []
 		for plato in menu:
@@ -116,9 +116,9 @@ class Restaurante():
 			if (plato.verificarInsumos(plato)):
 				menuVerificado.append(plato)
 		return menuVerificado
-	
-	
-	
+
+
+
 	#Encontrar reserva, aqui se mira si segun los datos en el pedido hay una reserva
 	def encontrarReserva(self, numMesa, nombre):
 		mesa = self.encontrarMesa(numMesa)
@@ -134,7 +134,7 @@ class Restaurante():
 			if (empleado.getPuesto() == tipo):
 				empleadosClasificados.append(empleado)
 		return empleadosClasificados
-	
+
 	#Encontrar una mesa disponible en la fecha de el dia actual
 	def buscarMesaDisponible(self): 
 		fechaActual = datetime.now()
@@ -143,36 +143,36 @@ class Restaurante():
 				if not (reserva.getDiaReserva() == fechaActual):
 					return mesa
 		return None
-	 
+		
 	#Verificar los cocineros aptos para la cantidad de platos
 	def verificarCocineros(self, empleados, platos):
-		cocineros = clasificarEmpleados(empleados, "cocinero")
+		cocineros = self.clasificarEmpleados(empleados, "cocinero")
 		cocinerosVerificados = []
 		tiempoPreparacion = platos[0].getTiempoTotal(platos)
 		for empleado in cocineros:
 			if (empleado.verificarTiempo(empleado, tiempoPreparacion)):
 				cocinerosVerificados.append(empleado)
 		return cocinerosVerificados
-	
+
 	#Verificar los domiciliarios aptos para entregar el pedido
 	def verificarDomiciliarios(self, empleados): 
-		domiciliarios = clasificarEmpleados(empleados, "domiciliario")
+		domiciliarios = self.clasificarEmpleados(empleados, "domiciliario")
 		domiciliariosVerificados = []
 		for empleado in domiciliarios:
 			if (empleado.verificarTiempo(empleado)):
 				domiciliariosVerificados.append(empleado)
 		return domiciliariosVerificados
-	
+
 	#Verificar los meseros aptos para entregar
 	def verificarMeseros(self, empleados): 
-		meseros = clasificarEmpleados(empleados, "mesero")
+		meseros = self.clasificarEmpleados(empleados, "mesero")
 		meserosVerificados = []
 		for empleado in meseros:
 			if (empleado.verificarTiempo(empleado)):
 				meserosVerificados.append(empleado)
 		return meserosVerificados
 
-    #Filtrar los pedidos consumo domicilio
+	#Filtrar los pedidos consumo domicilio
 	def imprimirPedidosDomicilios(self): 
 		pedidosDomicilio = self.getPedidosDomicilio()
 		domicilios = ""
@@ -186,7 +186,7 @@ class Restaurante():
 			if (pedido.getDomiciliario()!=None):
 				pedidosDomicilio.append(pedido)
 		return pedidosDomicilio
-    
+
 	#Filtrar los pedidos consumo(restaurante)
 	def getPedidosRestaurante(self): 
 		pedidosRestaurante = []
@@ -194,7 +194,7 @@ class Restaurante():
 			if (pedido.isVerificado() and pedido.getDomiciliario()==None and pedido.getMesero()!=None):
 				pedidosRestaurante.append(pedido)
 		return pedidosRestaurante
-	
+
 	#Imprimir pedidos restaurante
 	def imprimirPedidosRestaurante(self):
 		pedidosRestaurante = ""
@@ -202,18 +202,18 @@ class Restaurante():
 			pedidosRestaurante += str((i + 1)) + ". " + getPedidosRestaurante()[i]
 			pedidosRestaurante+="\n-------------------------------------------------------\n"
 			return pedidosRestaurante
-	
+
 	#Actualizar insumos despues de ya estar verificado el pedido
 	def actualizarInsumos(self, pedido):
 		for plato in pedido.getPlatos(): 
-			for entrada in plato.getIngredientes().entrySet()
+			for entrada in plato.getIngredientes().entrySet():
 				material = entrada.getKey()
 				cantidadUtilizada = entrada.getValue()
 				material.restarCantidad(cantidadUtilizada)
-	    
+		
 	#Gestion de Pedidos
-    def actualizarTiempoEmpleados(self, pedido):
-    	#Este metodo es  para actualizar el tiempo
+	def actualizarTiempoEmpleados(self, pedido):
+		#Este metodo es  para actualizar el tiempo
 		fechaActual = datetime.now()
 		dia = pedido.getCocinero().clasificarDia(fechaActual)
 		for pedidoi in self.getPedidos():
@@ -230,7 +230,7 @@ class Restaurante():
 				if (turno.getTipo().toString() == dia): 
 					if not (turno.isCompletado()): 
 						turno.restarTiempo(turno, Pedido.TIEMPO_MESERO)
-       	#Llama metodo para cobrar turno
+		#Llama metodo para cobrar turno
 		pedido.getMesero().turnosCompletados(pedido.getMesero()) 
 		#Si el pedido es de consumo en domicilio se actualiza tiempo a domiciliario
 		if (pedido.getDomiciliario()!=None):
@@ -246,38 +246,38 @@ class Restaurante():
 			if((empleado.getNombre()) == nombre and (empleado.getPuesto()) == puesto):
 				return empleado
 		return  None
-    
-    #añade un a la lista de empleados
-    def contratarEmpleado(self, novato):
-        self.listadoEmpleados.append(novato)
-        a = self.getNumEmpleados()
-        self.setNumEmpleados(a+1)
-    
-    #Añade el cliente a la lista de clientes
-    def afiliarCliente (self, nuevoCliente):
-        self.listadoClientes.append(nuevoCliente)
-        a = self.getNumClientes()
-        self.setNumClientes(a+1)
-    
-    #añade la mesa a la lista de mesas
-    def comprarMesa (self, nuevaMesa): 
-        self.listadoMesas.append(nuevaMesa)
-        a = self.getNumMesas()
-        self.setNumMesas(a+1)
-    
-    #elimina la mesa del listado de mesas en base al número
-    def eliminarMesa(self, numeroMesa):
+
+	#añade un a la lista de empleados
+	def contratarEmpleado(self, novato):
+		self.listadoEmpleados.append(novato)
+		a = self.getNumEmpleados()
+		self.setNumEmpleados(a+1)
+
+	#Añade el cliente a la lista de clientes
+	def afiliarCliente (self, nuevoCliente):
+		self.listadoClientes.append(nuevoCliente)
+		a = self.getNumClientes()
+		self.setNumClientes(a+1)
+
+	#añade la mesa a la lista de mesas
+	def comprarMesa (self, nuevaMesa): 
+		self.listadoMesas.append(nuevaMesa)
+		a = self.getNumMesas()
+		self.setNumMesas(a+1)
+
+	#elimina la mesa del listado de mesas en base al número
+	def eliminarMesa(self, numeroMesa):
 		for mesa in self.listadoMesas: 
 			if(mesa.getNumeroMesa() == numeroMesa): 
 				self.listadoMesas.remove(mesa)
 				break
-    	
-    #Metodos gestion de inventario
-    
-    
-    #Añade la cantidad del material suministrado junto a su fecha de vencimiento, en caso de
-    #que lo ultimo no coincida se crea una instancia diferente y si no existe la instancia se crea
-    def comprarMaterial (self, tipo, cantidad, precio, fecha=None):
+		
+	#Metodos gestion de inventario
+
+
+	#Añade la cantidad del material suministrado junto a su fecha de vencimiento, en caso de
+	#que lo ultimo no coincida se crea una instancia diferente y si no existe la instancia se crea
+	def comprarMaterial (self, tipo, cantidad, precio, fecha=None):
 		#revisa si ya existe el material
 		if (self.inventario.containsKey(tipo)):
 			materialComprado = self.inventario.get(tipo)
@@ -295,8 +295,8 @@ class Restaurante():
 				nuevoMaterial.cambiarFechaVencimiento(vence)
 				vence = Reserva.deStringaFecha(fecha)
 
-    #Se encarga de eliminar un material especifico
-    def botarMaterial(self, tipo,cantidad):
+	#Se encarga de eliminar un material especifico
+	def botarMaterial(self, tipo,cantidad):
 		if (self.inventario.containsKey(tipo)):
 			materialEliminado = self.inventario.get(tipo)
 			if (materialEliminado.getCantidad()>=cantidad):
@@ -305,101 +305,101 @@ class Restaurante():
 				self.operacionInvalida()
 		else:
 			self.operacionInvalida()
-    
-  	#metodo para decir si una accion no puede ser ejecutada
+
+	#metodo para decir si una accion no puede ser ejecutada
 	def operacionInvalida(self): 
 		return "Operacion Inválida"
-	
+
 	def calcularValorInventario(self): 
 		valorTotal=0
 		for material in self.inventario.values(): 
 			valorTotal += material.getCantidad() * material.getPrecioUnitario()
 		return valorTotal
 
-    #Gestion de Reservas
-    def borrarReservasViejas(self):
-        for mesa1 in self.getMesas(): 
-            mesa1.borrarReservasViejas()
-        
-    #retorna las mesas que son válidas (capacidad y fecha disponible) para la reserva
-    def listadoMesasValidasParaReserva(self, reserva):
-        mesasFiltradas = []
-        for mesa in self.listadoMesas:
-            if (mesa.suficienteCapacidad(reserva) and mesa.mesaCompatible(reserva)):
-                mesasFiltradas.append(mesa)
-        return mesasFiltradas
-    
-    #encuentra una mesa por su numero
-    def encontrarMesa(self, numMesa):
+	#Gestion de Reservas
+	def borrarReservasViejas(self):
+		for mesa1 in self.getMesas(): 
+			mesa1.borrarReservasViejas()
+		
+	#retorna las mesas que son válidas (capacidad y fecha disponible) para la reserva
+	def listadoMesasValidasParaReserva(self, reserva):
+		mesasFiltradas = []
+		for mesa in self.listadoMesas:
+			if (mesa.suficienteCapacidad(reserva) and mesa.mesaCompatible(reserva)):
+				mesasFiltradas.append(mesa)
+		return mesasFiltradas
+
+	#encuentra una mesa por su numero
+	def encontrarMesa(self, numMesa):
 		for mesa1 in self.getMesas(): 
 			a = mesa1.getNumeroMesa()
 			if (numMesa == a): 
 				return mesa1
 		return None
-    
-    #Imprime las reservas por confirmar (sin mesa asignada)
-    def imprimirReservas(self):
-        r = ""
-        listado = []
-        for cliente1 in self.getClientes(): 
-            listado.append(cliente1.getReserva())
-        for reserva1 in listado:
-            if (reserva1 != None):
-                r += "\n"+reserva1.resumenReserva()+"\n\n+++++++++++++++++++++++++\n"
-        if (r == ""):
-            r = "\nNo se han hecho reservas\n"
-        return r
+
+	#Imprime las reservas por confirmar (sin mesa asignada)
+	def imprimirReservas(self):
+		r = ""
+		listado = []
+		for cliente1 in self.getClientes(): 
+			listado.append(cliente1.getReserva())
+		for reserva1 in listado:
+			if (reserva1 != None):
+				r += "\n"+reserva1.resumenReserva()+"\n\n+++++++++++++++++++++++++\n"
+		if (r == ""):
+			r = "\nNo se han hecho reservas\n"
+		return r
 
 	#Imprime las reservas confirmadas (con mesa asignada)
-    def imprimirReservas2(self):
-        r = ""
-        listado = []
-        for mesa1 in self.getMesas(): 
-            listado += mesa1.getReservas()
-        for reserva1 in listado:
-            if (reserva1 != None):
-                r += "\n"+reserva1.resumenReserva()+"\n\n+++++++++++++++++++++++++\n"
-        if (r == ""):
-            r = "\nNo se han confirmado reservas\n"
-        return r
-    
-    #dice si el cliente si está guardado en la lista de clientes
-    def verificarCliente(self, cedula):
+	def imprimirReservas2(self):
+		r = ""
+		listado = []
+		for mesa1 in self.getMesas(): 
+			listado += mesa1.getReservas()
+		for reserva1 in listado:
+			if (reserva1 != None):
+				r += "\n"+reserva1.resumenReserva()+"\n\n+++++++++++++++++++++++++\n"
+		if (r == ""):
+			r = "\nNo se han confirmado reservas\n"
+		return r
+
+	#dice si el cliente si está guardado en la lista de clientes
+	def verificarCliente(self, cedula):
 		for cliente1 in self.getClientes(): 
 			if (cedula == cliente1.getCedula()):
 				return False
 		return True
-    
-    #devuelve el objeto cliente en base a su cédula
-    def obtenerCliente(self, cedula):
+
+	#devuelve el objeto cliente en base a su cédula
+	def obtenerCliente(self, cedula):
 		for cliente1 in self.getClientes():
 			if (cedula == cliente1.getCedula()):
 				return cliente1
 		return None
-    
-    #obtiene el cliente en base a la cédula llamando al método obtenerCliente, y le asigna la reserva
-    def asignarReservaCliente(self, cedula, nombre, numAsistentes, diaReserva):
+
+	#obtiene el cliente en base a la cédula llamando al método obtenerCliente, y le asigna la reserva
+	def asignarReservaCliente(self, cedula, nombre, numAsistentes, diaReserva):
 		if (self.verificarCliente(cedula)):
 			c1 = Cliente(nombre, cedula)
 			afiliarCliente(c1)
 		c1 = obtenerCliente(cedula)
 		diaReserva2 = Reserva.deStringaFecha(diaReserva)
 		c1.setReserva(Reserva(c1, numAsistentes, diaReserva2))
-    
-    #retorna el listado de mesas que cumplen para la reserva que tenga asignada ek cliente
-    def mesasQueCumplen(self, cedulaDuenoReserva):
-        t = ""
-        c1 = obtenerCliente(cedulaDuenoReserva)
-        r1 = c1.getReserva()
-        listado = self.listadoMesasValidasParaReserva(r1)
-        for mesa1 in listado:
-                t += "\n"+mesa1.resumenMesa()+"\n\n+++++++++++++++++++++++++\n"
-        if (t == ""):
-            t = "\nNo hay mesas válidas para esa reserva\n"
-        return t
-    
-    #Si la mesa seleccionada cumple, le asigna la reserva a la mesa
-    def confirmarReserva(self, numMesa, cedula):
+
+	#retorna el listado de mesas que cumplen para la reserva que tenga asignada ek cliente
+	def mesasQueCumplen(self, cedulaDuenoReserva):
+		t = ""
+		c1 = obtenerCliente(cedulaDuenoReserva)
+		r1 = c1.getReserva()
+		listado = self.listadoMesasValidasParaReserva(r1)
+		for mesa1 in listado:
+				t += "\n"+mesa1.resumenMesa()+"\n\n+++++++++++++++++++++++++\n"
+		if (t == ""):
+			t = "\nNo hay mesas válidas para esa reserva\n"
+		return t
+
+	#Si la mesa seleccionada cumple, le asigna la reserva a la mesa
+	def confirmarReserva(self, numMesa, cedula):
 		c1 = obtenerCliente(cedula)
 		r1 = c1.getReserva()
 		if (Mesa.verificarNumero(numMesa)):
