@@ -1,8 +1,12 @@
 from tkinter import *
 from PIL import Image, ImageTk
 
+# funciones ventana de inicio
 def salir():
-    ventanaprincipal.destroy()
+    """
+    Salir de la aplicacion
+    """
+    ventanaInicio.destroy()
 
 def ver_descripcion():
     pass
@@ -23,12 +27,78 @@ def cambiarHojaVida(hojaVida):
     hojaVida.insert(END, texto_siguiente)
     hojaVida.config(state="disabled")
 
-ventanaprincipal = Tk()
-ventanaprincipal.title("Sistema de Gestión de Restaurante")
-ventanaprincipal.geometry("800x600")
+def irVentanaPrincipal():
+    """
+    Aqui se oculta la ventana de inicio y se muestra
+    la ventana principal
+    """
+    ventanaInicio.withdraw()
+    ventanaPrincipal.deiconify()
 
-frameIzquierdo = Frame(ventanaprincipal, highlightthickness=2)
-frameDerecho = Frame(ventanaprincipal, highlightthickness=2)
+def cambiarImagen(widget, event):
+    """
+    segun esta imagen se cambia la iamgen que se muestra en
+    la ventana de inicio
+    """
+    global indice_imagen
+    global imagen_mostrar
+
+    # Obtener las coordenadas de la esquina superior izquierda del widget
+    x_inicio = widget.winfo_rootx()
+    y_inicio = widget.winfo_rooty()
+
+    # Obtener las coordenadas de la esquina inferior derecha del widget
+    ancho_imagen = 320
+    alto_imagen = 275
+    x_final = x_inicio + ancho_imagen
+    y_final = y_inicio + alto_imagen
+
+    x_raton = event.x_root
+    y_raton = event.y_root
+
+    if x_inicio <= x_raton <= x_final and y_inicio <= y_raton <= y_final:
+        indice_imagen = (indice_imagen + 1) % len(imagenesP5)
+        imagen_mostrar = Label(imagenesIzquierda, image=imagenesP5[indice_imagen]) 
+        imagen_mostrar.grid(row=0, column=0, padx=5, pady=5)
+
+# Funciones ventana principal
+def nada():
+    pass
+
+def infoApp():
+    pass
+
+def salir():
+    pass
+
+def gReserva():
+    pass
+
+def gPedido():
+    pass
+
+def gEmpleado():
+    pass
+
+def gInventario():
+    pass
+
+def gFinanciera():
+    pass
+
+def ayuda():
+    pass
+
+
+# Creacion de ventana de inicio
+ventanaInicio = Tk()
+ventanaInicio.title("Sistema de Gestión de Restaurante Le Quaso")
+ventanaInicio.geometry("800x600")
+
+
+# Creacion  de frames
+frameIzquierdo = Frame(ventanaInicio, highlightthickness=2)
+frameDerecho = Frame(ventanaInicio, highlightthickness=2)
 frameDerecho.pack(side="right", padx=10, pady=10)
 frameIzquierdo.pack(side="left", padx=10, pady=10)
 
@@ -40,6 +110,8 @@ saludoBienvenida = Text(
     height=5,
     font=("Arial", 11),
     )
+# indice_imagen
+indice_imagen = 0
 
 # agregar el texto a la etiqueta
 saludoBienvenida.insert(END, "Bienvenido al Sistema de Gestión de Restaurante, Esta aplicacion esta diseñada para que puedas llevar toda la gestion de tu restaurante como administrador, reservas, pedidos, empleados y materiales")
@@ -48,10 +120,43 @@ saludoBienvenida.config(state="disabled")
 # Posicionamiento de la etiqueta de bienvenida
 saludoBienvenida.pack(padx=10, pady=10)
 
+# Imagenes de la izquierda
 imagenesIzquierda = Frame(frameIzquierdo, highlightthickness=2)
 imagenesIzquierda.pack(side="right", padx=10, pady=10)
 
-# Dimensiones de las imágenes
+# Imagenes leQuaso
+logoLeQuaso = Image.open("src\logo_leQuaso.png")
+localLeQuaso = Image.open("src\local_leQuaso.png")
+especialidad1 = Image.open("src\especialidad1.png")
+especialidad2 = Image.open("src\especialidad2.png")
+especialidad3 = Image.open("src\especialidad3.png")
+
+
+# Redimensionamiento de las imágenes
+logoLeQuaso = logoLeQuaso.resize((320, 275))
+localLeQuaso = localLeQuaso.resize((320, 275))
+especialidad1 = especialidad1.resize((320, 275))
+especialidad2 = especialidad2.resize((320, 275))
+especialidad3 = especialidad3.resize((320, 275))
+
+# Creación de PhotoImage desde las imágenes redimensionadas
+logoLeQuaso_imagen = ImageTk.PhotoImage(logoLeQuaso)
+localLeQuaso_imagen = ImageTk.PhotoImage(localLeQuaso)
+especialidad1_imagen = ImageTk.PhotoImage(especialidad1)
+especialidad2_imagen = ImageTk.PhotoImage(especialidad2)
+especialidad3_imagen = ImageTk.PhotoImage(especialidad3)
+
+# Imagenes disponibles
+imagenesP5 = [logoLeQuaso_imagen, localLeQuaso_imagen, especialidad1_imagen, especialidad2_imagen, especialidad3_imagen]
+
+# Boton de cambio
+botonCambio = Button(imagenesIzquierda, text="Ventana Principal", command=irVentanaPrincipal, width=45, height=2)
+
+# mostrar imagen
+imagen_mostrar = Label(imagenesIzquierda, image=imagenesP5[indice_imagen]) 
+imagen_mostrar.grid(row=0, column=0, padx=5, pady=5)
+imagenesIzquierda.bind('<Motion>', lambda event: cambiarImagen(imagenesIzquierda, event))
+botonCambio.grid(row=1, column=0, padx=5, pady=5)
 
 
 # Organizacion frameDerecho
@@ -83,33 +188,6 @@ hojaVida.bind("<Button-3>", lambda event: cambiarHojaVida(hojaVida))
 # Configuracion de imagenes con eventos(Creacion de p5)
 imagenesDerecha = Frame(frameDerecho, highlightthickness=2)
 imagenesDerecha.pack(side="right", padx=10, pady=10)
-
-logoLeQuaso = Image.open("src\logo_leQuaso.png")
-localLeQuaso = Image.open("src\local_leQuaso.png")
-#especialidad1 = Image.open("src\boeufbourguinon.png")
-#especialidad2 = Image.open("src\coqauvin.png")
-#especialidad3 = Image.open("src\ratatoulile.png")
-
-# Redimensionamiento de las imágenes
-logoLeQuaso = logoLeQuaso.resize((200, 200))
-localLeQuaso = localLeQuaso.resize((200, 200))
-#especialidad1 = especialidad1.resize((200, 200))
-#especialidad2 = especialidad2.resize((200, 200))
-#especialidad3 = especialidad3.resize((200, 200))
-
-# Creación de PhotoImage desde las imágenes redimensionadas
-logoLeQuaso_imagen = ImageTk.PhotoImage(logoLeQuaso)
-localLeQuaso_imagen = ImageTk.PhotoImage(localLeQuaso)
-#especialidad1_imagen = ImageTk.PhotoImage(especialidad1)
-#especialidad2_imagen = ImageTk.PhotoImage(especialidad2)
-#especialidad3_imagen = ImageTk.PhotoImage(especialidad3)
-
-# Etiquetas de las imágenes
-logoLeQuaso = Label(imagenesIzquierda, image=logoLeQuaso_imagen)
-localLeQuaso = Label(imagenesIzquierda, image=localLeQuaso_imagen)
-#especialidad1 = Label(imagenesIzquierda, image=especialidad1_imagen)
-#especialidad2 = Label(imagenesIzquierda, image=especialidad2_imagen)
-#especialidad3 = Label(imagenesIzquierda, image=especialidad3_imagen)
 
 # Dimensiones de las imágenes
 ancho = 100
@@ -150,13 +228,51 @@ desarrollador_jhogert.grid(row=1, column=0, padx=5, pady=5)
 desarrollador_sebastian.grid(row=1, column=1, padx=5, pady=5)
 desarrollador_nicole.grid(row=2, column=0, padx=5, pady=5)
 
+# Configuracion de menu(ventana inicio)
+menuPrincipal = Menu(ventanaInicio)
+ventanaInicio.config(menu=menuPrincipal)
 
-menuPrincipal = Menu(ventanaprincipal)
-ventanaprincipal.config(menu=menuPrincipal)
-
+# Configuracion de menu inicio
 menuInicio = Menu(menuPrincipal)
 menuPrincipal.add_cascade(label="Inicio", menu=menuInicio)
 menuInicio.add_command(label="Salir", command=salir)
 menuInicio.add_command(label="Descripcion", command=ver_descripcion)
 
-ventanaprincipal.mainloop()
+
+# Creacion de ventana principal
+ventanaPrincipal = Toplevel()
+ventanaPrincipal.title("Gestion Administrativa Le Quasó")
+ventanaPrincipal.geometry("1080x720")
+
+# Creacion de frame
+frame1 = Frame(ventanaPrincipal,bg="gray89",height=720)
+
+menuBar = Menu(ventanaPrincipal)
+ventanaPrincipal.config(menu=menuBar)
+menu1 = Menu(menuBar)
+menu2 = Menu(menuBar)
+menu3 = Menu(menuBar)
+
+
+menuBar.add_cascade(label="Archivo",menu=menu1)
+menuBar.add_cascade(label="Procesos y Consultas",menu=menu2)
+menuBar.add_cascade(label="Ayuda",menu=menu3)
+menuBar.add_separator()
+
+menu1.add_command(label="Aplicación",command=infoApp)
+menu1.add_command(label="Salir",command=salir)
+
+menu2.add_command(label="Gestión de Reservas",command=gReserva)
+menu2.add_command(label="Gestión de Pedidos",command=gPedido)
+menu2.add_command(label="Gestión de Empleados",command=gEmpleado)
+menu2.add_command(label="Gestión de Inventario",command=gInventario)
+menu2.add_command(label="Gestión Financiera",command=gFinanciera)
+
+menu3.add_command(label="Acerca de",command=ayuda)
+
+
+# Ocultar ventana principal
+ventanaPrincipal.withdraw()
+
+# Configuracion de menu ayuda
+ventanaInicio.mainloop()
