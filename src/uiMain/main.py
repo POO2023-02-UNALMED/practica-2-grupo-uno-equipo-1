@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 from PIL import Image, ImageTk
 
 # funciones ventana de inicio
@@ -66,7 +67,7 @@ def nada():
     pass
 
 def infoApp():
-    pass
+    opcion=messagebox.showinfo("Información sobre la aplicación","Esta aplicacion esta diseñada para que puedas llevar toda la gestion de tu restaurante como administrador, reservas, pedidos, empleados y materiales")
 
 
 def gReserva():
@@ -85,7 +86,7 @@ def gFinanciera():
     pass
 
 def ayuda():
-    pass
+    opcion=messagebox.showinfo("Autores la aplicación","Daniel Garzón\n Samuel Ortiz\n Jhogert Bita\n Sebastian Hoyos\n Nicole Guaranguay")
 
 
 # Creacion de ventana de inicio
