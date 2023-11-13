@@ -7,7 +7,7 @@ from Restaurante.mesa import Mesa
 #from baseDatos.deserializador import Deserializador
 
 class Restaurante():
-	
+
 	#Cuenta el tamaño de una lista
 	def contadorListado (self, listado):
 		contador = 0
@@ -15,7 +15,7 @@ class Restaurante():
 			if (elemento != None):
 				contador += 1
 		return contador
-	
+
 	def __init__(self, listadoMesas=None, listadoEmpleados=None, listadoClientes=None, inventario=None, listadoAspEmpleados=None):
 		self.NOMBRE = "Le Quasó"
 		self.empleadoDelMes = None
@@ -31,59 +31,59 @@ class Restaurante():
 		self.numMesas += self.contadorListado(listadoMesas)
 		self.numEmpleados += self.contadorListado(listadoEmpleados)
 		self.numClientes += self.contadorListado(listadoEmpleados)
-		
+
     #Metodos getter
 	def getNombre (self):
 		return self.NOMBRE
-	
+
 	def getEmpleadoDelMes (self):
 		return self.empleadoDelMes
-	
+
 	def getNumMesas (self):
 		return self.numMesas
-	
+
 	def getNumEmpleados (self):
 		return self.numEmpleados
-	
+
 	def getNumClientes (self):
 		return self.numClientes
-	
+
 	def getEmpleados (self):
 		return self.listadoEmpleados
-	
+
 	def getClientes (self):
 		return self.listadoClientes
-	
+
 	def getMesas (self):
 		return self.listadoMesas
-	
-	def getInventario (self): 
+
+	def getInventario (self):
 		return self.inventario
-	
+
 	def getPedidos(self):
 		return self.pedidos
-	
+
 	def getAspEmpleados (self):
 		return self.listadoAspEmpleados
-	
+
     #Metodos setter
+	def setMesas(self,mesas):
+		self.listadoMesas=mesas
+
 	def setEmpleadoDelMes (self, empleadoDelMes):
 		if (empleadoDelMes == None):
 			puntuacionMaxima = 0
-			for empleado in self.listadoEmpleados: 
+			for empleado in self.listadoEmpleados:
 				if (empleado.getPuntuacion() > puntuacionMaxima):
 					puntuacionMaxima = empleado.getPuntuacion()
 					empleadoDelMes = empleado
 		self.empleadoDelMes = empleadoDelMes
-		
+
 	def setEmpleados(self, empleados):
 		self.listadoEmpleados=empleados
-		
+
 	def setClientes(self, clientes):
-	    self.listadoClientes=clientes
-	
-	def setMesas(self, mesas):
-		self.listadoMesas=mesas
+		self.listadoClientes=clientes
 
 	def setInventario(self, inv):
 		self.inventario=inv
@@ -126,7 +126,7 @@ class Restaurante():
 			if ((reserva.getDuenoReserva().getNombre()) == nombre):
 				return reserva
 		return None
-		
+
 	#Clasificar empleados por su tipo
 	def clasificarEmpleados(self, empleados, tipo):
 		empleadosClasificados = []
@@ -136,14 +136,14 @@ class Restaurante():
 		return empleadosClasificados
 
 	#Encontrar una mesa disponible en la fecha de el dia actual
-	def buscarMesaDisponible(self): 
+	def buscarMesaDisponible(self):
 		fechaActual = datetime.now()
 		for mesa in self.listadoMesas:
 			for reserva in mesa.getReservas():
 				if not (reserva.getDiaReserva() == fechaActual):
 					return mesa
 		return None
-		
+
 	#Verificar los cocineros aptos para la cantidad de platos
 	def verificarCocineros(self, empleados, platos):
 		cocineros = self.clasificarEmpleados(empleados, "cocinero")
@@ -155,7 +155,7 @@ class Restaurante():
 		return cocinerosVerificados
 
 	#Verificar los domiciliarios aptos para entregar el pedido
-	def verificarDomiciliarios(self, empleados): 
+	def verificarDomiciliarios(self, empleados):
 		domiciliarios = self.clasificarEmpleados(empleados, "domiciliario")
 		domiciliariosVerificados = []
 		for empleado in domiciliarios:
@@ -164,7 +164,7 @@ class Restaurante():
 		return domiciliariosVerificados
 
 	#Verificar los meseros aptos para entregar
-	def verificarMeseros(self, empleados): 
+	def verificarMeseros(self, empleados):
 		meseros = self.clasificarEmpleados(empleados, "mesero")
 		meserosVerificados = []
 		for empleado in meseros:
@@ -173,7 +173,7 @@ class Restaurante():
 		return meserosVerificados
 
 	#Filtrar los pedidos consumo domicilio
-	def imprimirPedidosDomicilios(self): 
+	def imprimirPedidosDomicilios(self):
 		pedidosDomicilio = self.getPedidosDomicilio()
 		domicilios = ""
 		for i in range(len(pedidosDomicilio)):
@@ -188,7 +188,7 @@ class Restaurante():
 		return pedidosDomicilio
 
 	#Filtrar los pedidos consumo(restaurante)
-	def getPedidosRestaurante(self): 
+	def getPedidosRestaurante(self):
 		pedidosRestaurante = []
 		for pedido in self.getPedidos():
 			if (pedido.isVerificado() and pedido.getDomiciliario()==None and pedido.getMesero()!=None):
@@ -199,27 +199,27 @@ class Restaurante():
 	def imprimirPedidosRestaurante(self):
 		pedidosRestaurante = ""
 		for i in range(self.getPedidosRestaurante()):
-			pedidosRestaurante += str((i + 1)) + ". " + getPedidosRestaurante()[i]
+			pedidosRestaurante += str((i + 1)) + ". " + self.getPedidosRestaurante()[i]
 			pedidosRestaurante+="\n-------------------------------------------------------\n"
 			return pedidosRestaurante
 
 	#Actualizar insumos despues de ya estar verificado el pedido
 	def actualizarInsumos(self, pedido):
-		for plato in pedido.getPlatos(): 
+		for plato in pedido.getPlatos():
 			for entrada in plato.getIngredientes().entrySet():
 				material = entrada.getKey()
 				cantidadUtilizada = entrada.getValue()
 				material.restarCantidad(cantidadUtilizada)
-		
+
 	#Gestion de Pedidos
 	def actualizarTiempoEmpleados(self, pedido):
 		#Este metodo es  para actualizar el tiempo
 		fechaActual = datetime.now()
 		dia = pedido.getCocinero().clasificarDia(fechaActual)
 		for pedidoi in self.getPedidos():
-			if (pedidoi == pedido): 
+			if (pedidoi == pedido):
 				for turno in pedido.getCocinero().getTurnos():
-					if (turno.getTipo().toString() == dia): 
+					if (turno.getTipo().toString() == dia):
 						if not (turno.isCompletado()):
 							turno.restarTiempo(turno, pedido.getTiempoTotal())
 		#Llama metodo para cobrar turno
@@ -227,11 +227,11 @@ class Restaurante():
 		#Si el pedido es de consumo en restaurante se actualiza tiempo a mesero
 		if (pedido.getMesero() != None):
 			for turno in pedido.getMesero().getTurnos():
-				if (turno.getTipo().toString() == dia): 
-					if not (turno.isCompletado()): 
+				if (turno.getTipo().toString() == dia):
+					if not (turno.isCompletado()):
 						turno.restarTiempo(turno, Pedido.TIEMPO_MESERO)
 		#Llama metodo para cobrar turno
-		pedido.getMesero().turnosCompletados(pedido.getMesero()) 
+		pedido.getMesero().turnosCompletados(pedido.getMesero())
 		#Si el pedido es de consumo en domicilio se actualiza tiempo a domiciliario
 		if (pedido.getDomiciliario()!=None):
 			for turno in pedido.getDomiciliario().getTurnos():
@@ -260,18 +260,18 @@ class Restaurante():
 		self.setNumClientes(a+1)
 
 	#añade la mesa a la lista de mesas
-	def comprarMesa (self, nuevaMesa): 
+	def comprarMesa (self, nuevaMesa):
 		self.listadoMesas.append(nuevaMesa)
 		a = self.getNumMesas()
 		self.setNumMesas(a+1)
 
 	#elimina la mesa del listado de mesas en base al número
 	def eliminarMesa(self, numeroMesa):
-		for mesa in self.listadoMesas: 
-			if(mesa.getNumeroMesa() == numeroMesa): 
+		for mesa in self.listadoMesas:
+			if(mesa.getNumeroMesa() == numeroMesa):
 				self.listadoMesas.remove(mesa)
 				break
-		
+
 	#Metodos gestion de inventario
 
 
@@ -307,20 +307,20 @@ class Restaurante():
 			self.operacionInvalida()
 
 	#metodo para decir si una accion no puede ser ejecutada
-	def operacionInvalida(self): 
+	def operacionInvalida(self):
 		return "Operacion Inválida"
 
-	def calcularValorInventario(self): 
+	def calcularValorInventario(self):
 		valorTotal=0
-		for material in self.inventario.values(): 
+		for material in self.inventario.values():
 			valorTotal += material.getCantidad() * material.getPrecioUnitario()
 		return valorTotal
 
 	#Gestion de Reservas
 	def borrarReservasViejas(self):
-		for mesa1 in self.getMesas(): 
+		for mesa1 in self.getMesas():
 			mesa1.borrarReservasViejas()
-		
+
 	#retorna las mesas que son válidas (capacidad y fecha disponible) para la reserva
 	def listadoMesasValidasParaReserva(self, reserva):
 		mesasFiltradas = []
@@ -331,9 +331,9 @@ class Restaurante():
 
 	#encuentra una mesa por su numero
 	def encontrarMesa(self, numMesa):
-		for mesa1 in self.getMesas(): 
+		for mesa1 in self.getMesas():
 			a = mesa1.getNumeroMesa()
-			if (numMesa == a): 
+			if (numMesa == a):
 				return mesa1
 		return None
 
@@ -341,7 +341,7 @@ class Restaurante():
 	def imprimirReservas(self):
 		r = ""
 		listado = []
-		for cliente1 in self.getClientes(): 
+		for cliente1 in self.getClientes():
 			listado.append(cliente1.getReserva())
 		for reserva1 in listado:
 			if (reserva1 != None):
@@ -354,7 +354,7 @@ class Restaurante():
 	def imprimirReservas2(self):
 		r = ""
 		listado = []
-		for mesa1 in self.getMesas(): 
+		for mesa1 in self.getMesas():
 			listado += mesa1.getReservas()
 		for reserva1 in listado:
 			if (reserva1 != None):
@@ -365,7 +365,7 @@ class Restaurante():
 
 	#dice si el cliente si está guardado en la lista de clientes
 	def verificarCliente(self, cedula):
-		for cliente1 in self.getClientes(): 
+		for cliente1 in self.getClientes():
 			if (cedula == cliente1.getCedula()):
 				return False
 		return True
@@ -381,15 +381,15 @@ class Restaurante():
 	def asignarReservaCliente(self, cedula, nombre, numAsistentes, diaReserva):
 		if (self.verificarCliente(cedula)):
 			c1 = Cliente(nombre, cedula)
-			afiliarCliente(c1)
-		c1 = obtenerCliente(cedula)
+			self.afiliarCliente(c1)
+		c1 = self.obtenerCliente(cedula)
 		diaReserva2 = Reserva.deStringaFecha(diaReserva)
 		c1.setReserva(Reserva(c1, numAsistentes, diaReserva2))
 
 	#retorna el listado de mesas que cumplen para la reserva que tenga asignada ek cliente
 	def mesasQueCumplen(self, cedulaDuenoReserva):
 		t = ""
-		c1 = obtenerCliente(cedulaDuenoReserva)
+		c1 = self.obtenerCliente(cedulaDuenoReserva)
 		r1 = c1.getReserva()
 		listado = self.listadoMesasValidasParaReserva(r1)
 		for mesa1 in listado:
@@ -400,10 +400,10 @@ class Restaurante():
 
 	#Si la mesa seleccionada cumple, le asigna la reserva a la mesa
 	def confirmarReserva(self, numMesa, cedula):
-		c1 = obtenerCliente(cedula)
+		c1 = self.obtenerCliente(cedula)
 		r1 = c1.getReserva()
 		if (Mesa.verificarNumero(numMesa)):
-			mesa1 = encontrarMesa(numMesa)
+			mesa1 = self.encontrarMesa(numMesa)
 			if (mesa1.suficienteCapacidad(r1)):
 				mesa1.reservarMesa(r1)
 				c1.setReserva(None)
