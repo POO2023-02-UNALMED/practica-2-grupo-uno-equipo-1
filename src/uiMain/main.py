@@ -280,3 +280,6 @@ ventanaPrincipal.withdraw()
 
 # Configuracion de menu ayuda
 ventanaInicio.mainloop()
+
+
+HOLAAAAA
