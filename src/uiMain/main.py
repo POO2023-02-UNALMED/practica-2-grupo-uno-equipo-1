@@ -108,6 +108,7 @@ frameIzquierdo.pack(side="left", padx=10, pady=10)
 # Etiqueta de bienvenida(Creacion de p3)
 saludoBienvenida = Text(
     frameIzquierdo,
+    bg="gray80",
     width=50,
     height=5,
     font=("Arial", 10),
@@ -177,6 +178,7 @@ indice_texto = 0
 # Etiqueta de descripcion(Creacion de p5)
 hojaVida = Text(
     frameDerecho,
+    bg="gray80",
     width=40,
     height=5,
     font=("Arial", 11),
