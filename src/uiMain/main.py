@@ -13,20 +13,32 @@ def ver_descripcion():
     pass
 
 
-def cambiarHojaVida(hojaVida):
+def cambiarHojaVida(hojaVida, widget):
     """
     En esta funcion se cambia la hoja de vida
     segun el indice de la hoja de vida actual,
-    el modulo se tien en cuenta para que este
+    el modulo se tiene en cuenta para que este
     en el rango de las hojas de vidas disponibles
     """
     global indice_texto
+    global indice_imagenes
+    global imagenesP6
+    
+    # cambiar hoja de vida
     hojaVida.config(state="normal")
     indice_texto = (indice_texto + 1) % len(hojasDeVida)
     texto_siguiente = hojasDeVida[indice_texto]
     hojaVida.delete("1.0", END)
     hojaVida.insert(END, texto_siguiente)
     hojaVida.config(state="disabled")
+    indice_imagenes = (indice_imagenes + 4) % len(imagenesP6)
+    imagenesP6[indice_imagenes].grid(row=0, column=0, padx=2, pady=2)
+    imagenesP6[indice_imagenes+1].grid(row=0, column=1, padx=2, pady=2)
+    imagenesP6[indice_imagenes+2].grid(row=1, column=0, padx=2, pady=2)
+    imagenesP6[indice_imagenes+3].grid(row=1, column=1, padx=2, pady=2)
+
+    # cambiar imagen
+
 
 def irVentanaPrincipal():
     """
@@ -183,54 +195,140 @@ hojaVida = Text(
     height=5,
     font=("Arial", 11),
     )
-# Configruracion de la etiqueta de descripcion
-hojaVida.insert(END, hojasDeVida[indice_texto])
-hojaVida.config(state="disabled")
-hojaVida.pack(padx=10, pady=10)
-hojaVida.bind("<Button-3>", lambda event: cambiarHojaVida(hojaVida))
 
 # Configuracion de imagenes con eventos(Creacion de p5)
 imagenesDerecha = Frame(frameDerecho, highlightthickness=2)
-imagenesDerecha.pack(side="top", padx=10, pady=10)
+imagenesDerecha.pack(side="bottom", padx=10, pady=10)
 
 # Dimensiones de las imágenes
-ancho = 100
-alto = 100
+ancho = 150
+alto = 150
 
 # Rutas de las imágenes
-imagen_daniel = Image.open("src\desarrollador1.png")
-imagen_samuel = Image.open("src\desarrollador2.png")
-imagen_jhogert = Image.open("src\desarrollador3.png")
-imagen_sebastian = Image.open("src\desarrollador4.png")
-imagen_nicole = Image.open("src\desarrollador5.png")
+imagen_daniel1 = Image.open("src\imagen_daniel1.png")
+imagen_daniel2 = Image.open("src\imagen_daniel2.png")
+imagen_daniel3 = Image.open("src\imagen_daniel3.png")
+imagen_daniel4 = Image.open("src\imagen_daniel4.png")
+
+imagen_samuel1 = Image.open("src\imagen_samuel1.png")
+imagen_samuel2 = Image.open("src\imagen_samuel2.png")
+imagen_samuel3 = Image.open("src\imagen_samuel3.png")
+imagen_samuel4 = Image.open("src\imagen_samuel4.png")
+
+imagen_jhogert1 = Image.open("src\imagen_jhogert1.png")
+imagen_jhogert2 = Image.open("src\imagen_jhogert2.png")
+imagen_jhogert3 = Image.open("src\imagen_jhogert3.png")
+imagen_jhogert4 = Image.open("src\imagen_jhogert4.png")
+
+imagen_sebastian1 = Image.open("src\imagen_sebastian1.png")
+imagen_sebastian2 = Image.open("src\imagen_sebastian2.png")
+imagen_sebastian3 = Image.open("src\imagen_sebastian3.png")
+imagen_sebastian4 = Image.open("src\imagen_sebastian1.png")
+
+imagen_nicole1 = Image.open("src\imagen_nicole1.png")
+imagen_nicole2 = Image.open("src\imagen_nicole2.png")
+imagen_nicole3 = Image.open("src\imagen_nicole3.png")
+imagen_nicole4 = Image.open("src\imagen_nicole4.png")
+
 
 # Redimensionamiento de las imágenes
-imagen_daniel = imagen_daniel.resize((ancho, alto))
-imagen_samuel = imagen_samuel.resize((ancho, alto))
-imagen_jhogert = imagen_jhogert.resize((ancho, alto))
-imagen_sebastian = imagen_sebastian.resize((ancho, alto))
-imagen_nicole = imagen_nicole.resize((ancho, alto))
+imagen_daniel1 = imagen_daniel1.resize((ancho, alto))
+imagen_daniel2 = imagen_daniel2.resize((ancho, alto))
+imagen_daniel3 = imagen_daniel3.resize((ancho, alto))
+imagen_daniel4 = imagen_daniel4.resize((ancho, alto))
 
-# Creación de PhotoImage desde las imágenes redimensionadas
-desarrollador_daniel_imagen = ImageTk.PhotoImage(imagen_daniel)
-desarrollador_samuel_imagen = ImageTk.PhotoImage(imagen_samuel)
-desarrollador_jhogert_imagen = ImageTk.PhotoImage(imagen_jhogert)
-desarrollador_sebastian_imagen = ImageTk.PhotoImage(imagen_sebastian)
-desarrollador_nicole_imagen = ImageTk.PhotoImage(imagen_nicole)
+imagen_samuel1 = imagen_samuel1.resize((ancho, alto))
+imagen_samuel2 = imagen_samuel2.resize((ancho, alto))
+imagen_samuel3 = imagen_samuel3.resize((ancho, alto))
+imagen_samuel4 = imagen_samuel4.resize((ancho, alto))
+
+imagen_jhogert1 = imagen_jhogert1.resize((ancho, alto))
+imagen_jhogert2 = imagen_jhogert2.resize((ancho, alto))
+imagen_jhogert3 = imagen_jhogert3.resize((ancho, alto))
+imagen_jhogert4 = imagen_jhogert4.resize((ancho, alto))
+
+imagen_sebastian1 = imagen_sebastian1.resize((ancho, alto))
+imagen_sebastian2 = imagen_sebastian2.resize((ancho, alto))
+imagen_sebastian3 = imagen_sebastian3.resize((ancho, alto))
+imagen_sebastian4 = imagen_sebastian4.resize((ancho, alto))
+
+imagen_nicole1 = imagen_nicole1.resize((ancho, alto))
+imagen_nicole2 = imagen_nicole2.resize((ancho, alto))
+imagen_nicole3 = imagen_nicole3.resize((ancho, alto))
+imagen_nicole4 = imagen_nicole4.resize((ancho, alto))
+
+# Creación de PhotoImage desde las imágenes redimensionadas(P6)
+desarrollador_daniel_imagen1 = ImageTk.PhotoImage(imagen_daniel1)
+desarrollador_daniel_imagen2 = ImageTk.PhotoImage(imagen_daniel2)
+desarrollador_daniel_imagen3 = ImageTk.PhotoImage(imagen_daniel3)
+desarrollador_daniel_imagen4 = ImageTk.PhotoImage(imagen_daniel4)
+
+desarrollador_samuel_imagen1 = ImageTk.PhotoImage(imagen_samuel1)
+desarrollador_samuel_imagen2 = ImageTk.PhotoImage(imagen_samuel2)
+desarrollador_samuel_imagen3 = ImageTk.PhotoImage(imagen_samuel3)
+desarrollador_samuel_imagen4 = ImageTk.PhotoImage(imagen_samuel4)
+
+desarrollador_jhogert_imagen1 = ImageTk.PhotoImage(imagen_jhogert1)
+desarrollador_jhogert_imagen2 = ImageTk.PhotoImage(imagen_jhogert2)
+desarrollador_jhogert_imagen3 = ImageTk.PhotoImage(imagen_jhogert3)
+desarrollador_jhogert_imagen4 = ImageTk.PhotoImage(imagen_jhogert4)
+
+desarrollador_sebastian_imagen1 = ImageTk.PhotoImage(imagen_sebastian1)
+desarrollador_sebastian_imagen2 = ImageTk.PhotoImage(imagen_sebastian2)
+desarrollador_sebastian_imagen3 = ImageTk.PhotoImage(imagen_sebastian3)
+desarrollador_sebastian_imagen4 = ImageTk.PhotoImage(imagen_sebastian4)
+
+desarrollador_nicole_imagen1 = ImageTk.PhotoImage(imagen_nicole1)
+desarrollador_nicole_imagen2 = ImageTk.PhotoImage(imagen_nicole2)
+desarrollador_nicole_imagen3 = ImageTk.PhotoImage(imagen_nicole3)
+desarrollador_nicole_imagen4 = ImageTk.PhotoImage(imagen_nicole4)
 
 # Etiquetas de las imágenes
-desarrollador_daniel = Label(imagenesDerecha, image=desarrollador_daniel_imagen)
-desarrollador_samuel = Label(imagenesDerecha, image=desarrollador_samuel_imagen)
-desarrollador_jhogert = Label(imagenesDerecha, image=desarrollador_jhogert_imagen)
-desarrollador_sebastian = Label(imagenesDerecha, image=desarrollador_sebastian_imagen)
-desarrollador_nicole = Label(imagenesDerecha, image=desarrollador_nicole_imagen)
+desarrollador_daniel_1 = Label(imagenesDerecha, image=desarrollador_daniel_imagen1)
+desarrollador_daniel_2 = Label(imagenesDerecha, image=desarrollador_daniel_imagen2)
+desarrollador_daniel_3 = Label(imagenesDerecha, image=desarrollador_daniel_imagen3)
+desarrollador_daniel_4 = Label(imagenesDerecha, image=desarrollador_daniel_imagen4)
+
+desarrollador_samuel_1 = Label(imagenesDerecha, image=desarrollador_samuel_imagen1)
+desarrollador_samuel_2 = Label(imagenesDerecha, image=desarrollador_samuel_imagen2)
+desarrollador_samuel_3 = Label(imagenesDerecha, image=desarrollador_samuel_imagen3)
+desarrollador_samuel_4 = Label(imagenesDerecha, image=desarrollador_samuel_imagen4)
+
+desarrollador_jhogert_1 = Label(imagenesDerecha, image=desarrollador_jhogert_imagen1)
+desarrollador_jhogert_2 = Label(imagenesDerecha, image=desarrollador_jhogert_imagen2)
+desarrollador_jhogert_3 = Label(imagenesDerecha, image=desarrollador_jhogert_imagen3)
+desarrollador_jhogert_4 = Label(imagenesDerecha, image=desarrollador_jhogert_imagen4)
+
+desarrollador_sebastian_1 = Label(imagenesDerecha, image=desarrollador_sebastian_imagen1)
+desarrollador_sebastian_2 = Label(imagenesDerecha, image=desarrollador_sebastian_imagen2)
+desarrollador_sebastian_3 = Label(imagenesDerecha, image=desarrollador_sebastian_imagen3)
+desarrollador_sebastian_4 = Label(imagenesDerecha, image=desarrollador_sebastian_imagen4)
+
+desarrollador_nicole_1 = Label(imagenesDerecha, image=desarrollador_nicole_imagen1)
+desarrollador_nicole_2 = Label(imagenesDerecha, image=desarrollador_nicole_imagen2)
+desarrollador_nicole_3 = Label(imagenesDerecha, image=desarrollador_nicole_imagen3)
+desarrollador_nicole_4 = Label(imagenesDerecha, image=desarrollador_nicole_imagen4)
+
+imagenesP6 = [desarrollador_daniel_1, desarrollador_daniel_2, desarrollador_daniel_3, desarrollador_daniel_4,
+              desarrollador_samuel_1, desarrollador_samuel_2, desarrollador_samuel_3, desarrollador_samuel_4,
+              desarrollador_jhogert_1, desarrollador_jhogert_2, desarrollador_jhogert_3, desarrollador_jhogert_4,
+              desarrollador_nicole_1, desarrollador_nicole_2, desarrollador_nicole_3, desarrollador_nicole_4,
+              ]
+indice_imagenes = 0
+
+# Configruracion de la etiqueta de descripcion
+hojaVida.insert(END, hojasDeVida[indice_texto])
+hojaVida.config(state="disabled")
+hojaVida.pack(side = 'top', padx=10, pady=10)
+hojaVida.bind("<Button-3>", lambda event: cambiarHojaVida(hojaVida, imagenesDerecha))
 
 # Configuración con grid
-desarrollador_daniel.grid(row=0, column=0, padx=5, pady=5)
-desarrollador_samuel.grid(row=0, column=1, padx=5, pady=5)
-desarrollador_jhogert.grid(row=1, column=0, padx=5, pady=5)
-desarrollador_sebastian.grid(row=1, column=1, padx=5, pady=5)
-desarrollador_nicole.grid(row=2, column=0, padx=5, pady=5)
+imagenesP6[indice_imagenes].grid(row=0, column=0, padx=2, pady=2)
+imagenesP6[indice_imagenes+1].grid(row=0, column=1, padx=2, pady=2)
+imagenesP6[indice_imagenes+2].grid(row=1, column=0, padx=2, pady=2)
+imagenesP6[indice_imagenes+3].grid(row=1, column=1, padx=2, pady=2)
+
+
 
 # Configuracion de menu(ventana inicio)
 menuPrincipal = Menu(ventanaInicio)
@@ -241,7 +339,6 @@ menuInicio = Menu(menuPrincipal)
 menuPrincipal.add_cascade(label="Inicio", menu=menuInicio)
 menuInicio.add_command(label="Salir", command=salir)
 menuInicio.add_command(label="Descripcion", command=ver_descripcion)
-
 
 # Creacion de ventana principal
 ventanaPrincipal = Toplevel()
@@ -280,6 +377,3 @@ ventanaPrincipal.withdraw()
 
 # Configuracion de menu ayuda
 ventanaInicio.mainloop()
-
-
-HOLAAAAA

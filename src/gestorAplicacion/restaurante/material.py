@@ -6,6 +6,7 @@ class Tipo(Enum):
     QUESOS,CHAMPINONES,RES,PESCADOS,CERDOS = "QUESOS", "CHAMPINONES", "RES", "PESCADOS", "CERDOS"
     POLLOS,PANES,AJOS,ESPECIAS,HUEVOS = "POLLOS", "PANES", "AJOS", "ESPECIAS", "HUEVOS"
     ATUN,CUCHARAS,TENEDORES,PLATOS,VASOS = "ATUN", "CUCHARAS", "TENEDORES", "PLATOS", "VASOS"
+
 class Material:
     def __init__(self, tipo, cantidad=0, precioUnitario=0, fechavencimiento=None):
         if tipo in Tipo:
