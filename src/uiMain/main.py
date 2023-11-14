@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import messagebox
+from tkinter import messagebox, font
 from PIL import Image, ImageTk
 
 # funciones ventana de inicio
@@ -124,7 +124,7 @@ saludoBienvenida.pack(padx=10, pady=10)
 
 # Imagenes de la izquierda
 imagenesIzquierda = Frame(frameIzquierdo, highlightthickness=2)
-imagenesIzquierda.pack(side="right", padx=10, pady=10)
+imagenesIzquierda.pack(side="bottom", padx=10, pady=10)
 
 # Imagenes leQuaso
 logoLeQuaso = Image.open("src\logo_leQuaso.png")
@@ -152,10 +152,10 @@ especialidad3_imagen = ImageTk.PhotoImage(especialidad3)
 imagenesP5 = [logoLeQuaso_imagen, localLeQuaso_imagen, especialidad1_imagen, especialidad2_imagen, especialidad3_imagen]
 
 # Boton de cambio
-botonCambio = Button(imagenesIzquierda, text="Ventana Principal", command=irVentanaPrincipal, width=45, height=2)
+botonCambio = Button(imagenesIzquierda, text="Ingresar", bg="gray37",fg="white",command=irVentanaPrincipal, width=10, height=2)
 
 # mostrar imagen
-imagen_mostrar = Label(imagenesIzquierda, image=imagenesP5[indice_imagen]) 
+imagen_mostrar = Label(imagenesIzquierda, image=imagenesP5[indice_imagen])
 imagen_mostrar.grid(row=0, column=0, padx=5, pady=5)
 imagenesIzquierda.bind('<Motion>', lambda event: cambiarImagen(imagenesIzquierda, event))
 botonCambio.grid(row=1, column=0, padx=5, pady=5)
@@ -189,7 +189,7 @@ hojaVida.bind("<Button-3>", lambda event: cambiarHojaVida(hojaVida))
 
 # Configuracion de imagenes con eventos(Creacion de p5)
 imagenesDerecha = Frame(frameDerecho, highlightthickness=2)
-imagenesDerecha.pack(side="right", padx=10, pady=10)
+imagenesDerecha.pack(side="top", padx=10, pady=10)
 
 # Dimensiones de las imágenes
 ancho = 100
