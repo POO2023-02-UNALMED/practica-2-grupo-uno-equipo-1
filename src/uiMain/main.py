@@ -12,7 +12,6 @@ def salir():
 def ver_descripcion():
     pass
 
-
 def cambiarHojaVida(hojaVida, widget):
     """
     En esta funcion se cambia la hoja de vida
@@ -26,19 +25,25 @@ def cambiarHojaVida(hojaVida, widget):
     
     # cambiar hoja de vida
     hojaVida.config(state="normal")
+    # Indice de texto este en el rango de la lista
     indice_texto = (indice_texto + 1) % len(hojasDeVida)
     texto_siguiente = hojasDeVida[indice_texto]
     hojaVida.delete("1.0", END)
     hojaVida.insert(END, texto_siguiente)
     hojaVida.config(state="disabled")
+
+    # Indice de imagenes este en elr ango de la lista
     indice_imagenes = (indice_imagenes + 4) % len(imagenesP6)
+    
+    # Esto se hace para borrar las imagenes que estan en el frame
+    for imagen in imagenesP6:
+        imagen.grid_forget()
+
+    # Esto se hace para mostrar las imagenes en el frame
     imagenesP6[indice_imagenes].grid(row=0, column=0, padx=2, pady=2)
     imagenesP6[indice_imagenes+1].grid(row=0, column=1, padx=2, pady=2)
     imagenesP6[indice_imagenes+2].grid(row=1, column=0, padx=2, pady=2)
     imagenesP6[indice_imagenes+3].grid(row=1, column=1, padx=2, pady=2)
-
-    # cambiar imagen
-
 
 def irVentanaPrincipal():
     """
@@ -312,6 +317,7 @@ desarrollador_nicole_4 = Label(imagenesDerecha, image=desarrollador_nicole_image
 imagenesP6 = [desarrollador_daniel_1, desarrollador_daniel_2, desarrollador_daniel_3, desarrollador_daniel_4,
               desarrollador_samuel_1, desarrollador_samuel_2, desarrollador_samuel_3, desarrollador_samuel_4,
               desarrollador_jhogert_1, desarrollador_jhogert_2, desarrollador_jhogert_3, desarrollador_jhogert_4,
+              desarrollador_sebastian_1, desarrollador_sebastian_2, desarrollador_sebastian_3, desarrollador_sebastian_4,
               desarrollador_nicole_1, desarrollador_nicole_2, desarrollador_nicole_3, desarrollador_nicole_4,
               ]
 indice_imagenes = 0
