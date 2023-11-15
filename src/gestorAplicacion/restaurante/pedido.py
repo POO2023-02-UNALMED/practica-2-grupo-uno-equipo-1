@@ -1,5 +1,5 @@
 #from uiMain.menu import Menu
-from Personas.empleado import Empleado
+from personas import empleado
 
 class Pedido():
     tiempoDomicilio = 45

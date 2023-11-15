@@ -93,7 +93,8 @@ def volverAInicio():
 def gReserva():
     pass
 
-def gPedido():
+def gestion_pedidos(widget):
+    widget.tkraise()
     pass
 
 def gEmpleado():
@@ -369,8 +370,14 @@ menuBar.add_separator()
 menu1.add_command(label="Aplicación",command=infoApp)
 menu1.add_command(label="Salir",command=volverAInicio)
 
+
+framePedidos = Frame(ventanaPrincipal)
+framePedidos.pack(side="top", padx=10, pady=10)
+saludoPedidos = Label(framePedidos, text="Gestion de pedidos")
+saludoPedidos.grid(row=1, column=1)
+
 menu2.add_command(label="Gestión de Reservas",command=gReserva)
-menu2.add_command(label="Gestión de Pedidos",command=gPedido)
+menu2.add_command(label="Gestión de Pedidos",command=lambda: gestion_pedidos(framePedidos))
 menu2.add_command(label="Gestión de Empleados",command=gEmpleado)
 menu2.add_command(label="Gestión de Inventario",command=gInventario)
 menu2.add_command(label="Gestión Financiera",command=gFinanciera)

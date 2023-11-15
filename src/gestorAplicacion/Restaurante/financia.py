@@ -1,6 +1,6 @@
 from datetime import datetime
-from Restaurante import *
-from Personas.empleado import Empleado
+from restaurante import *
+from personas.empleado import Empleado
 
 class Financia():
 	def __init__(self, restaurante=None, presupuesto=1000000, gastosMateriales=0, gastoMaterialEspecifico=0, pagosEmpleados=0, gananciasBrutas=0, gananciasNetas=0, liquidacion=0, costoPromedioPorPlato=0):

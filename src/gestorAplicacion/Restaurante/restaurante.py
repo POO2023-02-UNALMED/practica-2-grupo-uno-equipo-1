@@ -1,9 +1,8 @@
-from Restaurante.material import *
 from datetime import datetime
-from Personas.cliente import Cliente
-from Restaurante.pedido import Pedido
-from Restaurante.reserva import Reserva
-from Restaurante.mesa import Mesa
+from personas.cliente import Cliente
+from restaurante.pedido import Pedido
+from restaurante.reserva import Reserva
+from restaurante.mesa import Mesa
 #from baseDatos.deserializador import Deserializador
 
 class Restaurante():

@@ -1,9 +1,9 @@
 from datetime import datetime
-from Personas.persona import Persona
-from Restaurante.material import Material
-from Restaurante.pedido import Pedido
-from Restaurante.turno import Turno
-from Restaurante.restaurante import Restaurante
+from personas.persona import Persona
+from restaurante.material import Material
+from restaurante.pedido import Pedido
+from restaurante.turno import Turno
+from restaurante.restaurante import Restaurante
 class Empleado(Persona):
 
     #Constructor de la Clase Empleado

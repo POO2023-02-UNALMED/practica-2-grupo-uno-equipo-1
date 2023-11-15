@@ -1,6 +1,6 @@
-from Personas.persona import Persona
-from Restaurante.reserva import Reserva
-from Restaurante.pedido import Pedido
+from personas.persona import Persona
+from restaurante.reserva import Reserva
+from restaurante.pedido import Pedido
 
 class Cliente(Persona):
     def __init__(self,nombre="",cedula=000000):

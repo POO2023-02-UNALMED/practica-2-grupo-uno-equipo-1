@@ -1,7 +1,7 @@
 from datetime import datetime
-from Personas.empleado import Empleado
-from Restaurante.turno import Turno
-from Restaurante.restaurante import Restaurante
+from personas.empleado import Empleado
+from restaurante.turno import Turno
+from restaurante.restaurante import Restaurante
 
 class Mesero (Empleado):
 
