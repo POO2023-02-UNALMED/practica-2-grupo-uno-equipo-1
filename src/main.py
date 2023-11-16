@@ -2,6 +2,9 @@ from tkinter import *
 from tkinter import messagebox, font
 from PIL import Image, ImageTk
 
+# from gestorAplicacion.restaurante.plato import Plato
+# from gestorAplicacion.restaurante.plato import Material
+
 # funciones ventana de inicio
 def salir():
     """
@@ -81,7 +84,6 @@ def actualizarImagen():
     indice_imagen = (indice_imagen + 1) % len(imagenesP5)
     imagen_mostrar.configure(image=imagenesP5[indice_imagen])
     imagen_mostrar.grid(row=0, column=0, padx=5, pady=5)
-
 # Funciones ventana principal
 def nada():
     pass
@@ -187,12 +189,11 @@ imagenesIzquierda = Frame(frameIzquierdo, highlightthickness=2)
 imagenesIzquierda.pack(side="bottom", padx=10, pady=10)
 
 # Imagenes leQuaso
-logoLeQuaso = Image.open("src\logo_leQuaso.png")
-localLeQuaso = Image.open("src\local_leQuaso.png")
-especialidad1 = Image.open("src\especialidad1.png")
-especialidad2 = Image.open("src\especialidad2.png")
-especialidad3 = Image.open("src\especialidad3.png")
-
+logoLeQuaso = Image.open("src\imagenes\logo_leQuaso.png")
+localLeQuaso = Image.open("src\imagenes\local_leQuaso.png")
+especialidad1 = Image.open("src\imagenes\especialidad1.png")
+especialidad2 = Image.open("src\imagenes\especialidad2.png")
+especialidad3 = Image.open("src\imagenes\especialidad3.png")
 
 # Redimensionamiento de las imágenes
 logoLeQuaso = logoLeQuaso.resize((320, 275))
@@ -252,30 +253,30 @@ ancho = 150
 alto = 150
 
 # Rutas de las imágenes
-imagen_daniel1 = Image.open("src\imagen_daniel1.png")
-imagen_daniel2 = Image.open("src\imagen_daniel2.png")
-imagen_daniel3 = Image.open("src\imagen_daniel3.png")
-imagen_daniel4 = Image.open("src\imagen_daniel4.png")
+imagen_daniel1 = Image.open("src\imagenes\imagen_daniel1.png")
+imagen_daniel2 = Image.open("src\imagenes\imagen_daniel2.png")
+imagen_daniel3 = Image.open("src\imagenes\imagen_daniel3.png")
+imagen_daniel4 = Image.open("src\imagenes\imagen_daniel4.png")
 
-imagen_samuel1 = Image.open("src\imagen_samuel1.png")
-imagen_samuel2 = Image.open("src\imagen_samuel2.png")
-imagen_samuel3 = Image.open("src\imagen_samuel3.png")
-imagen_samuel4 = Image.open("src\imagen_samuel4.png")
+imagen_samuel1 = Image.open("src\imagenes\imagen_samuel1.png")
+imagen_samuel2 = Image.open("src\imagenes\imagen_samuel2.png")
+imagen_samuel3 = Image.open("src\imagenes\imagen_samuel3.png")
+imagen_samuel4 = Image.open("src\imagenes\imagen_samuel4.png")
 
-imagen_jhogert1 = Image.open("src\imagen_jhogert1.png")
-imagen_jhogert2 = Image.open("src\imagen_jhogert2.png")
-imagen_jhogert3 = Image.open("src\imagen_jhogert3.png")
-imagen_jhogert4 = Image.open("src\imagen_jhogert4.png")
+imagen_jhogert1 = Image.open("src\imagenes\imagen_jhogert1.png")
+imagen_jhogert2 = Image.open("src\imagenes\imagen_jhogert2.png")
+imagen_jhogert3 = Image.open("src\imagenes\imagen_jhogert3.png")
+imagen_jhogert4 = Image.open("src\imagenes\imagen_jhogert4.png")
 
-imagen_sebastian1 = Image.open("src\imagen_sebastian1.png")
-imagen_sebastian2 = Image.open("src\imagen_sebastian2.png")
-imagen_sebastian3 = Image.open("src\imagen_sebastian3.png")
-imagen_sebastian4 = Image.open("src\imagen_sebastian1.png")
+imagen_sebastian1 = Image.open("src\imagenes\imagen_sebastian1.png")
+imagen_sebastian2 = Image.open("src\imagenes\imagen_sebastian2.png")
+imagen_sebastian3 = Image.open("src\imagenes\imagen_sebastian3.png")
+imagen_sebastian4 = Image.open("src\imagenes\imagen_sebastian1.png")
 
-imagen_nicole1 = Image.open("src\imagen_nicole1.png")
-imagen_nicole2 = Image.open("src\imagen_nicole2.png")
-imagen_nicole3 = Image.open("src\imagen_nicole3.png")
-imagen_nicole4 = Image.open("src\imagen_nicole4.png")
+imagen_nicole1 = Image.open("src\imagenes\imagen_nicole1.png")
+imagen_nicole2 = Image.open("src\imagenes\imagen_nicole2.png")
+imagen_nicole3 = Image.open("src\imagenes\imagen_nicole3.png")
+imagen_nicole4 = Image.open("src\imagenes\imagen_nicole4.png")
 
 
 # Redimensionamiento de las imágenes
@@ -471,11 +472,36 @@ menuBar.add_separator()
 menu1.add_command(label="Aplicación",command=infoApp)
 menu1.add_command(label="Salir",command=volverAInicio)
 
+# res = Material("RES", 100, 100)
+# especias = Material("ESPECIAS", 100, 50)
+# aceites = Material("ACEITES", 100, 100)
+# Muton = {res: 1, especias: 10, aceites: 1}
+# mutonShot = Plato("Muton Shot",30000,"Costillas de Res con Salsa especial",30,Muton)
+# menu = [mutonShot]
 
-framePedidos = Frame(ventanaPrincipal)
-framePedidos.pack(side="top", padx=10, pady=10)
-saludoPedidos = Label(framePedidos, text="Gestion de pedidos")
-saludoPedidos.grid(row=1, column=1)
+# framePedidos = Frame(ventanaPrincipal)
+# framePedidos.pack(side="top", padx=10, pady=10)
+# saludoPedidos = Label(framePedidos, text="Gestion de pedidos")
+# saludoPedidos.grid(row=1, column=1)
+
+# frameAñadirPedido = Frame(framePedidos)
+# tituloPlato = Label(frameAñadirPedido, text="Plato")
+# # Creacion para hacer un pedido
+# tituloPedido = Label(frameAñadirPedido, text="Añadir pedido")
+# ListboxPlatos = Listbox(frameAñadirPedido)
+# tituloPedido.grid(row=0, column=0)
+# tituloPlato.grid(row=0, column=1)
+
+# for plato in menu:
+#     ListboxPlatos.insert
+#     (END,
+#      f"{plato.getNombre()} - {plato.getPrecio()}" 
+#      f"- {plato.getDescripcion()} -"
+#      f"{plato.getTiempoPreparacion()}"
+#      f" - {plato.getIngredientes()} ")
+#     ListboxPlatos.grid(row=1, column=0)
+
+# consulta1 = FieldFrame("Platos" , ["platos"], "Platos deseados", [], [True])
 
 menu2.add_command(label="Gestión de Reservas",command=gReserva)
 menu2.add_command(label="Gestión de Pedidos",command=lambda: gestion_pedidos(framePedidos))
