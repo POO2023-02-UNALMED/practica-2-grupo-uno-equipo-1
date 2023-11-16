@@ -1,9 +1,9 @@
 from datetime import datetime
-from Personas.persona import Persona
-from Restaurante.material import Material
-from Restaurante.pedido import Pedido
-from Restaurante.turno import Turno
-from Restaurante.restaurante import Restaurante
+from src.gestorAplicacion.Personas.persona import Persona
+from src.gestorAplicacion.Restaurante.material import Material
+from src.gestorAplicacion.Restaurante.pedido import Pedido
+from src.gestorAplicacion.Restaurante.turno import Turno
+from src.gestorAplicacion.Restaurante.restaurante import Restaurante
 class Empleado(Persona):
 
     #Constructor de la Clase Empleado

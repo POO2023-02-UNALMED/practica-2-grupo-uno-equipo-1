@@ -1,9 +1,9 @@
 from datetime import datetime
-from Personas.cliente import Cliente
-from Restaurante.pedido import Pedido
-from Restaurante.reserva import Reserva
-from Restaurante.mesa import Mesa
-from Restaurante.material import Material
+from src.gestorAplicacion.Personas.cliente import Cliente
+from src.gestorAplicacion.Restaurante.pedido import Pedido
+from src.gestorAplicacion.Restaurante.reserva import Reserva
+from src.gestorAplicacion.Restaurante.mesa import Mesa
+from src.gestorAplicacion.Restaurante.material import Material
 
 #from baseDatos.deserializador import Deserializador
 

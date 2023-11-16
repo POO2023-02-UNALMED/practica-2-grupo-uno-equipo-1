@@ -1,5 +1,5 @@
 from datetime import datetime
-from Personas.cliente import Cliente
+from src.gestorAplicacion.Personas.cliente import Cliente
 
 class Reserva:
     def __init__(self, duenoReserva, numAsistentes, diaReserva):

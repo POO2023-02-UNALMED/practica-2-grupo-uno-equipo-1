@@ -1,20 +1,20 @@
 from datetime import datetime
 #from baseDatos.serializador import Serializador
 # En uiMain/administrador.py
-from gestorAplicacion.restaurante.financia import Financia
-from restaurante.material import Material, Tipo
-from restaurante.mesa import Mesa
-from restaurante.pedido import Pedido
-from restaurante.plato import Plato
-from restaurante.reserva import Reserva
-from restaurante.restaurante import Restaurante
-from restaurante.turno import Turno, TipoTurno
-from personas.cliente import Cliente
-from personas.cocinero import Cocinero
-from personas.domiciliario import Domiciliario
-from personas.empleado import Empleado
-from personas.mesero import Mesero
-from personas.persona import Persona
+from src.gestorAplicacion.Restaurante.financia import Financia
+from src.gestorAplicacion.Restaurante.material import Material, Tipo
+from src.gestorAplicacion.Restaurante.mesa import Mesa
+from src.gestorAplicacion.Restaurante.pedido import Pedido
+from src.gestorAplicacion.Restaurante.plato import Plato
+from src.gestorAplicacion.Restaurante.reserva import Reserva
+from src.gestorAplicacion.Restaurante.restaurante import Restaurante
+from src.gestorAplicacion.Restaurante.turno import Turno, TipoTurno
+from src.gestorAplicacion.Personas.cliente import Cliente
+from src.gestorAplicacion.Personas.cocinero import Cocinero
+from src.gestorAplicacion.Personas.domiciliario import Domiciliario
+from src.gestorAplicacion.Personas.empleado import Empleado
+from src.gestorAplicacion.Personas.mesero import Mesero
+from src.gestorAplicacion.Personas.persona import Persona
 
 class Administrador ():
 	if __name__ == "__main__":

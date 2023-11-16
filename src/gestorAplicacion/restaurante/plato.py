@@ -1,4 +1,4 @@
-from Restaurante.material import Material
+from src.gestorAplicacion.Restaurante.material import Material
 
 class Plato:
     def __init__(self, nombre="", precio=0, tiempoPreparacion=0, descripcion = 'Platillo simple'):

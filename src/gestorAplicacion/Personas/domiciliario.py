@@ -1,7 +1,7 @@
 from datetime import datetime
-from Personas.empleado import Empleado
-from Restaurante.turno import Turno
-from Restaurante.restaurante import Restaurante
+from src.gestorAplicacion.Personas.empleado import Empleado
+from src.gestorAplicacion.Restaurante.turno import Turno
+from src.gestorAplicacion.Restaurante.restaurante import Restaurante
 
 class Domiciliario(Empleado):
 

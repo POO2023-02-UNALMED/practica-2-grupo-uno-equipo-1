@@ -1,6 +1,6 @@
-from Personas.persona import Persona
-from Restaurante.reserva import Reserva
-from Restaurante.pedido import Pedido
+from src.gestorAplicacion.Personas.persona import Persona
+from src.gestorAplicacion.Restaurante.reserva import Reserva
+from src.gestorAplicacion.Restaurante.pedido import Pedido
 
 
 class Cliente(Persona):
