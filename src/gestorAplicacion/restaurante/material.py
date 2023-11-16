@@ -8,6 +8,9 @@ class Tipo(Enum):
     ATUN,CUCHARAS,TENEDORES,PLATOS,VASOS = "ATUN", "CUCHARAS", "TENEDORES", "PLATOS", "VASOS"
 
 class Material:
+
+    #Constructor de la clase Material
+
     def __init__(self, tipo, cantidad=0, precioUnitario=0, fechavencimiento=None):
         if tipo in Tipo:
             self.tipo = tipo
@@ -18,6 +21,7 @@ class Material:
         self.fechavencimiento = fechavencimiento
 
     # Métodos getters
+
     def getTipo(self):
         return self.tipo
 
@@ -31,6 +35,7 @@ class Material:
         return self.fechavencimiento
 
     # Métodos setters
+
     def setTipo(self, tipo):
         self.tipo = tipo
 
@@ -44,6 +49,7 @@ class Material:
         self.fechavencimiento = fechavencimiento
 
     # Métodos de funcionalidad
+
     def actualizarPrecio(self, precioUnitario):
         self.setPrecioUnitario(precioUnitario)
 
@@ -54,6 +60,7 @@ class Material:
         self.setFechaVencimiento(fechavencimiento)
 
     # Metodos para modificar cantidades
+
     def comprarMaterial(self, cantidad):
         self.cantidad += cantidad
 
@@ -68,6 +75,8 @@ class Material:
 
     def restarCantidad(self, cantidad):
         self.cantidad -= cantidad
+
+    #Verificar si elk material tiene fecha de vencimiento
 
     def fecha_material(self):
         if self.fechavencimiento is None:

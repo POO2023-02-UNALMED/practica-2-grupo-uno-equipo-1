@@ -1,12 +1,13 @@
 from datetime import datetime
-from personas.persona import Persona
-from restaurante.material import Material
-from restaurante.pedido import Pedido
-from restaurante.turno import Turno
-from restaurante.restaurante import Restaurante
+from Personas.persona import Persona
+from Restaurante.material import Material
+from Restaurante.pedido import Pedido
+from Restaurante.turno import Turno
+from Restaurante.restaurante import Restaurante
 class Empleado(Persona):
 
     #Constructor de la Clase Empleado
+
     def __init__(self,nombre="",cedula=000000,puesto=None,restaurante=None,turno=None):
         super().__init__(nombre,cedula)
         self.puesto=puesto
@@ -20,38 +21,53 @@ class Empleado(Persona):
         self.setFechaContratacion(datetime.date.today().day())
 
     #Metodos getter
+
     def getTurno(self):
         return self.turno
+
     def getTurnos(self):
         return self.turnos
+
     def getPuesto(self):
         return self.puesto
+
     def getSalario(self):
         return self.salario
+
     def getFechaContratacion(self):
         return self.fechaContracion
+
     def getRestaurante(self):
         return self.restaurante
+
     def getPuntuacion(self):
         return self.puntuacion
 
     #Metodos Setter
+
     def setTurnos(self,turnos):
         self.turnos=turnos
+
     def setTurno(self,turno):
         self.turno=turno
+
     def setPuesto(self,puesto):
         self.puesto=puesto
+
     def setSalario(self,salario):
         self.salaio=salario
+
     def setRestaurante(self,restaurante):
         self.restaurante=restaurante
+
     def setPuntuacion(self,puntuacion):
         self.puntuacion=puntuacion
+
     def setFechaContratacion(self,fecha):
         self.fechaContracion=fecha
 
     #Metodo encargado de transformar los dias de la libreria Datetime al ENUM de turnos
+
     def clasificarDia(self, fecha):
         diaDeLaSemana = fecha.strftime('%A')
         if (diaDeLaSemana=="Saturday"):
@@ -60,7 +76,9 @@ class Empleado(Persona):
             return "DOMINGO"
         else:
             return "SEMANA"
+
     #Metodo encargado de verificar la capacidad del empleado de cumplir con su trabajo
+
     def verificarTiempo(self, empleado, tiempoPreparacion=0):
         fechaActual = datetime.date.today()
         dia = self.clasificarDia(fechaActual)
@@ -90,16 +108,20 @@ class Empleado(Persona):
             return False
 
     #Metodo encargado de reportar el daño en un material y lo elimina del inventario automaticamente
+
     def reportarDano(self, material, cantidad):
         self.restaurante.botarMaterial(material, cantidad)
 
     #Metodo encargado de verificar que se completen los turnos
+
     def turnosCompletados(self, empleado):
         for turno in empleado.getTurnos():
             if (turno.isCompletado()==True & turno.isCobrado()==False):
                 turno.setCobrado(True)
                 empleado.setSalario(turno.getSalario())
+
     #Metodo encargado de verificar que un turno ha sido completado
+
     def turnoActual(self):
         for turno in self.turnos:
             if not (turno.isCobrado()):
@@ -110,6 +132,7 @@ class Empleado(Persona):
         return "Nombre: " + self.getNombre()+ " Puesto: "+ self.getPuesto()
 
     #Metodo encargado de agregar turnos a los empleados
+
     def agregarTurno(self, turno):
         self.turnos.append(turno)
 

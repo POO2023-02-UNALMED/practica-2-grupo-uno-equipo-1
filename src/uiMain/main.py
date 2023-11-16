@@ -116,7 +116,7 @@ def gEmpleado():
     pass
 
 def gInventario():
-    pass
+    v4.tkraise()
 
 def gFinanciera():
     v5 = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
@@ -145,12 +145,12 @@ def gFinanciera():
 
     buttonGananciasBrutas = Button(frameFinanzas, text="Ganancias Brutas", command=lambda: mostrarResultado(gananciasBrutas))
     buttonGananciasBrutas.pack()
-    
+
     buttonGastosMateriales = Button(frameFinanzas, text="Gastos Materiales", command=lambda: mostrarResultado(totalGastosMateriales))
     buttonGastosMateriales.pack()
 
     buttonGastoMaterialEsp = Button(frameFinanzas, text="Gasto Material Especifico", command=lambda: mostrarResultado(gastoMaterialEspecifico))
-    buttonGastosMaterialesEsp.pack()
+    buttonGastoMaterialEsp.pack()
 
     buttonPagosEmpleados = Button(frameFinanzas, text="Pagos a Empleados", command=lambda: mostrarResultado(totalPagosEmpleados))
     buttonPagosEmpleados.pack()
@@ -168,18 +168,18 @@ def mostrarResultado(resultado):
     labelResultado = Label(frameFinanzas, text=f"Resultado: {resultado}")
     labelResultado.pack()
 
-# - - - - - - - - - - - - - - - - 
+# - - - - - - - - - - - - - - - -
 
-    label1 = Label(v1, text="Gestión Financiera", font=("arial", 30), fg="blue", bg="gray77")
-    botonPresupuesto = Button(v1, text="Presupuesto del Restaurante", width=30, height=10)
-    botonGananciasBrutas = Button(v1, text="Ganancias Brutas del Restaurante", width=30, height=10)
-    botonGananciasNetas = Button(v1, text="Ganancias Netas del Restaurante", width=30, height=10)
-    botonGastosMateriales = Button(v1, text="Consultar Gastos del Inventario", width=30, height=10)
-    botonGastosMaterialesEsp= Button(v1, text="Consultar Gasto Especifico de un Material", width=30, height=10)
-    botonLiquidacion= Button(v1, text="Consultar Liquidación de un Empleado", width=30, height=10)
-    botonPagoEmpleados= Button(v1, text="Consultar Pago total de los Empleados", width=30, height=10)
-    botonPagoEmpleadosEsp= Button(v1, text="Consultar Pago total de un Empleado", width=30, height=10)
-    botonCostoPromedio= Button(v1, text="Consultar el costo Promedio de realizar un plato", width=30, height=10)
+    label1 = Label(v5, text="Gestión Financiera", font=("arial", 30), fg="blue", bg="gray77")
+    botonPresupuesto = Button(v5, text="Presupuesto del Restaurante", width=30, height=10)
+    botonGananciasBrutas = Button(v5, text="Ganancias Brutas del Restaurante", width=30, height=10)
+    botonGananciasNetas = Button(v5, text="Ganancias Netas del Restaurante", width=30, height=10)
+    botonGastosMateriales = Button(v5, text="Consultar Gastos del Inventario", width=30, height=10)
+    botonGastosMaterialesEsp= Button(v5, text="Consultar Gasto Especifico de un Material", width=30, height=10)
+    botonLiquidacion= Button(v5, text="Consultar Liquidación de un Empleado", width=30, height=10)
+    botonPagoEmpleados= Button(v5, text="Consultar Pago total de los Empleados", width=30, height=10)
+    botonPagoEmpleadosEsp= Button(v5, text="Consultar Pago total de un Empleado", width=30, height=10)
+    botonCostoPromedio= Button(v5, text="Consultar el costo Promedio de realizar un plato", width=30, height=10)
     label1.grid(row=0, column=1, padx=10, pady=10)
     botonPresupuesto.grid(row=1, column=0, padx=20, pady=10)
     botonGananciasBrutas.grid(row=1, column=2, padx=10, pady=10)
@@ -464,6 +464,26 @@ menu2.add_command(label="Gestión de Inventario",command=gInventario)
 menu2.add_command(label="Gestión Financiera",command=gFinanciera)
 
 menu3.add_command(label="Acerca de",command=ayuda)
+
+# Frame de gestion de inventario
+v4 = Frame(ventanaPrincipal,padx=20,pady=20,bg="gray77")
+
+v4.pack(fill="y",expand=False,anchor="c")
+
+gestionInv=Label(v4,text="Gestión de Inventario", font=("arial",30),fg="blue",bg="gray77")
+
+revisarInv=Button(v4,text="Consultar Inventario",width=30,height=10)
+comprarMat=Button(v4,text="Comprar Materiales",width=30,height=10)
+botarMat=Button(v4,text="Desechar Materiales",width=30,height=10)
+
+gestionInv.grid(row=0,column=1,padx=10,pady=10)
+revisarInv.grid(row=1,column=1,padx=20,pady=10)
+comprarMat.grid(row=2,column=0,padx=10,pady=10)
+botarMat.grid(row=2,column=2,padx=10,pady=10)
+
+for i in range(3):
+    v4.grid_columnconfigure(i,weight=1)
+
 
 
 # Ocultar ventana principal

@@ -15,6 +15,7 @@ class Mesa:
         Mesa.numeroMesas.append(self.numeroMesa)
 
     # Metodos getters
+
     def getCapacidad(self):
         return self.capacidad
 
@@ -28,6 +29,7 @@ class Mesa:
         return self.numeroMesa
 
     # Metodos setters
+
     def setCapacidad(self, nuevaCapacidad):
         self.capacidad = nuevaCapacidad
 
@@ -41,7 +43,8 @@ class Mesa:
         if not Mesa.verificarNumero(numeroMesa):
             self.numeroMesa = numeroMesa
 
-    # Metoddos estaticos
+    # Metodos estaticos
+
     @staticmethod
     def generarNumeroMesa():
         while True:
@@ -54,11 +57,13 @@ class Mesa:
         return numero in Mesa.numeroMesas
 
     # Metodos de clase
+
     @classmethod
     def getNumeroMesas(cls):
         return cls.numeroMesas
 
     # Metodos para funcionalidad
+
     def anadirNumero(self, a):
         self.getNumeroMesas().append(a)
 
@@ -86,5 +91,6 @@ class Mesa:
         return f"Capacidad de la mesa: {self.capacidad}\nNúmero de la mesa: {self.numeroMesa}"
 
     #ToString de la clase
+
     def __str__(self):
         return f"mesa numero: {self.numeroMesa} con capacidad: {self.capacidad}"
