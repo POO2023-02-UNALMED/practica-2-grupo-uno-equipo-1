@@ -44,27 +44,24 @@ class Financia():
 		return self.costoPromedioPorPlato
 
 	def gastosMateriales(self):
-		totalGastosMateriales = 0
-		for pedido in self.restaurante.getPedidos():
-			for plato in pedido.getPlatos():
-				for  entrada in plato.getIngredientes(self).entrySet():
-					material = entrada.getKey()
-					cantidadUtilizada = entrada.getValue()
-					totalGastosMateriales += material.getPrecioUnitario() * cantidadUtilizada
-		self.gastosMateriales = totalGastosMateriales
-		return self.gastosMateriales
 
-	def gastoMaterialEspecifico(self, tipoMaterial):
-		totalGastoMaterial = 0
+		total_gastos_materiales= 0
 		for pedido in self.restaurante.getPedidos():
 			for plato in pedido.getPlatos():
-				for entrada in plato.getIngredientes(self).entrySet():
-					material = entrada.getKey()
-					if (material.getTipo(self) == tipoMaterial):
-						cantidadUtilizada = entrada.getValue()
-						totalGastoMaterial += material.getPrecioUnitario(self) * cantidadUtilizada
-		self.gastoMaterialEspecifico = totalGastoMaterial  # Almacenar el resultado en la variable de instancia
-		return self.gastoMaterialEspecifico
+				for material, cantidad_utilizada in plato.getIngredientes().items():
+					total_gastos_materiales += material.getPrecioUnitario() * cantidad_utilizada
+		
+		return total_gastos_materiales
+
+	def gastoMaterialEspecifico(self, nombre_material):
+		total_gasto_material = 0
+		for pedido in self.restaurante.getPedidos():
+			for plato in pedido.getPlatos():
+				for material, cantidad_utilizada in plato.getIngredientes().items():
+					if material.getNombre() == nombre_material:
+						total_gasto_material += material.getPrecioUnitario() * cantidad_utilizada
+						
+		return total_gasto_material
 
 	# Calcula el pago de la liquidacion de un empleado del restaurante
 	def liquidacionEmpleado(self, nombreEmpleado):
