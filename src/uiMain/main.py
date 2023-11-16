@@ -119,7 +119,72 @@ def gInventario():
     pass
 
 def gFinanciera():
-    pass
+    v5 = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
+    v5.pack(fill="y", expand=False, anchor="c")
+
+    presupuesto = financia.presupuesto()
+    gananciasNetas = financia.gananciasNetas()
+    gananciasBrutas = financia.gananciasBrutas()
+    gastoMaterialEspecifico = financia.gastoMaterialEspecifico()
+    totalGastosMateriales = financia.gastosMateriales()
+    totalPagosEmpleados = financia.pagosEmpleados()
+    pagoempleado = financia.pagoEmpleado()
+    liquidacion = financia.liquidacionEmpleado()
+    costoPromedioPlato = financia.costoPromedioPorPlato()
+
+    # Configurar el Frame de Finanzas
+    frameFinanzas = FieldFrame(ventanaPrincipal, text="Finanzas")
+    frameFinanzas.pack(pady=10)
+
+    # Asociar botones con métodos
+    buttonPresupuesto = Button(v1, text="Presupuesto",  command=lambda: mostrarResultado(presupuesto))
+    buttonPresupuesto.pack()
+
+    buttonGananciasNetas = Button(frameFinanzas, text="Ganancias Netas", command=lambda: mostrarResultado(gananciasNetas))
+    buttonGananciasNetas.pack()
+
+    buttonGananciasBrutas = Button(frameFinanzas, text="Ganancias Brutas", command=lambda: mostrarResultado(gananciasBrutas))
+    buttonGananciasBrutas.pack()
+    
+    buttonGastosMateriales = Button(frameFinanzas, text="Gastos Materiales", command=lambda: mostrarResultado(totalGastosMateriales))
+    buttonGastosMateriales.pack()
+
+    buttonGastoMaterialEsp = Button(frameFinanzas, text="Gasto Material Especifico", command=lambda: mostrarResultado(gastoMaterialEspecifico))
+    buttonGastosMaterialesEsp.pack()
+
+    buttonPagosEmpleados = Button(frameFinanzas, text="Pagos a Empleados", command=lambda: mostrarResultado(totalPagosEmpleados))
+    buttonPagosEmpleados.pack()
+
+    buttonPagoEmpleado = Button(frameFinanzas, text="Pago a Empleado", command=lambda: mostrarResultado(pagoempleado))
+    buttonPagoEmpleado.pack()
+
+    buttonLiquidacion = Button(frameFinanzas, text="Liquidación", command=lambda: mostrarResultado(liquidacion))
+    buttonLiquidacion.pack()
+
+    buttonCostoPromedioPlato = Button(frameFinanzas, text="Costo Promedio por Plato", command=lambda: mostrarResultado(costoPromedioPlato))
+    buttonCostoPromedioPlato.pack()
+
+def mostrarResultado(resultado):
+    labelResultado = Label(frameFinanzas, text=f"Resultado: {resultado}")
+    labelResultado.pack()
+
+#mmmm
+    label1 = Label(v1, text="Gestión Financiera", font=("arial", 30), fg="blue", bg="gray77")
+    botonPresupuesto = Button(v1, text="Presupuesto del Restaurante", width=30, height=10)
+    botonGananciasBrutas = Button(v1, text="Ganancias Brutas del Restaurante", width=30, height=10)
+    botonGananciasNetas = Button(v1, text="Ganancias Netas del Restaurante", width=30, height=10)
+    botonGastosMateriales = Button(v1, text="Consultar Gastos del Inventario", width=30, height=10)
+    botonGastosMaterialesEsp= Button(v1, text="Consultar Gasto Especifico de un Material", width=30, height=10)
+    botonLiquidacion= Button(v1, text="Consultar Liquidación de un Empleado", width=30, height=10)
+    botonPagoEmpleados= Button(v1, text="Consultar Pago total de los Empleados", width=30, height=10)
+    botonPagoEmpleadosEsp= Button(v1, text="Consultar Pago total de un Empleado", width=30, height=10)
+    botonCostoPromedio= Button(v1, text="Consultar el costo Promedio de realizar un plato", width=30, height=10)
+    label1.grid(row=0, column=1, padx=10, pady=10)
+    botonPresupuesto.grid(row=1, column=0, padx=20, pady=10)
+    botonGananciasBrutas.grid(row=1, column=2, padx=10, pady=10)
+    botonGananciasNetas.grid(row=2, column=1, padx=10, pady=10)
+    botonGastosMateriales.grid(row=3, column=0, padx=20, pady=10)
+    botonGastosMaterialesEsp.grid(row=3, column=2, padx=10, pady=10)
 
 def ayuda():
     opcion=messagebox.showinfo("Autores la aplicación","Daniel Garzón\n Samuel Ortiz\n Jhogert Bita\n Sebastian Hoyos\n Nicole Guaranguay")
@@ -202,7 +267,7 @@ hojasDeVida = [
     "Nombre: Samuel Ortiz Toro\nFecha de Nacimiento: 6 de Mayo de 2004\nPasatiempos: Política y Religión",
     "hojaVida3",
     "Nombre: Juan Sebastian Hoyos Castillo\nFecha de Nacimiento: 7 de Febrero de 2002\nPasatiempos: Jugar videojuegos y ver anime",
-    "hojaVida5"
+    "Nombre: Nicole Natalia Guaranguay Parra\nFecha de Nacimiento: 11 de Abril de 2005\nPasatiempos: Ver anime y salir con mis amigos"
     ]
 
 # Indice de la hoja de vida actualizada

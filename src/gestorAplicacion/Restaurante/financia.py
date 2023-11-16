@@ -1,6 +1,6 @@
 from datetime import datetime
-from restaurante import *
-from personas.empleado import Empleado
+from Restaurante import *
+from Personas.empleado import Empleado
 
 class Financia():
 	def __init__(self, restaurante=None, presupuesto=1000000, gastosMateriales=0, gastoMaterialEspecifico=0, pagosEmpleados=0, gananciasBrutas=0, gananciasNetas=0, liquidacion=0, costoPromedioPorPlato=0):
@@ -35,7 +35,7 @@ class Financia():
 	def getCostoPromedioPorPlato(self):
 		return self.costoPromedioPorPlato
 
-	def MetodoGastosMateriales(self):
+	def gastosMateriales(self):
 		totalGastosMateriales = 0
 		for pedido in self.restaurante.getPedidos():
 			for plato in pedido.getPlatos():
@@ -46,7 +46,7 @@ class Financia():
 		self.gastosMateriales = totalGastosMateriales
 		return self.gastosMateriales
 
-	def MetodoGastoMaterialEspecifico(self, tipoMaterial):
+	def gastoMaterialEspecifico(self, tipoMaterial):
 		totalGastoMaterial = 0
 		for pedido in self.restaurante.getPedidos():
 			for plato in pedido.getPlatos():
@@ -83,7 +83,7 @@ class Financia():
 		return totalPago
 
     #Calcula el pago de un solo empleado
-	def calcularPagoEmpleado(self, empleado):
+	def pagoEmpleado(self, empleado):
 		totalPago = 0
 		for turno in empleado.getTurnos(self):
 			pago = turno.getSalario(self)
@@ -95,7 +95,7 @@ class Financia():
 		return totalPago
 
     #Calcula el Pago total de todos los Empleados
-	def MetodoPagosEmpleados(self,restaurante):
+	def pagosEmpleados(self,restaurante):
 		totalPago = 0
 		for empleado in restaurante.getEmpleados():
 			totalPago += empleado.getSalario()
@@ -110,7 +110,7 @@ class Financia():
 		return self.pagosEmpleados
 
     #Calcula el costo promedio de los ingredientes por plato.
-	def MetodoCostoPromedioPorPlato(self):
+	def costoPromedioPorPlato(self):
 		totalCosto = 0
 		totalPlatos = 0
 		for pedido in self.restaurante.getPedidos():
@@ -123,7 +123,7 @@ class Financia():
 		return totalCosto / totalPlatos
 
     #Calcula las ganancias Brutas del restaurante
-	def MetodoGananciasBrutas(self):
+	def gananciasBrutas(self):
 		totalGananciasBrutas = 0
 		for pedido in self.restaurante.getPedidos():
 			totalGananciasBrutas += pedido.getPrecioTotal()
@@ -131,14 +131,14 @@ class Financia():
 		return self.gananciasBrutas
 
     #Calcula las ganancias netas del restaurante
-	def MetodoGananciasNetas(self):
+	def gananciasNetas(self):
 		totalGastos = self.gastosMateriales() + self.pagosEmpleados(self.restaurante)
 		totalIngresos = self.gananciasBrutas()
 		self.gananciasNetas = totalIngresos - totalGastos
 		return self.gananciasNetas
 
     #Calcula el presupuesto considerando las ganancias del restaurante
-	def MetodoPresupuesto(self):
+	def presupuesto(self):
 		totalGastos = self.MetodoGastosMateriales() + self.pagosEmpleados(self.restaurante)
 		gananciasNetas = self.gananciasNetas()
 		self.presupuesto = self.presupuesto - totalGastos + gananciasNetas
