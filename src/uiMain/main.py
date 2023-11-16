@@ -54,10 +54,6 @@ def irVentanaPrincipal():
     ventanaPrincipal.deiconify()
 
 def cambiarImagen(widget, event):
-    """
-    segun esta imagen se cambia la iamgen que se muestra en
-    la ventana de inicio
-    """
     global indice_imagen
     global imagen_mostrar
 
@@ -75,9 +71,16 @@ def cambiarImagen(widget, event):
     y_raton = event.y_root
 
     if x_inicio <= x_raton <= x_final and y_inicio <= y_raton <= y_final:
-        indice_imagen = (indice_imagen + 1) % len(imagenesP5)
-        imagen_mostrar = Label(imagenesIzquierda, image=imagenesP5[indice_imagen])
-        imagen_mostrar.grid(row=0, column=0, padx=5, pady=5)
+        # Añadir un retraso de 500 milisegundos antes de cambiar la imagen
+        widget.after(500, actualizarImagen)
+
+def actualizarImagen():
+    global indice_imagen
+    global imagen_mostrar
+
+    indice_imagen = (indice_imagen + 1) % len(imagenesP5)
+    imagen_mostrar.configure(image=imagenesP5[indice_imagen])
+    imagen_mostrar.grid(row=0, column=0, padx=5, pady=5)
 
 # Funciones ventana principal
 def nada():
@@ -384,6 +387,66 @@ menuInicio = Menu(menuPrincipal)
 menuPrincipal.add_cascade(label="Inicio", menu=menuInicio)
 menuInicio.add_command(label="Salir", command=salir)
 menuInicio.add_command(label="Descripcion", command=ver_descripcion)
+
+# Fieldframe para consultas
+class FieldFrame(Frame):
+    """
+    Este fieldframe es para hacer las consultas
+    para cada pregunta que se quiera utilizar en
+    el proceso de la funcionalidad se hace de
+    esta manera
+    """
+    def __init__(self, tituloCriterios, criterios, tituloValores, valores, habilitado):
+        super().__init__()
+
+        self.data = {}
+
+        # Contenedor que tiene todo el formulario de la consulta
+        frameForm = Frame(self, bg="blue", borderwidth=1, relief="solid")
+        frameForm.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        frameForm.grid_rowconfigure(0, weight=1)
+        frameForm.grid_columnconfigure(0, weight=1)
+
+        # Etiqueta para mostrar el titulo de la consulta
+        for index, criterio in enumerate(criterios):
+            Label(frameForm, text=f"{criterio}").grid(row=index, column=0, padx=5)
+            input_widget = Entry(frameForm)
+            input_widget.grid(row=index, column=1, padx=5)
+            
+            if valores and index < len(valores):
+                input_widget.insert(0, valores[index])
+            # Habilitado, esto se hace para campos deditables si quieres mostrar
+            # en tu fprmulario datos que ya a ingresado el usuario ej: despues
+            # De haber ingresado cantidad de platos y en el otro formulario lo
+            # Quieres reflrejar se controla mediante esta manera
+            if habilitado and index < len(habilitado) and not habilitado[index]:
+                input_widget.config(state="disabled")
+
+            self.data[criterio] = {
+                "widget": input_widget
+            }
+
+        enviarBoton = Button(self, text="enviar", bg="white", command=self.submitForm)
+        enviarBoton.grid(row=index + 1, column=0)
+
+        # Etiqueta para mostrar resultados
+        self.resultado_label = Label(self, text="")
+        self.resultado_label.grid(row=index + 2, column=0, pady=10)
+
+    def getValue(self, criterio):
+        return self.data[criterio]["widget"].get()
+
+    def submitForm(self):
+        resultados = []
+        for criterio, info in self.data.items():
+            valor = info["widget"].get()
+            if valor is None or valor == "":
+                messagebox.showinfo("Alerta", f"Campo '{criterio}' no puede estar vacío.")
+                return
+            resultados.append(f"{criterio}: {valor}")
+
+        # Mostrar resultados en la etiqueta
+        self.resultado_label.config(text="\n".join(resultados))
 
 # Creacion de ventana principal
 ventanaPrincipal = Toplevel()
