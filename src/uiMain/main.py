@@ -168,7 +168,8 @@ def mostrarResultado(resultado):
     labelResultado = Label(frameFinanzas, text=f"Resultado: {resultado}")
     labelResultado.pack()
 
-#mmmm
+# - - - - - - - - - - - - - - - - 
+
     label1 = Label(v1, text="Gestión Financiera", font=("arial", 30), fg="blue", bg="gray77")
     botonPresupuesto = Button(v1, text="Presupuesto del Restaurante", width=30, height=10)
     botonGananciasBrutas = Button(v1, text="Ganancias Brutas del Restaurante", width=30, height=10)
