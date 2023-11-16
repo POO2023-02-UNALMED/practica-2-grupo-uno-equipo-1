@@ -91,7 +91,22 @@ def volverAInicio():
     ventanaPrincipal.withdraw()
 
 def gReserva():
-    pass
+    v1 = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
+    v1.pack(fill="y", expand=False, anchor="c")
+    label1 = Label(v1, text="Gestión de reservas", font=("arial", 30), fg="blue", bg="gray77")
+    botonConsultarRSV = Button(v1, text="Reservas sin verificar", width=30, height=10)
+    botonConsultarRV = Button(v1, text="Reservas verificadas", width=30, height=10)
+    botonCrearR = Button(v1, text="Crear reserva", width=30, height=10)
+    botonCancelarR = Button(v1, text="Cancelar reservas", width=30, height=10)
+    botonAsignarM= Button(v1, text="Asignar mesas a las reservas", width=30, height=10)
+    label1.grid(row=0, column=1, padx=10, pady=10)
+    botonConsultarRSV.grid(row=1, column=0, padx=20, pady=10)
+    botonConsultarRV.grid(row=1, column=2, padx=10, pady=10)
+    botonCrearR.grid(row=2, column=1, padx=10, pady=10)
+    botonCancelarR.grid(row=3, column=0, padx=20, pady=10)
+    botonAsignarM.grid(row=3, column=2, padx=10, pady=10)
+    for i in range(5):
+        v1.grid_columnconfigure(i, weight=1)
 
 def gestion_pedidos(widget):
     widget.tkraise()
@@ -184,9 +199,9 @@ botonCambio.grid(row=1, column=0, padx=5, pady=5)
 # Hojas de vida
 hojasDeVida = [
     "hojaVida1",
-    "hojaVida2",
+    "Nombre: Samuel Ortiz Toro\nFecha de Nacimiento: 6 de Mayo de 2004\nPasatiempos: Política y Religión",
     "hojaVida3",
-    "hojaVida4",
+    "Nombre: Juan Sebastian Hoyos Castillo\nFecha de Nacimiento: 7 de Febrero de 2002\nPasatiempos: Jugar videojuegos y ver anime",
     "hojaVida5"
     ]
 
@@ -327,7 +342,7 @@ indice_imagenes = 0
 hojaVida.insert(END, hojasDeVida[indice_texto])
 hojaVida.config(state="disabled")
 hojaVida.pack(side = 'top', padx=10, pady=10)
-hojaVida.bind("<Button-3>", lambda event: cambiarHojaVida(hojaVida, imagenesDerecha))
+hojaVida.bind("<Button-1>", lambda event: cambiarHojaVida(hojaVida, imagenesDerecha))
 
 # Configuración con grid
 imagenesP6[indice_imagenes].grid(row=0, column=0, padx=2, pady=2)
