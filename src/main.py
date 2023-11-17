@@ -15,8 +15,11 @@ from gestorAplicacion.Restaurante.plato import Plato
 from gestorAplicacion.Restaurante.reserva import Reserva
 from gestorAplicacion.Restaurante.restaurante import Restaurante
 from gestorAplicacion.Restaurante.turno import Turno, TipoTurno
+from baseDatos.Serializacion import serializar,deserializar
+
 
 restaurante = Restaurante()
+#restaurante=deserializar()
 
 #Crear un objeto Financia
 financia = Financia(restaurante)
@@ -85,7 +88,8 @@ def salir():
     """
     Salir de la aplicacion
     """
-    ventanaInicio.destroy()
+    #serializar(restaurante)
+    exit()
 
 def ver_descripcion():
     pass
