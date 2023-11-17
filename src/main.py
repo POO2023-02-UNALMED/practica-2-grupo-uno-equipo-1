@@ -19,7 +19,11 @@ from baseDatos.Serializacion import serializar,deserializar
 
 
 restaurante=deserializar()
-
+print(restaurante.getNombre())
+for mesa in restaurante.getMesas():
+    print(mesa)
+for empleado in restaurante.getEmpleados():
+    print(empleado)
 #Crear un objeto Financia
 financia = Financia(restaurante)
 res = Material(Tipo.RES, 100, 100)
@@ -78,9 +82,11 @@ empleado9 = Domiciliario("Martin", 345678912, "domiciliario", restaurante, turno
 empleado1.agregarTurno(turno17)
 pedido = Pedido()
 plato = Plato()
-for mesa1 in restaurante.getMesas():
-    mesa1.anadirNumero(mesa1.getNumeroMesa())
-restaurante.borrarReservasViejas()
+#for mesa1 in restaurante.getMesas():
+#    mesa1.anadirNumero(mesa1.getNumeroMesa())
+#restaurante.borrarReservasViejas()
+
+
 
 # funciones ventana de inicio
 def salir():

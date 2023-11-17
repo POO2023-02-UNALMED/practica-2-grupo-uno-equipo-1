@@ -1,5 +1,10 @@
 from datetime import datetime
 #from baseDatos.deserializador import Deserializador
+from gestorAplicacion.Restaurante.reserva import Reserva
+from gestorAplicacion.Restaurante.pedido import Pedido
+from gestorAplicacion.Restaurante.material import Material
+from gestorAplicacion.Restaurante.mesa import Mesa
+from gestorAplicacion.Personas.cliente import Cliente
 
 class Restaurante():
 
@@ -12,11 +17,6 @@ class Restaurante():
 		return contador
 
 	def __init__(self, listadoMesas=None, listadoEmpleados=None, listadoClientes=None, inventario=None, listadoAspEmpleados=None):
-		from gestorAplicacion.Personas.cliente import Cliente
-		from gestorAplicacion.Restaurante.material import Material
-		from gestorAplicacion.Restaurante.pedido import Pedido
-		from gestorAplicacion.Restaurante.reserva import Reserva
-		from gestorAplicacion.Restaurante.mesa import Mesa
 		self.NOMBRE = "Le Quasó"
 		self.empleadoDelMes = None
 		self.numMesas = 0
@@ -260,7 +260,8 @@ class Restaurante():
 		self.setNumClientes(a+1)
 
 	#añade la mesa a la lista de mesas
-	def comprarMesa (self, nuevaMesa):
+	def comprarMesa (self, numMesa,capacidad):
+		nuevaMesa=Mesa(capacidad,numMesa)
 		self.listadoMesas.append(nuevaMesa)
 		a = self.getNumMesas()
 		self.setNumMesas(a+1)

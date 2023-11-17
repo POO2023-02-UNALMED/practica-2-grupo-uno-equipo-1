@@ -93,4 +93,5 @@ class Mesa:
     #ToString de la clase
 
     def __str__(self):
-        return f"mesa numero: {self.numeroMesa} con capacidad: {self.capacidad}"
+        return f"Mesa numero: {self.getNumeroMesa()} con capacidad {self.getCapacidad()} "
+
