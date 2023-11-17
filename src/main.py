@@ -18,8 +18,7 @@ from gestorAplicacion.Restaurante.turno import Turno, TipoTurno
 from baseDatos.Serializacion import serializar,deserializar
 
 
-restaurante = Restaurante()
-#restaurante=deserializar()
+restaurante=deserializar()
 
 #Crear un objeto Financia
 financia = Financia(restaurante)
@@ -88,7 +87,7 @@ def salir():
     """
     Salir de la aplicacion
     """
-    #serializar(restaurante)
+    serializar(restaurante)
     exit()
 
 def ver_descripcion():
