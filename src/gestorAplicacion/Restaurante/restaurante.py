@@ -28,9 +28,9 @@ class Restaurante():
 		self.listadoClientes = listadoClientes if listadoClientes is not None else []
 		self.inventario = inventario if inventario is not None else {}
 		self.listadoAspEmpleados = listadoAspEmpleados if listadoAspEmpleados is not None else []
-		self.numMesas += self.contadorListado(listadoMesas)
-		self.numEmpleados += self.contadorListado(listadoEmpleados)
-		self.numClientes += self.contadorListado(listadoEmpleados)
+		self.numMesas += self.contadorListado(self.listadoMesas)
+		self.numEmpleados += self.contadorListado(self.listadoEmpleados)
+		self.numClientes += self.contadorListado(self.listadoEmpleados)
 
     #Metodos getter
 	def getNombre (self):

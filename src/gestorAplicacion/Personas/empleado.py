@@ -19,7 +19,7 @@ class Empleado(Persona):
         self.salario=0
         self.puntuacion=0
         self.fechaContracion=None
-        self.setFechaContratacion(datetime.date.today().day())
+        self.setFechaContratacion(datetime.now().day)
 
     #Metodos getter
 

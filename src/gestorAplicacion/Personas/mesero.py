@@ -9,7 +9,7 @@ class Mesero (Empleado):
         super().__init__(nombre, cedula, puesto, restaurante, turno)
         self.turnos = []
         self.turnos.append(turno)
-        self.setFechaContratacion(datetime.date.today().day())
+        self.setFechaContratacion(datetime.now().day)
 
     #Sobreescritura de metodos
 

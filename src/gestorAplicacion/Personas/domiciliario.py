@@ -9,7 +9,7 @@ class Domiciliario(Empleado):
         super().__init__(nombre,cedula,puesto,restaurante,turno)
         self.tunros=[]
         self.turnos.append(turno)
-        self.setFechaContratacion(datetime.date.today().day())
+        self.setFechaContratacion(datetime.now().day)
 
     #Sobreescritura de metodos
     def puntuacion(self):
