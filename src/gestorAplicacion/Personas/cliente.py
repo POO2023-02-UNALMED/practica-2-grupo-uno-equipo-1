@@ -1,13 +1,12 @@
-from Personas.persona import Persona
-from Restaurante.reserva import Reserva
-from Restaurante.pedido import Pedido
-
+from gestorAplicacion.Personas.persona import Persona
 
 class Cliente(Persona):
 
     #Constructor de la clase Cliente que hereda de Persona
 
     def __init__(self,nombre="",cedula=000000):
+        from gestorAplicacion.Restaurante.reserva import Reserva
+        from gestorAplicacion.Restaurante.pedido import Pedido
         super().__init__(nombre,cedula)
         self.reserva=None
         self.pedido=None

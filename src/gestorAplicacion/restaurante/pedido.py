@@ -1,11 +1,11 @@
 #from uiMain.menu import Menu
-from Personas.empleado import Empleado
 
 class Pedido():
     tiempoDomicilio = 45
     tiempoMesero = 30
 
     def __init__(self, mesa=None, tipoPedido='', cocinero=None, mesero=None, platos=None, restaurante=None, reserva=None, domiciliario=None):
+        from gestorAplicacion.Personas.empleado import Empleado
         self.mesa = mesa
         self.tipoPedido = tipoPedido
         self.cocinero = cocinero

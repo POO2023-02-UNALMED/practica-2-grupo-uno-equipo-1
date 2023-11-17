@@ -1,8 +1,8 @@
 from datetime import datetime
-from Personas.cliente import Cliente
 
 class Reserva:
     def __init__(self, duenoReserva, numAsistentes, diaReserva):
+        from gestorAplicacion.Personas.cliente import Cliente
         self.duenoReserva = duenoReserva
         self.mesa = None
         self.numAsistentes = numAsistentes

@@ -1,10 +1,4 @@
 from datetime import datetime
-from Personas.cliente import Cliente
-from Restaurante.pedido import Pedido
-from Restaurante.reserva import Reserva
-from Restaurante.mesa import Mesa
-from Restaurante.material import Material
-
 #from baseDatos.deserializador import Deserializador
 
 class Restaurante():
@@ -18,6 +12,11 @@ class Restaurante():
 		return contador
 
 	def __init__(self, listadoMesas=None, listadoEmpleados=None, listadoClientes=None, inventario=None, listadoAspEmpleados=None):
+		from gestorAplicacion.Personas.cliente import Cliente
+		from gestorAplicacion.Restaurante.material import Material
+		from gestorAplicacion.Restaurante.pedido import Pedido
+		from gestorAplicacion.Restaurante.reserva import Reserva
+		from gestorAplicacion.Restaurante.mesa import Mesa
 		self.NOMBRE = "Le Quasó"
 		self.empleadoDelMes = None
 		self.numMesas = 0

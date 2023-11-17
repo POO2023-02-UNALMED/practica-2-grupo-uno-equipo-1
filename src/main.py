@@ -1,9 +1,20 @@
 from tkinter import *
 from tkinter import messagebox, font
 from PIL import Image, ImageTk
-
-# from gestorAplicacion.restaurante.plato import Plato
-# from gestorAplicacion.restaurante.plato import Material
+from gestorAplicacion.Personas.empleado import Empleado
+from gestorAplicacion.Personas.persona import Persona
+from gestorAplicacion.Personas.cliente import Cliente
+from gestorAplicacion.Personas.cocinero import Cocinero
+from gestorAplicacion.Personas.domiciliario import Domiciliario
+from gestorAplicacion.Personas.mesero import Mesero
+from gestorAplicacion.Restaurante.financia import Financia
+from gestorAplicacion.Restaurante.material import Material
+from gestorAplicacion.Restaurante.mesa import Mesa
+from gestorAplicacion.Restaurante.pedido import Pedido
+from gestorAplicacion.Restaurante.plato import Plato
+from gestorAplicacion.Restaurante.reserva import Reserva
+from gestorAplicacion.Restaurante.restaurante import Restaurante
+from gestorAplicacion.Restaurante.turno import Turno, TipoTurno
 
 # funciones ventana de inicio
 def salir():
