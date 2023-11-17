@@ -157,6 +157,7 @@ def ayuda():
 ventanaInicio = Tk()
 ventanaInicio.title("Sistema de Gestión de Restaurante Le Quaso")
 ventanaInicio.geometry("800x600")
+ventanaInicio.resizable(False,False)
 
 
 # Creacion  de frames
@@ -453,6 +454,7 @@ class FieldFrame(Frame):
 ventanaPrincipal = Toplevel()
 ventanaPrincipal.title("Gestion Administrativa Le Quasó")
 ventanaPrincipal.geometry("1080x720")
+ventanaPrincipal.resizable(False,False)
 
 # Creacion de frame
 frame1 = Frame(ventanaPrincipal,bg="gray89",height=720)
