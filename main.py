@@ -168,6 +168,7 @@ def ayuda():
 ventanaInicio = Tk()
 ventanaInicio.title("Sistema de Gestión de Restaurante Le Quaso")
 ventanaInicio.geometry("800x600")
+ventanaInicio.resizable(False,False)
 
 
 # Creacion  de frames
@@ -464,6 +465,7 @@ class FieldFrame(Frame):
 ventanaPrincipal = Toplevel()
 ventanaPrincipal.title("Gestion Administrativa Le Quasó")
 ventanaPrincipal.geometry("1080x720")
+ventanaPrincipal.resizable(False,False)
 
 # Creacion de frame
 frame1 = Frame(ventanaPrincipal,bg="gray89",height=720)
@@ -506,7 +508,7 @@ menu1.add_command(label="Salir",command=volverAInicio)
 # for plato in menu:
 #     ListboxPlatos.insert
 #     (END,
-#      f"{plato.getNombre()} - {plato.getPrecio()}" 
+#      f"{plato.getNombre()} - {plato.getPrecio()}"
 #      f"- {plato.getDescripcion()} -"
 #      f"{plato.getTiempoPreparacion()}"
 #      f" - {plato.getIngredientes()} ")
@@ -540,7 +542,6 @@ botarMat.grid(row=2,column=2,padx=10,pady=10)
 
 for i in range(3):
     v4.grid_columnconfigure(i,weight=1)
-
 
 
 # Ocultar ventana principal
