@@ -181,7 +181,7 @@ def volverAInicio():
 
 def gReserva():
     v1 = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
-    v1.pack(fill="y", expand=False, anchor="c")
+    v1.grid(row=0, column=0, sticky="nsew")
     label1 = Label(v1, text="Gestión de reservas", font=("arial", 30), fg="blue", bg="gray77")
     botonConsultarRSV = Button(v1, text="Reservas sin verificar", width=30, height=10)
     botonConsultarRV = Button(v1, text="Reservas verificadas", width=30, height=10)
@@ -196,10 +196,40 @@ def gReserva():
     botonAsignarM.grid(row=3, column=2, padx=10, pady=10)
     for i in range(5):
         v1.grid_columnconfigure(i, weight=1)
-
-def gestion_pedidos(widget):
-    widget.tkraise()
     pass
+
+def gestion_pedidos():
+    res = Material(Tipo.RES, 100, 100)
+    especias = Material(Tipo.ESPECIAS, 100, 50)
+    aceites = Material(Tipo.ACEITES, 100, 100)
+    Muton = {res: 1, especias: 10, aceites: 1}
+    mutonShot = Plato("Muton Shot",30000,15,"Costillas de Res con Salsa especial",Muton)
+    menu = [mutonShot]
+
+    framePedidos = Frame(ventanaPrincipal)
+    framePedidos.grid(row=0, column=0, sticky="nsew")
+    saludoPedidos = Label(framePedidos, text="Gestion de pedidos")
+    saludoPedidos.grid(row=1, column=1, padx=10, pady=10)
+
+    frameAñadirPedido = Frame(framePedidos)
+    frameAñadirPedido.grid(row=2, column=0)
+    tituloPlato = Label(frameAñadirPedido, text="Plato")
+    # Creacion para hacer un pedido
+    tituloPedido = Label(frameAñadirPedido, text="Añadir pedido")
+    ListboxPlatos = Listbox(frameAñadirPedido)
+    tituloPedido.grid(row=0, column=0)
+    tituloPlato.grid(row=0, column=1)
+
+
+    for plato in menu:
+        index = menu.index(plato)
+        item = f"{index+1}. {plato.getNombre()} - {plato.getPrecio()} - {plato.getDescripcion()} - {plato.getTiempoPreparacion()} - {plato.getIngredientes()}"
+        ListboxPlatos.insert(END, item)
+
+    ListboxPlatos.grid(row=1, column=3)
+
+    consulta1 = FieldFrame(frameAñadirPedido, "Platos" , ["platos"], "Platos deseados", [], [True])
+
 
 def gEmpleado():
     pass
@@ -209,7 +239,8 @@ def gInventario():
 
 def gFinanciera():
     v5 = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
-    v5.pack(fill="y", expand=False, anchor="c")
+    v5.grid(row=0, column=0, sticky="nsew")
+
 # - - - - - - - - - - - - - - - -
 
     label1 = Label(v5, text="Gestión Financiera", font=("arial", 30), fg="blue", bg="gray77")
@@ -482,13 +513,14 @@ class FieldFrame(Frame):
     el proceso de la funcionalidad se hace de
     esta manera
     """
-    def __init__(self, tituloCriterios, criterios, tituloValores, valores, habilitado):
+    def __init__(self, framePadre, tituloCriterios, criterios, tituloValores, valores, habilitado):
         super().__init__()
-
+        self.state=False
         self.data = {}
+        self.criterios = criterios
 
         # Contenedor que tiene todo el formulario de la consulta
-        frameForm = Frame(self, bg="blue", borderwidth=1, relief="solid")
+        frameForm = Frame(framePadre, bg="blue", borderwidth=1, relief="solid")
         frameForm.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         frameForm.grid_rowconfigure(0, weight=1)
         frameForm.grid_columnconfigure(0, weight=1)
@@ -509,30 +541,29 @@ class FieldFrame(Frame):
                 input_widget.config(state="disabled")
 
             self.data[criterio] = {
-                "widget": input_widget
-            }
+                 "widget": input_widget
+                 }
 
-        enviarBoton = Button(self, text="enviar", bg="white", command=self.submitForm)
-        enviarBoton.grid(row=index + 1, column=0)
+        enviarBoton = Button(frameForm, text="enviar", bg="white", command=self.submitForm)
+        enviarBoton.grid(row=index + 2, column=0, padx=5, pady=5)
+        frameForm.grid_rowconfigure(index+2, weight=1)
+        frameForm.grid_columnconfigure(0, weight=1)
 
-        # Etiqueta para mostrar resultados
-        self.resultado_label = Label(self, text="")
-        self.resultado_label.grid(row=index + 2, column=0, pady=10)
+        clearButton = Button(frameForm, text="Clear", bg="white", borderwidth=0, command = lambda: self.clear())
+        clearButton.grid(row=index+2, column=1, padx=5, pady=5)
+        frameForm.grid_rowconfigure(index+2, weight=1)
+        frameForm.grid_columnconfigure(1, weight=1)
+
 
     def getValue(self, criterio):
-        return self.data[criterio]["widget"].get()
+        return self.data[criterio]
 
     def submitForm(self):
-        resultados = []
         for criterio, info in self.data.items():
             valor = info["widget"].get()
             if valor is None or valor == "":
                 messagebox.showinfo("Alerta", f"Campo '{criterio}' no puede estar vacío.")
                 return
-            resultados.append(f"{criterio}: {valor}")
-
-        # Mostrar resultados en la etiqueta
-        self.resultado_label.config(text="\n".join(resultados))
 
 # Creacion de ventana principal
 ventanaPrincipal = Toplevel()
@@ -590,7 +621,7 @@ menu1.add_command(label="Salir",command=volverAInicio)
 # consulta1 = FieldFrame("Platos" , ["platos"], "Platos deseados", [], [True])
 
 menu2.add_command(label="Gestión de Reservas",command=gReserva)
-menu2.add_command(label="Gestión de Pedidos",command=lambda: gestion_pedidos(framePedidos))
+menu2.add_command(label="Gestión de Pedidos",command=gestion_pedidos)
 menu2.add_command(label="Gestión de Empleados",command=gEmpleado)
 menu2.add_command(label="Gestión de Inventario",command=gInventario)
 menu2.add_command(label="Gestión Financiera",command=gFinanciera)
@@ -600,7 +631,7 @@ menu3.add_command(label="Acerca de",command=ayuda)
 # Frame de gestion de inventario
 v4 = Frame(ventanaPrincipal,padx=20,pady=20,bg="gray77")
 
-v4.pack(fill="y",expand=False,anchor="c")
+v4.grid(row=0, column=0, sticky="nsew")
 
 gestionInv=Label(v4,text="Gestión de Inventario", font=("arial",30),fg="blue",bg="gray77")
 
