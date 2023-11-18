@@ -206,9 +206,26 @@ def gestion_pedidos():
     Muton = {res: 1, especias: 10, aceites: 1}
     mutonShot = Plato("Muton Shot",30000,15,"Costillas de Res con Salsa especial",Muton)
     menu = [mutonShot]
+    GestionPedidosApp(ventanaPrincipal)
+    # frameGestionPedidos = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
+    # frameGestionPedidos.grid(row=0, column=0, sticky="nsew")
+    # label1 = Label(frameGestionPedidos, text="Gestión de Pedidos", font=("arial", 30), fg="blue", bg="gray77")
+    # botonConsultarPD = Button(frameGestionPedidos, text="Pedidos domicilio", width=30, height=10, command=nada)
+    # botonConsultarPR = Button(frameGestionPedidos, text="Pedidos restaurante", width=30, height=10, command=nada)
+    # botonCrearP = Button(frameGestionPedidos, text="Crear Pedido", width=30, height=10, command=añadir_pedido)
+    
+    # label1.grid(row=0, column=1, padx=10, pady=10)
+    # botonConsultarPD.grid(row=1, column=0, padx=20, pady=10)
+    # botonConsultarPR.grid(row=1, column=2, padx=10, pady=10)
+    # botonCrearP.grid(row=2, column=1, padx=10, pady=10)
+    # for i in range(5):
+    #     frameGestionPedidos.grid_columnconfigure(i, weight=1)
+    # pass
 
-    GestionEmpleados(ventanaPrincipal)
-
+# def añadir_pedido():
+#     frameAñadirPedido = Frame(padx=20, pady=20, bg="gray77")
+#     frameAñadirPedido.pack(row = 0, column = 0, sticky = "nsew")
+#     GestionEmpleados(ventanaPrincipal)
     # framePedidos = Frame(ventanaPrincipal)
     # framePedidos.grid(row=0, column=0, sticky="nsew")
     # saludoPedidos = Label(framePedidos, text="Gestion de pedidos")
@@ -542,12 +559,12 @@ class FieldFrame(Frame):
         # Etiqueta para mostrar el titulo de la consulta
         for index, criterio in enumerate(criterios):
             criterio_label = Label(frameForm, text=f"{criterio}")
-            criterio_label.grid(row=index+1, column=0, padx=5)
+            criterio_label.grid(row=index+1, column=0, padx=5, pady=10)
             frameForm.grid_rowconfigure(index+1, weight=1)
             frameForm.grid_columnconfigure(0, weight=1)
             
             input_widget = Entry(frameForm)
-            input_widget.grid(row=index+1, column=1, padx=5)
+            input_widget.grid(row=index+1, column=1, padx=5, pady=10)
             frameForm.grid_rowconfigure(index+1, weight=1)
             frameForm.grid_columnconfigure(0, weight=1)
             
@@ -563,16 +580,18 @@ class FieldFrame(Frame):
             }
 
         # Botón para enviar el formulario
-        button = Button(frameForm, text="enviar", command=self.enviar, height=1, width=7)
-        button.grid(row=index+2, column=0, pady=20)
+        self.buttonSubmmit = Button(frameForm, text="enviar", command=self.enviar, height=1, width=7)
+        self.buttonSubmmit.grid(row=index+2, column=0, pady=20)
         frameForm.grid_rowconfigure(index+2, weight=1)
         frameForm.grid_columnconfigure(0, weight=1)
 
-        clear = Button(frameForm, text="clear", bg="white", command=self.clear, height=1, width=6)
-        clear.grid(row=index + 2, column=1)
+        self.buttonClear = Button(frameForm, text="clear", bg="white", command=self.clear, height=1, width=6)
+        self.buttonClear.grid(row=index + 2, column=1)
         frameForm.grid_rowconfigure(index+2, weight=1)
         frameForm.grid_columnconfigure(1, weight=1)
 
+        # self.data["submit"] = button
+        # self.data["clear"] = clear
 
     def getValue(self, criterio):
         return self.data[criterio]["value"]
@@ -588,6 +607,10 @@ class FieldFrame(Frame):
     def enviar(self):
         self.submitForm()
         valores = self.getValues()
+        print("NO SE DESTRUYEN")
+        self.buttonClear.destroy()
+        self.buttonSubmmit.destroy()
+        print("---------------")
         self.consulta(valores)
 
 
@@ -598,9 +621,12 @@ class FieldFrame(Frame):
                 messagebox.showinfo("Alerta", f"Campo '{criterio}' no puede estar vacío.")
                 return
             self.data[criterio]["widget"].config(state="disabled")
+            self.data[criterio]["widget"].config(state="disabled")
             self.data[criterio]["value"] = valor
             self.dataform[criterio] = valor
-            
+            # self.data["submit"].destroy()
+            # self.data["clear"].destroy()
+
 res = Material(Tipo.RES, 100, 100)
 especias = Material(Tipo.ESPECIAS, 100, 50)
 aceites = Material(Tipo.ACEITES, 100, 100)
@@ -612,55 +638,112 @@ plato = Plato("Muton Shot", 30000, 30, "Costillas de Res con Salsa especial", Mu
 restaurante = Restaurante()
 
 menu = [plato]
-class GestionEmpleados:
+class GestionPedidosApp:
     def __init__(self, root):
+        
         self.root = root
+        self.root.geometry('650x500')
+        self.root.title('Gestión de Pedidos')
+
+        self.options_frame = Frame(root, bg='#c3c3c3', width=100, height=500)
+        self.options_frame.grid(row=0, column=0, sticky="nsew")
+        self.options_frame.pack_propagate(False)
+
         self.platos_temp = []
         self.pedido = {}
-        self.busquedadPlatos = FieldFrame(root, "Escoge los platos", ["platos"], "platos deseados", [], [True], self.platosCorrespondientes)
-        self.busquedadPlatos.grid(padx=10, pady=10)
 
-    def platosCorrespondientes(self, valores):
+        self.main_frame = Frame(root,
+                                highlightbackground='black',
+                                highlightthickness=2,
+                                width=500,
+                                height=400)
+
+        # Crear botones de selección de opción
+        btn_home_page = Button(self.options_frame, text="Inicio", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_home_page))
+        btn_home_page.grid(row=0, column=0, padx=10, pady=30)
+
+        btn_consultar_domicilio = Button(self.options_frame, text="Consultar\npedidos\ndomicilio", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_frame_domicilio))
+        btn_consultar_domicilio.grid(row=1, column=0, padx=10, pady=30)
+
+        btn_consultar_restaurante = Button(self.options_frame, text="Consultar\npedidos\nrestaurante", font=('Bold', 15), bd = 0, bg ='#c3c3c3',fg='#158aff', command = lambda : self.indicador(self.function_frame_restaurante))
+        btn_consultar_restaurante.grid(row=2, column=0, padx=10, pady=30)
+
+        btn_anadir_pedidos = Button(self.options_frame, text="Añadir\npedidos", font=('Bold', 15), fg='#158aff', bd = 0, bg ='#c3c3c3',command = lambda : self.indicador(self.function_frame_pedidos))
+        btn_anadir_pedidos.grid(row=3, column=0, padx=10, pady=30)
+
+        self.main_frame.grid(row=0, column=1, sticky="nsew")
+        self.main_frame.pack_propagate(False)
+        self.root.grid_rowconfigure(0, weight=1)
+        self.root.grid_columnconfigure(0, weight=1)
+        self.root.grid_columnconfigure(1, weight=1)
+
+    def function_home_page(self):
+        self.frame_home = Frame(self.main_frame, width=500, height=400)
+        titulo_home = Label(self.frame_home, text="Bienvenido a la gestion de pedidos", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_home.grid(pady=5, padx=5)
+        self.frame_home.pack_propagate(False)
+
+    def function_frame_domicilio(self):
+        self.frame_domicilio = Frame(self.main_frame, width=500, height=400)
+        titulo_domicilios = Label(self.frame_domicilio, text="Domicilios", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_domicilio.grid(pady=5, padx=5)
+        self.frame_domicilio.pack_propagate(False)
+
+    def function_frame_restaurante(self):
+        self.frame_restaurante = Frame(self.main_frame, width=500, height=400)
+        titulo_restaurante = Label(self.frame_restaurante, text="Restaurante", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_restaurante.grid(pady=5, padx=5)
+        self.frame_restaurante.pack_propagate(False)
+
+    def function_frame_pedidos(self):
+        self.frame_pedidos = Frame(self.main_frame, width=500, height=400)
+        titulo_pedidos = Label(self.frame_pedidos, text="Pedidos", font=("Bold", 15)).place(x=150, y=30)
+        self.busquedadPlatos = FieldFrame(self.frame_pedidos, "platos deseados y tipo de pedido", ["platos", "tipo pedido"], "Ingresa lo platos deseados y tipo de pedido", [], [True, True], self.seleccionarCocinero)
+        self.busquedadPlatos.grid(padx=10, pady=10)
+        self.frame_pedidos.grid(pady=5, padx=5)
+        self.frame_pedidos.pack_propagate(False)
+    
+    def seleccionarCocinero(self, valores):
         index_platos_escogidos = valores["platos"].split()
-        self.platos_temp = []  # Limpia platos_temp antes de usarlo
+        tipo_pedido = valores["tipo pedido"]
+        self.platos_temp = [] 
+        # cocineros = restaurante.verificarCocineros(restaurante.getEmpleados(), self.platos_temp)  # Usa self.platos_temp
+        cocineros = ["juan", "daniel", "felipe"]
+
         for plato in menu:
             for i in index_platos_escogidos:
                 if menu.index(plato) == (int(i)-1):
                     self.platos_temp.append(plato)
+
         resultados_busqueda = {"Tipo pedido (consumo)": "restaurante"}
+        
         self.pedido["platos"] = self.platos_temp
-        self.frameResultadosPlatos = FieldFrame(self.root, "Pedido", ["tipo_pedido"], "selecciona tipo de pedido", [], [True], self.seleccionarCocinero)
-        self.frameResultadosPlatos.grid(padx=10, pady=10)
-	
-    def seleccionarCocinero(self, valores):
-		# cocineros = restaurante.verificarCocineros(restaurante.getEmpleados(), self.platos_temp)  # Usa self.platos_temp
-        cocineros = ["juan", "daniel", "felipe"]
-        print("valores", valores)
-        tipo_pedido = valores["tipo_pedido"]
-        self.pedido["tipo_pedido"] = valores["tipo_pedido"]
+        self.pedido["tipo_pedido"] = tipo_pedido
+
         if tipo_pedido=="restaurante":
-            self.frameResultadosCocinero = FieldFrame(self.root, "Cocinero", ["cocinero"], "ingrese el nombre del cocinero", [], [True], self.seleccionarMesero)
+            self.frameResultadosCocinero = FieldFrame(self.frame_pedidos, "Cocinero", ["cocinero"], "ingrese el nombre del cocinero", [], [True], self.seleccionarMesero)
             self.frameResultadosCocinero.grid(padx=10, pady=10)
+        
         elif tipo_pedido == "domicilio":
-            self.frameResultadosCocinero = FieldFrame(self.root, "Cocinero", ["cocinero"], "ingrese el nombre del cocinero", [], [True], self.seleccionarDomiciliario)
+            self.frameResultadosCocinero = FieldFrame(self.frame_pedidos, "Cocinero", ["cocinero"], "ingrese el nombre del cocinero", [], [True], self.seleccionarDomiciliario)
             self.frameResultadosCocinero.grid(padx=10, pady=10)
             print("valores", valores)
-		
+    
     def seleccionarDomiciliario(self, valores):
         self.pedido["cocinero"] = valores["cocinero"]
-        self.frameResultadosDomiciliario = FieldFrame(self.root, "Domiciliario", ["domiciliario"], "ingrese el nombre del domiciliario", [], [True], self.crearPedido)
+        self.frameResultadosDomiciliario = FieldFrame(self.frame_pedidos, "Domiciliario", ["domiciliario"], "ingrese el nombre del domiciliario", [], [True], self.crearPedido)
         self.frameResultadosDomiciliario.grid(padx=10, pady=10)
-	
+
     def seleccionarMesero(self, valores):
         self.pedido["cocinero"] = valores["cocinero"]
-        self.frameResultadosMesero = FieldFrame(self.root, "Mesero", ["mesero"], "ingrese el nombre del mesero", [], [True], self.detectarReserva)
+        self.frameResultadosMesero = FieldFrame(self.frame_pedidos, "Mesero", ["mesero"], "ingrese el nombre del mesero", [], [True], self.detectarReserva)
         self.frameResultadosMesero.grid(padx=10, pady=10)
-		
+    
     def detectarReserva(self, valores):
         self.pedido["mesero"] = valores["mesero"]
-        self.frameResultadosReserva = FieldFrame(self.root, "Datos de reserva", ["mesa", "dueño reserva"], "ingrese los datos de la reserva", [], [True, True], self.crearPedido)
+        self.frameResultadosReserva = FieldFrame(self.frame_pedidos, "Datos de reserva", ["mesa", "dueño reserva"], "ingrese los datos de la reserva", [], [True, True], self.crearPedido)
         self.frameResultadosReserva.grid(padx=10, pady=10)
-	
+    
     def crearPedido(self, valores):
         if self.pedido["tipo_pedido"] == "domicilio":
             self.pedido["domiciliario"] = valores["domiciliario"]
@@ -678,6 +761,18 @@ class GestionEmpleados:
                   pedido1 = Pedido(reserva.getMesa, self.pedido["tipo_pedido"], self.pedido["cocinero"], self.pedido["mesero"], self.pedido["platosTemp"], restaurante, reserva)				      
                   pedido1.setVerificado(True)
                   pedido.actualizarInventario(restaurante, pedido1)
+        self.delete_frames()
+    
+    def delete_frames(self):
+        for widget in self.main_frame.winfo_children():
+            widget.destroy()
+    def delete_pages(self):
+        for widget in self.main_frame.winfo_children():
+            widget.destroy()
+
+    def indicador(self, pagina):
+        self.delete_pages()
+        pagina()
 
 # Creacion de ventana principal
 ventanaPrincipal = Toplevel()
