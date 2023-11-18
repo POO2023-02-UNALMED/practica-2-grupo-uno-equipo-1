@@ -132,6 +132,7 @@ def cambiarHojaVida(hojaVida, widget):
     imagenesP6[indice_imagenes+2].grid(row=1, column=0, padx=2, pady=2)
     imagenesP6[indice_imagenes+3].grid(row=1, column=1, padx=2, pady=2)
 
+
 def irVentanaPrincipal():
     """
     Aqui se oculta la ventana de inicio y se muestra
@@ -206,29 +207,31 @@ def gestion_pedidos():
     mutonShot = Plato("Muton Shot",30000,15,"Costillas de Res con Salsa especial",Muton)
     menu = [mutonShot]
 
-    framePedidos = Frame(ventanaPrincipal)
-    framePedidos.grid(row=0, column=0, sticky="nsew")
-    saludoPedidos = Label(framePedidos, text="Gestion de pedidos")
-    saludoPedidos.grid(row=1, column=1, padx=10, pady=10)
+    GestionEmpleados(ventanaPrincipal)
 
-    frameAñadirPedido = Frame(framePedidos)
-    frameAñadirPedido.grid(row=2, column=0)
-    tituloPlato = Label(frameAñadirPedido, text="Plato")
-    # Creacion para hacer un pedido
-    tituloPedido = Label(frameAñadirPedido, text="Añadir pedido")
-    ListboxPlatos = Listbox(frameAñadirPedido)
-    tituloPedido.grid(row=0, column=0)
-    tituloPlato.grid(row=0, column=1)
+    # framePedidos = Frame(ventanaPrincipal)
+    # framePedidos.grid(row=0, column=0, sticky="nsew")
+    # saludoPedidos = Label(framePedidos, text="Gestion de pedidos")
+    # saludoPedidos.grid(row=1, column=1, padx=10, pady=10)
+
+    # frameAñadirPedido = Frame(framePedidos)
+    # frameAñadirPedido.grid(row=2, column=0)
+    # tituloPlato = Label(frameAñadirPedido, text="Plato")
+    # # Creacion para hacer un pedido
+    # tituloPedido = Label(frameAñadirPedido, text="Añadir pedido")
+    # ListboxPlatos = Listbox(frameAñadirPedido)
+    # tituloPedido.grid(row=0, column=0)
+    # tituloPlato.grid(row=0, column=1)
 
 
-    for plato in menu:
-        index = menu.index(plato)
-        item = f"{index+1}. {plato.getNombre()} - {plato.getPrecio()} - {plato.getDescripcion()} - {plato.getTiempoPreparacion()} - {plato.getIngredientes()}"
-        ListboxPlatos.insert(END, item)
+    # for plato in menu:
+    #     index = menu.index(plato)
+    #     item = f"{index+1}. {plato.getNombre()} - {plato.getPrecio()} - {plato.getDescripcion()} - {plato.getTiempoPreparacion()} - {plato.getIngredientes()}"
+    #     ListboxPlatos.insert(END, item)
 
-    ListboxPlatos.grid(row=1, column=3)
+    # ListboxPlatos.grid(row=1, column=3)
 
-    consulta1 = FieldFrame(frameAñadirPedido, "Platos" , ["platos"], "Platos deseados", [], [True])
+    # consulta1 = FieldFrame(frameAñadirPedido, "Platos" , ["platos"], "Platos deseados", [], [True])
 
 
 def gEmpleado():
@@ -507,56 +510,86 @@ menuInicio.add_command(label="Descripcion", command=ver_descripcion)
 
 # Fieldframe para consultas
 class FieldFrame(Frame):
-    """
-    Este fieldframe es para hacer las consultas
-    para cada pregunta que se quiera utilizar en
-    el proceso de la funcionalidad se hace de
-    esta manera
-    """
-    def __init__(self, framePadre, tituloCriterios, criterios, tituloValores, valores, habilitado):
-        super().__init__()
-        self.state=False
+    def __init__(self, master, tituloCriterios, criterios, tituloValores, valores, habilitado, consulta):
+
+        super().__init__(master)
+
         self.data = {}
+        self.dataform = {}
+        self.tituloValores = tituloValores
+        self.tituloCriterios = tituloCriterios
         self.criterios = criterios
+        self.valores = valores
+        self.habilitado = habilitado
+        self.consulta = consulta
 
         # Contenedor que tiene todo el formulario de la consulta
-        frameForm = Frame(framePadre, bg="blue", borderwidth=1, relief="solid")
-        frameForm.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        frameForm = Frame(self, bg="blue", borderwidth=1, relief="solid")
+        frameForm.grid(padx=5, pady=5)
         frameForm.grid_rowconfigure(0, weight=1)
         frameForm.grid_columnconfigure(0, weight=1)
 
+        tituloCriterios = Label(frameForm, text=f"{tituloCriterios}")
+        tituloCriterios.grid(row=0, column=0, padx=5, pady =10)
+        frameForm.grid_rowconfigure(0, weight=1)
+        frameForm.grid_columnconfigure(0, weight=1)
+
+        tituloValores = Label(frameForm, text=f"{tituloValores}")
+        tituloValores.grid(row=0, column=1, pady =10)
+        frameForm.grid_rowconfigure(0, weight=1)
+        frameForm.grid_columnconfigure(1, weight=1)
+
         # Etiqueta para mostrar el titulo de la consulta
         for index, criterio in enumerate(criterios):
-            Label(frameForm, text=f"{criterio}").grid(row=index, column=0, padx=5)
+            criterio_label = Label(frameForm, text=f"{criterio}")
+            criterio_label.grid(row=index+1, column=0, padx=5)
+            frameForm.grid_rowconfigure(index+1, weight=1)
+            frameForm.grid_columnconfigure(0, weight=1)
+            
             input_widget = Entry(frameForm)
-            input_widget.grid(row=index, column=1, padx=5)
+            input_widget.grid(row=index+1, column=1, padx=5)
+            frameForm.grid_rowconfigure(index+1, weight=1)
+            frameForm.grid_columnconfigure(0, weight=1)
             
             if valores and index < len(valores):
                 input_widget.insert(0, valores[index])
-            # Habilitado, esto se hace para campos deditables si quieres mostrar
-            # en tu fprmulario datos que ya a ingresado el usuario ej: despues
-            # De haber ingresado cantidad de platos y en el otro formulario lo
-            # Quieres reflrejar se controla mediante esta manera
-            if habilitado and index < len(habilitado) and not habilitado[index]:
+            
+            if not habilitado[index]:
                 input_widget.config(state="disabled")
 
             self.data[criterio] = {
-                 "widget": input_widget
-                 }
+                "widget": input_widget,
+                "value": None
+            }
 
-        enviarBoton = Button(frameForm, text="enviar", bg="white", command=self.submitForm)
-        enviarBoton.grid(row=index + 2, column=0, padx=5, pady=5)
+        # Botón para enviar el formulario
+        button = Button(frameForm, text="enviar", command=self.enviar, height=1, width=7)
+        button.grid(row=index+2, column=0, pady=20)
         frameForm.grid_rowconfigure(index+2, weight=1)
         frameForm.grid_columnconfigure(0, weight=1)
 
-        clearButton = Button(frameForm, text="Clear", bg="white", borderwidth=0, command = lambda: self.clear())
-        clearButton.grid(row=index+2, column=1, padx=5, pady=5)
+        clear = Button(frameForm, text="clear", bg="white", command=self.clear, height=1, width=6)
+        clear.grid(row=index + 2, column=1)
         frameForm.grid_rowconfigure(index+2, weight=1)
         frameForm.grid_columnconfigure(1, weight=1)
 
 
     def getValue(self, criterio):
-        return self.data[criterio]
+        return self.data[criterio]["value"]
+    
+    def getValues(self):
+        return self.dataform
+    
+    def clear(self):
+        for criterio, info in self.data.items():
+            info["widget"].delete(0, END)
+            info["value"] = None
+
+    def enviar(self):
+        self.submitForm()
+        valores = self.getValues()
+        self.consulta(valores)
+
 
     def submitForm(self):
         for criterio, info in self.data.items():
@@ -564,6 +597,87 @@ class FieldFrame(Frame):
             if valor is None or valor == "":
                 messagebox.showinfo("Alerta", f"Campo '{criterio}' no puede estar vacío.")
                 return
+            self.data[criterio]["widget"].config(state="disabled")
+            self.data[criterio]["value"] = valor
+            self.dataform[criterio] = valor
+            
+res = Material(Tipo.RES, 100, 100)
+especias = Material(Tipo.ESPECIAS, 100, 50)
+aceites = Material(Tipo.ACEITES, 100, 100)
+
+Muton = {res: 1, especias: 10, aceites: 1}
+
+plato = Plato("Muton Shot", 30000, 30, "Costillas de Res con Salsa especial", Muton)
+
+restaurante = Restaurante()
+
+menu = [plato]
+class GestionEmpleados:
+    def __init__(self, root):
+        self.root = root
+        self.platos_temp = []
+        self.pedido = {}
+        self.busquedadPlatos = FieldFrame(root, "Escoge los platos", ["platos"], "platos deseados", [], [True], self.platosCorrespondientes)
+        self.busquedadPlatos.grid(padx=10, pady=10)
+
+    def platosCorrespondientes(self, valores):
+        index_platos_escogidos = valores["platos"].split()
+        self.platos_temp = []  # Limpia platos_temp antes de usarlo
+        for plato in menu:
+            for i in index_platos_escogidos:
+                if menu.index(plato) == (int(i)-1):
+                    self.platos_temp.append(plato)
+        resultados_busqueda = {"Tipo pedido (consumo)": "restaurante"}
+        self.pedido["platos"] = self.platos_temp
+        self.frameResultadosPlatos = FieldFrame(self.root, "Pedido", ["tipo_pedido"], "selecciona tipo de pedido", [], [True], self.seleccionarCocinero)
+        self.frameResultadosPlatos.grid(padx=10, pady=10)
+	
+    def seleccionarCocinero(self, valores):
+		# cocineros = restaurante.verificarCocineros(restaurante.getEmpleados(), self.platos_temp)  # Usa self.platos_temp
+        cocineros = ["juan", "daniel", "felipe"]
+        print("valores", valores)
+        tipo_pedido = valores["tipo_pedido"]
+        self.pedido["tipo_pedido"] = valores["tipo_pedido"]
+        if tipo_pedido=="restaurante":
+            self.frameResultadosCocinero = FieldFrame(self.root, "Cocinero", ["cocinero"], "ingrese el nombre del cocinero", [], [True], self.seleccionarMesero)
+            self.frameResultadosCocinero.grid(padx=10, pady=10)
+        elif tipo_pedido == "domicilio":
+            self.frameResultadosCocinero = FieldFrame(self.root, "Cocinero", ["cocinero"], "ingrese el nombre del cocinero", [], [True], self.seleccionarDomiciliario)
+            self.frameResultadosCocinero.grid(padx=10, pady=10)
+            print("valores", valores)
+		
+    def seleccionarDomiciliario(self, valores):
+        self.pedido["cocinero"] = valores["cocinero"]
+        self.frameResultadosDomiciliario = FieldFrame(self.root, "Domiciliario", ["domiciliario"], "ingrese el nombre del domiciliario", [], [True], self.crearPedido)
+        self.frameResultadosDomiciliario.grid(padx=10, pady=10)
+	
+    def seleccionarMesero(self, valores):
+        self.pedido["cocinero"] = valores["cocinero"]
+        self.frameResultadosMesero = FieldFrame(self.root, "Mesero", ["mesero"], "ingrese el nombre del mesero", [], [True], self.detectarReserva)
+        self.frameResultadosMesero.grid(padx=10, pady=10)
+		
+    def detectarReserva(self, valores):
+        self.pedido["mesero"] = valores["mesero"]
+        self.frameResultadosReserva = FieldFrame(self.root, "Datos de reserva", ["mesa", "dueño reserva"], "ingrese los datos de la reserva", [], [True, True], self.crearPedido)
+        self.frameResultadosReserva.grid(padx=10, pady=10)
+	
+    def crearPedido(self, valores):
+        if self.pedido["tipo_pedido"] == "domicilio":
+            self.pedido["domiciliario"] = valores["domiciliario"]
+        if self.pedido["tipo_pedido"] == 'restaurante':
+            numMesa = valores["mesa"]
+            dueñoReserva = valores["dueño reserva"]
+            reserva = restaurante.encontrarReserva(numMesa, dueñoReserva)
+            mesaTemporal = restaurante.encontrarMesa(numMesa)
+            if reserva == None:
+                pedido1 = pedido(mesaTemporal, self.pedido["tipo_pedido"], self.pedido["cocinero"], self.pedido["mesero"], self.pedido["platosTemp"], restaurante)
+                if(not pedido.verificarPedido(restaurante, pedido1) == None):
+                      pedido.verificarPedido(restaurante, pedido1)
+            if reserva != None:
+                  nombre1 = reserva.getDuenoReserva().getNombre()
+                  pedido1 = Pedido(reserva.getMesa, self.pedido["tipo_pedido"], self.pedido["cocinero"], self.pedido["mesero"], self.pedido["platosTemp"], restaurante, reserva)				      
+                  pedido1.setVerificado(True)
+                  pedido.actualizarInventario(restaurante, pedido1)
 
 # Creacion de ventana principal
 ventanaPrincipal = Toplevel()
