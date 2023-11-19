@@ -43,6 +43,32 @@ pescados = Material(Tipo.PESCADOS ,200 ,300 )
 papas = Material(Tipo.PAPAS ,200 ,100 )
 huevos = Material(Tipo.PAPAS ,200 ,100 )
 
+# Crear ingredientes de cada plato
+Muton = {res: 1, especias: 10, aceites: 1}
+coq = {pollos: 1, vinos: 1, cebollas: 1, champinones: 5, ajos: 1}
+ratatouille = {champinones: 5, tomates: 4, aceites: 1, ajos: 2}
+boeuf = {res: 1, vinos: 1, cebollas: 1, champinones: 5, ajos: 1}
+quiche = {huevos: 3, quesos: 3, cerdos: 1}
+salade = {huevos: 3, tomates: 3, atun: 1, cebollas: 2, aceites: 1}
+soupe = {cebollas: 5, panes: 2, quesos: 3}
+croque = {panes: 2, cerdos: 1, quesos: 1}
+bouilla = {pescados: 2, tomates: 2, ajos: 2, aceites: 1}
+tartiflette = {papas: 2, cebollas: 2, cerdos: 1, quesos: 1}
+
+# Crear menu de restaurante
+menu = [
+    Plato("Muton Shot", 30000, 30, "Costillas de Res con Salsa especial", Muton, ),
+    Plato("Coq au Vin", 45000, 25,  "Guiso de Pollo cocido en Vino y Verduras", coq),
+    Plato("Rat a Toulile", 15000, 20, "Verduras asadas en aceite de oliva", ratatouille),
+    Plato("Boeuf Bourguignon", 60000,  30, "Guiso de Res cocido en Vino y Verduras",boeuf),
+    Plato("Quiche Lorraine", 30000, 35, "Pastel salado con cerdo", quiche),
+    Plato("Salade Nicoise", 15000, 10, "Ensalada con Huevo y Atun", salade),
+    Plato("Soupe a l'oignon", 20000, 25, "Sopa espesa de Cebolla", soupe),
+    Plato("Croque Monsieur", 15000, 25, "Sandwich con Cerdo y Queso", croque),
+    Plato("Bouillabaisse", 20000, 25, "Sopa de Pescado tradicional", bouilla),
+    Plato("Tartiflette", 40000, 20, "Gratinado de Papa y Cerdo", tartiflette)
+    ]
+
 #Crear turnos
 turno1 = Turno(TipoTurno.SEMANA, 2.0, 50000)
 turno2 = Turno(TipoTurno.SEMANA, 8.0, 60000)
@@ -61,6 +87,7 @@ turno14 = Turno(TipoTurno.SEMANA, 7.0, 70000)
 turno15 = Turno(TipoTurno.SEMANA, 2.0, 55000)
 turno16 = Turno(TipoTurno.DOMINGO, 3.0, 55000)
 turno17 = Turno(TipoTurno.SABADO, 2.0, 55000)
+
 #Crear empleados
 empleado1 = Mesero("Juan", 123456789, "mesero", restaurante, turno1)
 empleado1.agregarTurno(turno2)
@@ -80,8 +107,7 @@ empleado8 = Cocinero("Felipe", 234567891, "cocinero", restaurante, turno14)
 empleado2.agregarTurno(turno15)
 empleado9 = Domiciliario("Martin", 345678912, "domiciliario", restaurante, turno16)
 empleado1.agregarTurno(turno17)
-pedido = Pedido()
-plato = Plato()
+
 #for mesa1 in restaurante.getMesas():
 #    mesa1.anadirNumero(mesa1.getNumeroMesa())
 #restaurante.borrarReservasViejas()
@@ -215,22 +241,8 @@ def gestion_pedidos():
     gestion_pedidos_app = GestionPedidosApp(gestion_pedidos)
     gestion_pedidos.grid(row=1, column=0, sticky="nsew")
     gestion_pedidos.pack_propagate(False)
-    # gestion_pedidos_app.grid(row=0, column=0, sticky="nsew")
-    # frameGestionPedidos = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
-    # frameGestionPedidos.grid(row=0, column=0, sticky="nsew")
-    # label1 = Label(frameGestionPedidos, text="Gestión de Pedidos", font=("arial", 30), fg="blue", bg="gray77")
-    # botonConsultarPD = Button(frameGestionPedidos, text="Pedidos domicilio", width=30, height=10, command=nada)
-    # botonConsultarPR = Button(frameGestionPedidos, text="Pedidos restaurante", width=30, height=10, command=nada)
-    # botonCrearP = Button(frameGestionPedidos, text="Crear Pedido", width=30, height=10, command=añadir_pedido)
-    
-    # label1.grid(row=0, column=1, padx=10, pady=10)
-    # botonConsultarPD.grid(row=1, column=0, padx=20, pady=10)
-    # botonConsultarPR.grid(row=1, column=2, padx=10, pady=10)
-    # botonCrearP.grid(row=2, column=1, padx=10, pady=10)
-    # for i in range(5):
-    #     frameGestionPedidos.grid_columnconfigure(i, weight=1)
-    # pass
 
+# (NO BORRAR) 
 # def añadir_pedido():
 #     frameAñadirPedido = Frame(padx=20, pady=20, bg="gray77")
 #     frameAñadirPedido.pack(row = 0, column = 0, sticky = "nsew")
@@ -502,6 +514,7 @@ desarrollador_nicole_2 = Label(imagenesDerecha, image=desarrollador_nicole_image
 desarrollador_nicole_3 = Label(imagenesDerecha, image=desarrollador_nicole_imagen3)
 desarrollador_nicole_4 = Label(imagenesDerecha, image=desarrollador_nicole_imagen4)
 
+
 imagenesP6 = [desarrollador_daniel_1, desarrollador_daniel_2, desarrollador_daniel_3, desarrollador_daniel_4,
               desarrollador_samuel_1, desarrollador_samuel_2, desarrollador_samuel_3, desarrollador_samuel_4,
               desarrollador_jhogert_1, desarrollador_jhogert_2, desarrollador_jhogert_3, desarrollador_jhogert_4,
@@ -656,30 +669,74 @@ class FieldFrame(Frame):
 
             # Obtener el valor de el widget
             self.data[criterio]["value"] = valor
-            
+
             # Guardar el valor en el formulario de dataform
             self.dataform[criterio] = valor
             # self.data["submit"].destroy()
             # self.data["clear"].destroy()
 
-res = Material(Tipo.RES, 100, 100)
-especias = Material(Tipo.ESPECIAS, 100, 50)
-aceites = Material(Tipo.ACEITES, 100, 100)
 
-Muton = {res: 1, especias: 10, aceites: 1}
+ancho_receta, alto_receta = 30, 30
 
-plato = Plato("Muton Shot", 30000, 30, "Costillas de Res con Salsa especial", Muton)
+# Rutas de las imágenes
+muton_shot = Image.open("src\imagenes\muton_shot.png")
+coq_au_vin = Image.open("src\imagenes\coq_au_vin.png")
+rat_a_toulile = Image.open("src\imagenes\\rat_a_toulile.png")
+boeuf_bourguignon = Image.open("src\imagenes\imagen_burginon.png")
+quiche_lorraine = Image.open("src\imagenes\quiche_lorraine.png")
+salade_nicoise = Image.open("src\imagenes\salade_nicoise.png")
+soupe_a_loignon = Image.open("src\imagenes\soupe_a_loignon.png")
+croque_monsieur = Image.open("src\imagenes\croque_monsieur.png")
+bouillabaisse = Image.open("src\imagenes\imagen_bullabaise.png")
+tartiflette = Image.open("src\imagenes\imagen_tartiflete.png")
 
-restaurante = Restaurante()
+# Redimensionamiento de las imágenes
+muton_shot = muton_shot.resize((ancho_receta, alto_receta))
+coq_au_vin = coq_au_vin.resize((ancho_receta, alto_receta))
+rat_a_toulile = rat_a_toulile.resize((ancho_receta, alto_receta))
+boeuf_bourguignon = boeuf_bourguignon.resize((ancho_receta, alto_receta))
+quiche_lorraine = quiche_lorraine.resize((ancho_receta, alto_receta))
+salade_nicoise = salade_nicoise.resize((ancho_receta, alto_receta))
+soupe_a_loignon = soupe_a_loignon.resize((ancho_receta, alto_receta))
+croque_monsieur = croque_monsieur.resize((ancho_receta, alto_receta))
+bouillabaisse = bouillabaisse.resize((ancho_receta, alto_receta))
+tartiflette = tartiflette.resize((ancho_receta, alto_receta))
 
-menu = [plato]
+# Leer imagenes de recetas
+muton_shot_imagen = ImageTk.PhotoImage(muton_shot)
+coq_au_vin_imagen = ImageTk.PhotoImage(coq_au_vin)
+rat_a_toulile_imagen = ImageTk.PhotoImage(rat_a_toulile)
+boeuf_bourguignon_imagen = ImageTk.PhotoImage(boeuf_bourguignon)
+quiche_lorraine_imagen = ImageTk.PhotoImage(quiche_lorraine)
+salade_nicoise_imagen = ImageTk.PhotoImage(salade_nicoise)
+soupe_a_loignon_imagen = ImageTk.PhotoImage(soupe_a_loignon)
+croque_monsieur_imagen = ImageTk.PhotoImage(croque_monsieur)
+bouillabaisse_imagen = ImageTk.PhotoImage(bouillabaisse)
+tartiflette_imagen = ImageTk.PhotoImage(tartiflette)
+
+# Crear lista de imagenes de recetas
+imagenes_recetas = [
+    muton_shot_imagen,
+    coq_au_vin_imagen,
+    rat_a_toulile_imagen,
+    boeuf_bourguignon_imagen,
+    quiche_lorraine_imagen,
+    salade_nicoise_imagen,
+    soupe_a_loignon_imagen,
+    croque_monsieur_imagen,
+    bouillabaisse_imagen,
+    tartiflette_imagen
+]
+
 class GestionPedidosApp:
-    
-
+    """
+    Aqui se plantea toda la funcionalidad de gestion de pedidos
+    """
     def __init__(self, framePadre):
         self.row_height = 200
         self.col_width = 200
         # self.rows = 2
+        self.plato_seleccionado=False
 
         self.frames_temporales = []
         # self.root.geometry('700x650')
@@ -692,22 +749,23 @@ class GestionPedidosApp:
         self.options_frame.grid(row=0, column=0, sticky="nsew")
         self.options_frame.pack_propagate(False)
 
+        self.platos_seleccionados = []
         self.platos_temp = []
         self.pedido = {}
 
         # Crear una lista de platos (nombre, imagen)
-        self.platos = [
-        {"nombre": menu[0].getNombre(), "precio": 0, "descripcion": "Descripción del Plato 2", "tiempo de preparacion": 0, "ingredientes": ["ESPECIAS", "RES", "ACEITES"], "imagen": "imagen1.png"},
-        {"nombre": "Plato 2", "precio": 0, "descripcion": "Descripción del Plato 3", "tiempo de preparacion": 0, "ingredientes": ["VINOS", "POLLOS", "AJOS", "CHAMPINONES", "CEBOLLAS"], "imagen": "imagen2.png"},
-        {"nombre": "Plato 3", "precio": 0, "descripcion": "Descripción del Plato 4", "tiempo de preparacion": 0, "ingredientes": ["TOMATES", "ACEITES", "AJOS", "CHAMPINONES"], "imagen": "imagen3.png"},
-        {"nombre": "Plato 4", "precio": 0, "descripcion": "Descripción del Plato 5", "tiempo de preparacion": 0, "ingredientes": ["RES", "VINOS", "AJOS", "CHAMPINONES", "CEBOLLAS"], "imagen": "imagen4.png"},
-        {"nombre": "Plato 5", "precio": 0, "descripcion": "Descripción del Plato 6", "tiempo de preparacion": 0, "ingredientes": ["PAPAS", "CERDOS", "QUESOS"], "imagen": "imagen5.png"},
-        {"nombre": "Plato 6", "precio": 0, "descripcion": "Descripción del Plato 7", "tiempo de preparacion": 0, "ingredientes": ["TOMATES", "PAPAS", "ACEITES", "ATUN", "CEBOLLAS"], "imagen": "imagen6.png"},
-        {"nombre": "Plato 7", "precio": 0, "descripcion": "Descripción del Plato 8", "tiempo de preparacion": 0, "ingredientes": ["PANES", "CEBOLLAS", "QUESOS"], "imagen": "imagen7.png"},
-        {"nombre": "Plato 8", "precio": 0, "descripcion": "Descripción del Plato 9", "tiempo de preparacion": 0, "ingredientes": ["PANES", "CERDOS", "QUESOS"], "imagen": "imagen8.png"},
-        {"nombre": "Plato 9", "precio": 100, "descripcion": "Descripción del Plato 1", "tiempo de preparacion": 111, "ingredientes": ["TOMATES", "ACEITES", "AJOS", "PESCADOS"], "imagen": "imagen9.png"},
-        {"nombre": "Plato 10", "precio": 0, "descripcion": "Descripción del Plato 10", "tiempo de preparacion": 0, "ingredientes": ["PAPAS", "CERDOS", "CEBOLLAS", "QUESOS"], "imagen": "imagen10.png"},
-    ]
+        self.platos = []
+
+        for i, plato in enumerate(menu):
+            plato_dict = {
+                "nombre": plato.getNombre(),
+                "precio": plato.getPrecio(),
+                "descripcion": plato.getDescripcion(),
+                "tiempo de preparacion": plato.getTiempoPreparacion(),
+                "ingredientes": plato.getIngredientes(),
+                "imagen": imagenes_recetas[i]
+            }
+            self.platos.append(plato_dict)
 
         self.main_frame = Frame(self.funcionalidad_gestionPedidos,
                                 highlightbackground='black',
@@ -770,11 +828,11 @@ class GestionPedidosApp:
         # Definir frame pedidos
         self.frame_pedidos = Frame(self.main_frame, width=500, height=400)
         # Título de frame pedidos
-        titulo_pedidos = Label(self.frame_pedidos, text="Pedidos", font=("Bold", 15)).place(x=150, y=30)
+        # self.titulo_pedidos = Label(self.frame_pedidos, text="Pedidos", font=("Bold", 15)).place(x=150, y=30)
 
         # Frame de interacción
         self.frameSeleccionPlatos = Frame(self.frame_pedidos, width=500, height=400)
-        self.busquedadPlatos = FieldFrame(self.frameSeleccionPlatos, "platos deseados y tipo de pedido", ["platos", "tipo pedido"], "Ingresa lo platos deseados y tipo de pedido", [], [True, True], self.seleccionarCocinero)
+        self.busquedadPlatos = FieldFrame(self.frameSeleccionPlatos, "platos deseados y tipo de pedido", ["platos", "tipo pedido"], "Ingresa lo platos deseados y tipo de pedido", ["presiona los platos que desees"], [False, True], self.seleccionarCocinero)
         self.busquedadPlatos.grid(row = 0, column=0, padx=10, pady=10)
 
         # Crear un Canvas para la cuadrícula dentro del Frame principal
@@ -791,7 +849,9 @@ class GestionPedidosApp:
         rows = len(self.platos) // cols+1
 
 
-        # Mostrar platos en la cuadrícula
+        from tkinter import Label, PhotoImage
+
+        # Dentro del bucle para mostrar platos en la cuadrícula
         for i, plato in enumerate(self.platos):
             row = i // cols
             col = i % cols
@@ -799,21 +859,38 @@ class GestionPedidosApp:
             # Crear un Frame para cada plato dentro del Canvas
             frame = Frame(self.canvas, width=self.col_width, height=self.row_height, bd=2, relief=RIDGE)
             frame.grid(row=row, column=col, padx=5, pady=5)
-            
+
+            # Cargar la imagen (reemplaza 'ruta_a_tu_imagen' con la ruta real de tus imágenes)
+            # imagen_path = "ruta_a_tu_imagen"  # Reemplazar con la ruta correcta
+            imagen = plato["imagen"]
+
+            # Mostrar imagen del plato (esto podría ser un botón en lugar de una etiqueta)
+            boton_plato = Button(frame, image=imagen, command=lambda i=i: self.toggle_seleccion(i))
+            boton_plato.grid(row=0, column=0, padx=5, pady=5, sticky="w")  # sticky="w" alinea a la izquierda
+
             # Mostrar nombre del plato
             nombre_label = Label(frame, text=plato["nombre"])
-            nombre_label.pack(pady=5)
+            nombre_label.grid(row=0, column=1, padx=5, pady=1)
 
-            # Mostrar imagen del plato (puedes usar PhotoImage o PIL para imágenes)
-            # Aquí se muestra un ejemplo con etiquetas de texto en lugar de imágenes reales
-            imagen_label = Label(frame, text=f"Imagen: {plato['imagen']}")
-            imagen_label.pack(pady=5)
+            # Mostrar precio del plato
+            precio_label = Label(frame, text=f"Precio: {plato['precio']}")
+            precio_label.grid(row=1, column=1, padx=5, pady=1)
+
 
         # Ubicación frame pedidos
         self.frame_pedidos.grid(pady=5, padx=5)
         self.frame_pedidos.pack_propagate(False)
 
-    
+    def toggle_seleccion(self, indice):
+        print(indice)
+        if self.platos_seleccionados.count(indice) == 0:
+            # Si no está seleccionado, agregarlo a la lista
+            self.platos_seleccionados.append(indice)
+            self.plato_seleccionado=True
+        elif indice in self.platos_seleccionados:
+            # Si ya está seleccionado, quitarlo de la lista
+            self.platos_seleccionados.remove(indice)
+        
     def seleccionarCocinero(self, valores):
         # Destruir el canvas existente
         self.canvas.destroy()
@@ -838,18 +915,18 @@ class GestionPedidosApp:
         ]
 
         # Filtrar los platos seleccionados
-        for plato in menu:
-            for i in index_platos_escogidos:
-                if menu.index(plato) == (int(i)-1):
-                    self.platos_temp.append(plato)
+        for i in self.platos_seleccionados:
+            self.platos_temp.append(menu[i-1])
 
         # Crear un diccionario de resultados de búsqueda (¿esto se usa?)
         resultados_busqueda = {"Tipo pedido (consumo)": "restaurante"}
 
         # Almacenar los platos seleccionados y el tipo de pedido en el objeto de pedido
+        print(self.platos_temp)
         self.pedido["platos"] = self.platos_temp
         self.pedido["tipo_pedido"] = tipo_pedido
-
+        # Se guardan los platos
+        print(self.pedido)
         # Según el tipo de pedido, mostrar diferentes frames y resultados
         if tipo_pedido == "restaurante":
             # Crear un nuevo Frame para la selección del cocinero
