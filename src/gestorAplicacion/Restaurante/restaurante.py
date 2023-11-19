@@ -56,6 +56,28 @@ class Restaurante():
 
 	def getMesas (self):
 		return self.listadoMesas
+	
+	def getCocineros (self):
+		cocineros = []
+		for empleado in self.listadoEmpleados:
+			if empleado.getPuesto() == "cocinero":
+				cocineros.append(empleado)
+		return cocineros
+	
+	def getMeseros(self):
+		meseros = []
+		for empleado in self.listadoEmpleados:
+			if empleado.getPuesto() == "mesero":
+				meseros.append(empleado)
+		return meseros	
+	
+	def getDomiciliarios(self):
+		domiciliarios = []
+		for empleado in self.listadoEmpleados:
+			if empleado.getPuesto() == "mesero":
+				domiciliarios.append(empleado)
+		return domiciliarios	
+	
 
 	def getInventario (self):
 		return self.inventario

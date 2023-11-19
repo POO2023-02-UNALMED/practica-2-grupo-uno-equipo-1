@@ -91,22 +91,32 @@ turno17 = Turno(TipoTurno.SABADO, 2.0, 55000)
 #Crear empleados
 empleado1 = Mesero("Juan", 123456789, "mesero", restaurante, turno1)
 empleado1.agregarTurno(turno2)
+restaurante.contratarEmpleado(empleado1)
 empleado2 = Cocinero("Fernando", 234567891, "cocinero", restaurante, turno2)
 empleado2.agregarTurno(turno3)
+restaurante.contratarEmpleado(empleado2)
 empleado3 = Domiciliario("Santiago", 345678912, "domiciliario", restaurante, turno4)
 empleado1.agregarTurno(turno5)
+restaurante.contratarEmpleado(empleado3)
 empleado4 = Mesero("Jhon", 123456789, "mesero", restaurante, turno6)
 empleado1.agregarTurno(turno7)
+restaurante.contratarEmpleado(empleado4)
 empleado5 = Cocinero("Moises", 234567891, "cocinero", restaurante, turno8)
 empleado2.agregarTurno(turno9)
+restaurante.contratarEmpleado(empleado5)
 empleado6 = Domiciliario("Rigo", 345678912, "domiciliario", restaurante, turno10)
 empleado1.agregarTurno(turno11)
+restaurante.contratarEmpleado(empleado6)
 empleado7 = Mesero("Brayan", 123456789, "mesero", restaurante, turno12)
 empleado1.agregarTurno(turno13)
+restaurante.contratarEmpleado(empleado7)
 empleado8 = Cocinero("Felipe", 234567891, "cocinero", restaurante, turno14)
 empleado2.agregarTurno(turno15)
+restaurante.contratarEmpleado(empleado8)
 empleado9 = Domiciliario("Martin", 345678912, "domiciliario", restaurante, turno16)
 empleado1.agregarTurno(turno17)
+restaurante.contratarEmpleado(empleado9)
+print(restaurante.getEmpleados())
 
 #for mesa1 in restaurante.getMesas():
 #    mesa1.anadirNumero(mesa1.getNumeroMesa())
@@ -645,12 +655,16 @@ class FieldFrame(Frame):
         para que se vayan haciendo consultas en cadena, en caso de
         que una consulta dependa de la otr
         """
-        self.submitForm()
-        valores = self.getValues()
-        self.buttonClear.destroy()
-        self.buttonSubmmit.destroy()
-        self.consulta(valores)
-
+        print("entra")
+        if GestionPedidosApp.plato_seleccionado == False:
+            print("captura la funcion")
+            messagebox.showinfo("Alerta", "Debes seleccionar al menos un plato antes de continuar.")
+        else:
+            self.submitForm()
+            valores = self.getValues()
+            self.consulta(valores)
+            self.buttonClear.destroy()
+            self.buttonSubmmit.destroy()
 
     def submitForm(self):
         """
@@ -728,15 +742,16 @@ imagenes_recetas = [
     tartiflette_imagen
 ]
 
+
 class GestionPedidosApp:
     """
     Aqui se plantea toda la funcionalidad de gestion de pedidos
     """
+    plato_seleccionado=False
     def __init__(self, framePadre):
         self.row_height = 200
         self.col_width = 200
         # self.rows = 2
-        self.plato_seleccionado=False
 
         self.frames_temporales = []
         # self.root.geometry('700x650')
@@ -849,7 +864,6 @@ class GestionPedidosApp:
         rows = len(self.platos) // cols+1
 
 
-        from tkinter import Label, PhotoImage
 
         # Dentro del bucle para mostrar platos en la cuadrícula
         for i, plato in enumerate(self.platos):
@@ -880,53 +894,61 @@ class GestionPedidosApp:
         # Ubicación frame pedidos
         self.frame_pedidos.grid(pady=5, padx=5)
         self.frame_pedidos.pack_propagate(False)
-
+    
+    
     def toggle_seleccion(self, indice):
         print(indice)
         if self.platos_seleccionados.count(indice) == 0:
             # Si no está seleccionado, agregarlo a la lista
             self.platos_seleccionados.append(indice)
-            self.plato_seleccionado=True
+            GestionPedidosApp.plato_seleccionado=True
         elif indice in self.platos_seleccionados:
             # Si ya está seleccionado, quitarlo de la lista
             self.platos_seleccionados.remove(indice)
         
     def seleccionarCocinero(self, valores):
-        # Destruir el canvas existente
-        self.canvas.destroy()
-        self.frameSeleccionPlatos.destroy()
 
-        # Obtener los platos seleccionados
-        index_platos_escogidos = valores["platos"].split()
+        # Almacenar los platos seleccionados y el tipo de pedido en el objeto de pedido
+        print(self.platos_temp)
 
         # Obtener el tipo de pedido
         tipo_pedido = valores["tipo pedido"]
+        
+        self.pedido["platos"] = self.platos_temp
+        self.pedido["tipo_pedido"] = tipo_pedido
 
-        # Lista temporal para almacenar platos seleccionados
-        self.platos_temp = [] 
+        # Se guardan los platos
+        print(self.pedido)
 
-        # Lista de cocineros (corregir la clave 'idenrificacion' a 'identificacion')
-        self.cocineros = [
-            {"nombre": "Juan", "identificacion": "123456789L"},
-            {"nombre": "Felipe", "identificacion": "123456789L"},
-            {"nombre": "Martin", "identificacion": "123456789L"},
-            {"nombre": "Carlos", "identificacion": "123456789L"},
-            {"nombre": "Jose", "identificacion": "123456789L"},
-        ]
+        # Destruir el canvas existente
+        self.canvas.destroy()
+        self.frameSeleccionPlatos.destroy()
 
         # Filtrar los platos seleccionados
         for i in self.platos_seleccionados:
             self.platos_temp.append(menu[i-1])
 
-        # Crear un diccionario de resultados de búsqueda (¿esto se usa?)
-        resultados_busqueda = {"Tipo pedido (consumo)": "restaurante"}
+        # no se esta usando 
+        # # Obtener los platos seleccionados
+        # index_platos_escogidos = valores["platos"].split()
 
-        # Almacenar los platos seleccionados y el tipo de pedido en el objeto de pedido
-        print(self.platos_temp)
-        self.pedido["platos"] = self.platos_temp
-        self.pedido["tipo_pedido"] = tipo_pedido
-        # Se guardan los platos
-        print(self.pedido)
+
+        #Seleccionar cocineros
+        cocineros = restaurante.verificarCocinero(restaurante.getEmpleados(), self.platos_temp)
+
+        print(cocineros)
+
+        # Lista de cocineros (corregir la clave 'idenrificacion' a 'identificacion')
+        self.cocineros = []
+
+        for i, cocinero in enumerate(cocineros):
+            cocinero_dict= {
+                "nombre": cocinero.getNombre(),
+                "identificacion": cocinero.getCedula(),
+                "puesto": cocinero.getPuesto(),
+            }
+            self.cocineros.append(cocinero_dict)
+        
         # Según el tipo de pedido, mostrar diferentes frames y resultados
         if tipo_pedido == "restaurante":
             # Crear un nuevo Frame para la selección del cocinero
