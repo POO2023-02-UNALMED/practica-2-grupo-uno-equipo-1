@@ -206,7 +206,10 @@ def gestion_pedidos():
     Muton = {res: 1, especias: 10, aceites: 1}
     mutonShot = Plato("Muton Shot",30000,15,"Costillas de Res con Salsa especial",Muton)
     menu = [mutonShot]
-    GestionPedidosApp(ventanaPrincipal)
+    for widget in ventanaPrincipal.winfo_children():
+        widget.destroy()
+    gestion_pedidos = GestionPedidosApp(ventanaPrincipal)
+    gestion_pedidos.grid(row=0, column=0, sticky="nsew")
     # frameGestionPedidos = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
     # frameGestionPedidos.grid(row=0, column=0, sticky="nsew")
     # label1 = Label(frameGestionPedidos, text="Gestión de Pedidos", font=("arial", 30), fg="blue", bg="gray77")
@@ -639,18 +642,40 @@ restaurante = Restaurante()
 
 menu = [plato]
 class GestionPedidosApp:
+    
+
     def __init__(self, root):
-        
+        self.row_height = 200
+        self.col_width = 200
+        # self.rows = 2
+
+        self.frames_temporales = []
         self.root = root
-        self.root.geometry('650x500')
+        self.root.geometry('700x650')
         self.root.title('Gestión de Pedidos')
+        self.root.pack_propagate(False)
 
         self.options_frame = Frame(root, bg='#c3c3c3', width=100, height=500)
         self.options_frame.grid(row=0, column=0, sticky="nsew")
         self.options_frame.pack_propagate(False)
 
+
         self.platos_temp = []
         self.pedido = {}
+
+        # Crear una lista de platos (nombre, imagen)
+        self.platos = [
+        {"nombre": menu[0].getNombre(), "precio": 0, "descripcion": "Descripción del Plato 2", "tiempo de preparacion": 0, "ingredientes": ["ESPECIAS", "RES", "ACEITES"], "imagen": "imagen1.png"},
+        {"nombre": "Plato 2", "precio": 0, "descripcion": "Descripción del Plato 3", "tiempo de preparacion": 0, "ingredientes": ["VINOS", "POLLOS", "AJOS", "CHAMPINONES", "CEBOLLAS"], "imagen": "imagen2.png"},
+        {"nombre": "Plato 3", "precio": 0, "descripcion": "Descripción del Plato 4", "tiempo de preparacion": 0, "ingredientes": ["TOMATES", "ACEITES", "AJOS", "CHAMPINONES"], "imagen": "imagen3.png"},
+        {"nombre": "Plato 4", "precio": 0, "descripcion": "Descripción del Plato 5", "tiempo de preparacion": 0, "ingredientes": ["RES", "VINOS", "AJOS", "CHAMPINONES", "CEBOLLAS"], "imagen": "imagen4.png"},
+        {"nombre": "Plato 5", "precio": 0, "descripcion": "Descripción del Plato 6", "tiempo de preparacion": 0, "ingredientes": ["PAPAS", "CERDOS", "QUESOS"], "imagen": "imagen5.png"},
+        {"nombre": "Plato 6", "precio": 0, "descripcion": "Descripción del Plato 7", "tiempo de preparacion": 0, "ingredientes": ["TOMATES", "PAPAS", "ACEITES", "ATUN", "CEBOLLAS"], "imagen": "imagen6.png"},
+        {"nombre": "Plato 7", "precio": 0, "descripcion": "Descripción del Plato 8", "tiempo de preparacion": 0, "ingredientes": ["PANES", "CEBOLLAS", "QUESOS"], "imagen": "imagen7.png"},
+        {"nombre": "Plato 8", "precio": 0, "descripcion": "Descripción del Plato 9", "tiempo de preparacion": 0, "ingredientes": ["PANES", "CERDOS", "QUESOS"], "imagen": "imagen8.png"},
+        {"nombre": "Plato 9", "precio": 100, "descripcion": "Descripción del Plato 1", "tiempo de preparacion": 111, "ingredientes": ["TOMATES", "ACEITES", "AJOS", "PESCADOS"], "imagen": "imagen9.png"},
+        {"nombre": "Plato 10", "precio": 0, "descripcion": "Descripción del Plato 10", "tiempo de preparacion": 0, "ingredientes": ["PAPAS", "CERDOS", "CEBOLLAS", "QUESOS"], "imagen": "imagen10.png"},
+    ]
 
         self.main_frame = Frame(root,
                                 highlightbackground='black',
@@ -696,56 +721,269 @@ class GestionPedidosApp:
         self.frame_restaurante.pack_propagate(False)
 
     def function_frame_pedidos(self):
+        # Definir frame pedidos
         self.frame_pedidos = Frame(self.main_frame, width=500, height=400)
+        # Título de frame pedidos
         titulo_pedidos = Label(self.frame_pedidos, text="Pedidos", font=("Bold", 15)).place(x=150, y=30)
-        self.busquedadPlatos = FieldFrame(self.frame_pedidos, "platos deseados y tipo de pedido", ["platos", "tipo pedido"], "Ingresa lo platos deseados y tipo de pedido", [], [True, True], self.seleccionarCocinero)
-        self.busquedadPlatos.grid(padx=10, pady=10)
+
+        # Frame de interacción
+        self.frameSeleccionPlatos = Frame(self.frame_pedidos, width=500, height=400)
+        self.busquedadPlatos = FieldFrame(self.frameSeleccionPlatos, "platos deseados y tipo de pedido", ["platos", "tipo pedido"], "Ingresa lo platos deseados y tipo de pedido", [], [True, True], self.seleccionarCocinero)
+        self.busquedadPlatos.grid(row = 0, column=0, padx=10, pady=10)
+
+        # Crear un Canvas para la cuadrícula dentro del Frame principal
+        self.canvas = Canvas(self.frameSeleccionPlatos)
+        self.canvas.grid(row = 1, column=0, padx=10, pady=10)
+
+        self.frames_temporales.append(self.canvas)
+
+        # Ubicación del frame seleccionPlatos dentro de frame_pedidos mediante grid
+        self.frameSeleccionPlatos.grid(row=0, column=0)
+
+        # Configurar la cuadrícula
+        cols=2
+        rows = len(self.platos) // cols+1
+
+
+        # Mostrar platos en la cuadrícula
+        for i, plato in enumerate(self.platos):
+            row = i // cols
+            col = i % cols
+
+            # Crear un Frame para cada plato dentro del Canvas
+            frame = Frame(self.canvas, width=self.col_width, height=self.row_height, bd=2, relief=RIDGE)
+            frame.grid(row=row, column=col, padx=5, pady=5)
+            
+            # Mostrar nombre del plato
+            nombre_label = Label(frame, text=plato["nombre"])
+            nombre_label.pack(pady=5)
+
+            # Mostrar imagen del plato (puedes usar PhotoImage o PIL para imágenes)
+            # Aquí se muestra un ejemplo con etiquetas de texto en lugar de imágenes reales
+            imagen_label = Label(frame, text=f"Imagen: {plato['imagen']}")
+            imagen_label.pack(pady=5)
+
+        # Ubicación frame pedidos
         self.frame_pedidos.grid(pady=5, padx=5)
         self.frame_pedidos.pack_propagate(False)
+
     
     def seleccionarCocinero(self, valores):
-        index_platos_escogidos = valores["platos"].split()
-        tipo_pedido = valores["tipo pedido"]
-        self.platos_temp = [] 
-        # cocineros = restaurante.verificarCocineros(restaurante.getEmpleados(), self.platos_temp)  # Usa self.platos_temp
-        cocineros = ["juan", "daniel", "felipe"]
+        # Destruir el canvas existente
+        self.canvas.destroy()
+        self.frameSeleccionPlatos.destroy()
 
+        # Obtener los platos seleccionados
+        index_platos_escogidos = valores["platos"].split()
+
+        # Obtener el tipo de pedido
+        tipo_pedido = valores["tipo pedido"]
+
+        # Lista temporal para almacenar platos seleccionados
+        self.platos_temp = [] 
+
+        # Lista de cocineros (corregir la clave 'idenrificacion' a 'identificacion')
+        self.cocineros = [
+            {"nombre": "Juan", "identificacion": "123456789L"},
+            {"nombre": "Felipe", "identificacion": "123456789L"},
+            {"nombre": "Martin", "identificacion": "123456789L"},
+            {"nombre": "Carlos", "identificacion": "123456789L"},
+            {"nombre": "Jose", "identificacion": "123456789L"},
+        ]
+
+        # Filtrar los platos seleccionados
         for plato in menu:
             for i in index_platos_escogidos:
                 if menu.index(plato) == (int(i)-1):
                     self.platos_temp.append(plato)
 
+        # Crear un diccionario de resultados de búsqueda (¿esto se usa?)
         resultados_busqueda = {"Tipo pedido (consumo)": "restaurante"}
-        
+
+        # Almacenar los platos seleccionados y el tipo de pedido en el objeto de pedido
         self.pedido["platos"] = self.platos_temp
         self.pedido["tipo_pedido"] = tipo_pedido
 
-        if tipo_pedido=="restaurante":
-            self.frameResultadosCocinero = FieldFrame(self.frame_pedidos, "Cocinero", ["cocinero"], "ingrese el nombre del cocinero", [], [True], self.seleccionarMesero)
+        # Según el tipo de pedido, mostrar diferentes frames y resultados
+        if tipo_pedido == "restaurante":
+            # Crear un nuevo Frame para la selección del cocinero
+            self.seleccionarCocineroFrame = Frame(self.frame_pedidos, width=500, height=400) 
+
+            # Crear el Frame de resultados para el cocinero
+            self.frameResultadosCocinero = FieldFrame( self.seleccionarCocineroFrame, "Cocinero", ["cocinero"], "Ingrese el nombre del cocinero", [], [True], self.seleccionarMesero)
+            
+            # Colocar el Frame de resultados en el grid
             self.frameResultadosCocinero.grid(padx=10, pady=10)
-        
-        elif tipo_pedido == "domicilio":
-            self.frameResultadosCocinero = FieldFrame(self.frame_pedidos, "Cocinero", ["cocinero"], "ingrese el nombre del cocinero", [], [True], self.seleccionarDomiciliario)
+            
+            # Colocar el Frame de resultados en el grid
             self.frameResultadosCocinero.grid(padx=10, pady=10)
+
+            # Crear un Canvas para mostrar los cocineros
+            self.canvascocineros = Canvas( self.seleccionarCocineroFrame)
+            self.frames_temporales.append(self.canvascocineros)
+            
+            # Colocar el Canvas en el grid
+            self.canvascocineros.grid(row=1, column=0, padx=10, pady=10)
+
+            # Colocar el Frame de selección del cocinero en el grid
+            self.seleccionarCocineroFrame.grid(row=0, column=0)
             print("valores", valores)
+
+            cols=2
+            rows = len(self.platos) // cols+1
+
+            for i, cocinero in enumerate(self.cocineros):
+                row = i // cols
+                col = i % cols
+
+                # Crear un Frame para cada cocinero dentro del Canvas
+                frame = Frame(self.canvascocineros, width=self.col_width, height=self.row_height, bd=2, relief=RIDGE)
+                frame.grid(row=row, column=col, padx=5, pady=5)
+                
+                # Mostrar nombre del cocinero
+                nombre_label = Label(frame, text=cocinero["nombre"])
+                nombre_label.pack(pady=5)
+
+                # Mostrar identificación del cocinero
+                identificacion_label = Label(frame, text=f"Identificación: {cocinero['identificacion']}")
+                identificacion_label.pack(pady=5)
+
+        elif tipo_pedido == "domicilio":
+            # Crear un nuevo Frame para la selección del cocinero
+            self.seleccionarCocineroFrame = Frame(self.frame_pedidos, width=500, height=400) 
+
+            # Crear el Frame de resultados para el cocinero
+            self.frameResultadosCocinero = FieldFrame( self.seleccionarCocineroFrame, "Cocinero", ["cocinero"], "Ingrese el nombre del cocinero", [], [True], self.seleccionarDomiciliario)
+            
+            # Colocar el Frame de resultados en el grid
+            self.frameResultadosCocinero.grid(padx=10, pady=10)
+
+            # Crear un Canvas para mostrar los cocineros
+            self.canvascocineros = Canvas( self.seleccionarCocineroFrame)
+            # Colocar el Canvas en el grid
+            self.canvascocineros.grid(row=1, column=0, padx=10, pady=10)
+            self.frames_temporales.append(self.canvascocineros)
+
+            # Colocar el Frame de selección del cocinero en el grid
+            self.seleccionarCocineroFrame.grid(row=0, column=0)
+            print("valores", valores)
+
+            # Configurar la cuadrícula
+            cols=2
+            rows = len(self.platos) // cols+1
+
+            for i, cocinero in enumerate(self.cocineros):
+                row = i // cols
+                col = i % cols
+
+                # Crear un Frame para cada cocinero dentro del Canvas
+                frame = Frame(self.canvascocineros, width=self.col_width, height=self.row_height, bd=2, relief=RIDGE)
+                frame.grid(row=row, column=col, padx=5, pady=5)
+                
+                # Mostrar nombre del cocinero
+                nombre_label = Label(frame, text=cocinero["nombre"])
+                nombre_label.pack(pady=5)
+
+                # Mostrar identificación del cocinero
+                identificacion_label = Label(frame, text=f"Identificación: {cocinero['identificacion']}")
+                identificacion_label.pack(pady=5)
+
+
     
     def seleccionarDomiciliario(self, valores):
+        self.seleccionarCocineroFrame.destroy()
         self.pedido["cocinero"] = valores["cocinero"]
-        self.frameResultadosDomiciliario = FieldFrame(self.frame_pedidos, "Domiciliario", ["domiciliario"], "ingrese el nombre del domiciliario", [], [True], self.crearPedido)
+        self.domiciliarios = [
+            {"nombre": "Juliana", "identificacion": "123456789L"},
+            {"nombre": "Ana", "identificacion": "123456789L"},
+            {"nombre": "Jhon", "identificacion": "123456789L"},
+            {"nombre": "Andres", "identificacion": "123456789L"},
+        ]
+        self.frameSeleccionarDomiciliario = Frame(self.frame_pedidos, width=500, height=400)
+
+        self.frameResultadosDomiciliario = FieldFrame( self.frameSeleccionarDomiciliario, "Domiciliario", ["domiciliario"], "ingrese el nombre del domiciliario", [], [True], self.crearPedido)
         self.frameResultadosDomiciliario.grid(padx=10, pady=10)
 
+        self.canvasdomiciliarios = Canvas(self.frameSeleccionarDomiciliario)
+        self.canvasdomiciliarios.grid(row=1, column=0, padx=10, pady=10)
+        self.frames_temporales.append(self.canvasdomiciliarios)
+
+        self.frameSeleccionarDomiciliario.grid(row=0, column=0)
+
+        cols=2
+        rows = len(self.platos) // cols+1
+        
+        for i, domiciliario in enumerate(self.domiciliarios):
+                row = i // cols
+                col = i % cols
+
+                # Crear un Frame para cada cocinero dentro del Canvas
+                frame = Frame(self.canvasdomiciliarios, width=self.col_width, height=self.row_height, bd=2, relief=RIDGE)
+                frame.grid(row=row, column=col, padx=5, pady=5)
+                
+                # Mostrar nombre del cocinero
+                nombre_label = Label(frame, text=domiciliario["nombre"])
+                nombre_label.pack(pady=5)
+
+                # Mostrar identificación del cocinero
+                identificacion_label = Label(frame, text=f"Identificación: {domiciliario['identificacion']}")
+                identificacion_label.pack(pady=5)
+
+
     def seleccionarMesero(self, valores):
+        self.seleccionarCocineroFrame.destroy()
         self.pedido["cocinero"] = valores["cocinero"]
-        self.frameResultadosMesero = FieldFrame(self.frame_pedidos, "Mesero", ["mesero"], "ingrese el nombre del mesero", [], [True], self.detectarReserva)
+        self.meseros = [
+              {"nombre": "Karen", "identificacion": "123456789L"},
+                {"nombre": "Daniel", "identificacion": "123456789L"},
+                {"nombre": "Dario", "identificacion": "123456789L"},
+                {"nombre": "Duvan", "identificacion": "123456789L"},
+        ]
+        self.frameSeleccionarMesero = Frame(self.frame_pedidos, width=500, height=400)
+
+        self.frameResultadosMesero = FieldFrame(self.frameSeleccionarMesero, "Mesero", ["mesero"], "ingrese el nombre del mesero", [], [True], self.detectarReserva)
         self.frameResultadosMesero.grid(padx=10, pady=10)
-    
+
+        self.canvasmeseros = Canvas(self.frameSeleccionarMesero)
+        self.canvasmeseros.grid(row=1, column=0, padx=10, pady=10)
+        self.frames_temporales.append(self.canvasmeseros)
+
+        self.frameSeleccionarMesero.grid(row=0, column=0)
+
+        # Configurar la cuadrícula
+        cols=2
+        rows = len(self.platos) // cols+1
+
+        for i, mesero in enumerate(self.meseros):
+                row = i // cols
+                col = i % cols
+
+                # Crear un Frame para cada cocinero dentro del Canvas
+                frame = Frame(self.canvasmeseros, width=self.col_width, height=self.row_height, bd=2, relief=RIDGE)
+                frame.grid(row=row, column=col, padx=5, pady=5)
+                
+                # Mostrar nombre del cocinero
+                nombre_label = Label(frame, text=mesero["nombre"])
+                nombre_label.pack(pady=5)
+
+                # Mostrar identificación del cocinero
+                identificacion_label = Label(frame, text=f"Identificación: {mesero['identificacion']}")
+                identificacion_label.pack(pady=5)
+                
     def detectarReserva(self, valores):
+        print("ENTRA A RESERVA")
+        self.frameSeleccionarMesero.destroy()
         self.pedido["mesero"] = valores["mesero"]
-        self.frameResultadosReserva = FieldFrame(self.frame_pedidos, "Datos de reserva", ["mesa", "dueño reserva"], "ingrese los datos de la reserva", [], [True, True], self.crearPedido)
+        self.frameDetectarReserva = Frame(self.frame_pedidos, width=500, height=400)
+        self.frameResultadosReserva = FieldFrame(self.frameDetectarReserva, "Datos de reserva", ["mesa", "dueño reserva"], "ingrese los datos de la reserva", [], [True, True], self.crearPedido)
         self.frameResultadosReserva.grid(padx=10, pady=10)
+        self.frameDetectarReserva.grid(padx=10, pady=10)
     
     def crearPedido(self, valores):
+        self.frameSeleccionPlatos.destroy()
+        self.frameDetectarReserva.destroy()
         if self.pedido["tipo_pedido"] == "domicilio":
+            self.frameSeleccionarDomiciliario.destroy()
             self.pedido["domiciliario"] = valores["domiciliario"]
         if self.pedido["tipo_pedido"] == 'restaurante':
             numMesa = valores["mesa"]
@@ -762,10 +1000,18 @@ class GestionPedidosApp:
                   pedido1.setVerificado(True)
                   pedido.actualizarInventario(restaurante, pedido1)
         self.delete_frames()
-    
+
     def delete_frames(self):
-        for widget in self.main_frame.winfo_children():
-            widget.destroy()
+        widgets = self.main_frame.winfo_children()
+        # Recorrer y destruir todos los frames temporales
+        for widget in widgets:
+            if widget.winfo_children():
+                # Si el widget tiene hijos, también eliminar esos hijos
+                child_widgets = widget.winfo_children()
+                for child_widget in child_widgets:
+                    child_widget.destroy()
+
+
     def delete_pages(self):
         for widget in self.main_frame.winfo_children():
             widget.destroy()
