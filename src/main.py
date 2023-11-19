@@ -198,6 +198,10 @@ def gReserva():
     for i in range(5):
         v1.grid_columnconfigure(i, weight=1)
     pass
+def delete_frames_ventana_principal():
+    for widget in ventanaPrincipal.winfo_children():
+        if(isinstance(widget,Frame)):
+            widget.destroy()
 
 def gestion_pedidos():
     res = Material(Tipo.RES, 100, 100)
@@ -206,8 +210,7 @@ def gestion_pedidos():
     Muton = {res: 1, especias: 10, aceites: 1}
     mutonShot = Plato("Muton Shot",30000,15,"Costillas de Res con Salsa especial",Muton)
     menu = [mutonShot]
-    for widget in ventanaPrincipal.winfo_children():
-        widget.destroy()
+    delete_frames_ventana_principal()
     gestion_pedidos = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
     gestion_pedidos_app = GestionPedidosApp(gestion_pedidos)
     gestion_pedidos.grid(row=1, column=0, sticky="nsew")
@@ -657,7 +660,9 @@ class GestionPedidosApp:
         # self.root.title('Gestión de Pedidos')
         # self.root.pack_propagate(False)
         self.framePadre = framePadre
-        self.options_frame = Frame(framePadre, bg='#c3c3c3', width=100, height=500)
+        self.funcionalidad_gestionPedidos = Frame(self.framePadre, bg='#c3c3c3', width=100, height=500)
+        self.funcionalidad_gestionPedidos.grid(row=0, column=0, sticky="nsew")
+        self.options_frame = Frame(self.funcionalidad_gestionPedidos, bg='#c3c3c3', width=100, height=500)
         self.options_frame.grid(row=0, column=0, sticky="nsew")
         self.options_frame.pack_propagate(False)
 
@@ -678,7 +683,7 @@ class GestionPedidosApp:
         {"nombre": "Plato 10", "precio": 0, "descripcion": "Descripción del Plato 10", "tiempo de preparacion": 0, "ingredientes": ["PAPAS", "CERDOS", "CEBOLLAS", "QUESOS"], "imagen": "imagen10.png"},
     ]
 
-        self.main_frame = Frame(framePadre,
+        self.main_frame = Frame(self.funcionalidad_gestionPedidos,
                                 highlightbackground='black',
                                 highlightthickness=2,
                                 width=500,
