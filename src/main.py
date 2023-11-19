@@ -1136,14 +1136,14 @@ class GestionPedidosApp:
             reserva = restaurante.encontrarReserva(numMesa, dueñoReserva)
             mesaTemporal = restaurante.encontrarMesa(numMesa)
             if reserva == None:
-                pedido1 = pedido(mesaTemporal, self.pedido["tipo_pedido"], self.pedido["cocinero"], self.pedido["mesero"], self.pedido["platosTemp"], restaurante)
-                if(not pedido.verificarPedido(restaurante, pedido1) == None):
-                      pedido.verificarPedido(restaurante, pedido1)
+                pedido1 = Pedido(mesaTemporal, self.pedido["tipo_pedido"], self.pedido["cocinero"], self.pedido["mesero"], self.pedido["platosTemp"], restaurante)
+                if(not Pedido.verificarPedido(restaurante, pedido1) == None):
+                      Pedido.verificarPedido(restaurante, pedido1)
             if reserva != None:
                   nombre1 = reserva.getDuenoReserva().getNombre()
                   pedido1 = Pedido(reserva.getMesa, self.pedido["tipo_pedido"], self.pedido["cocinero"], self.pedido["mesero"], self.pedido["platosTemp"], restaurante, reserva)				      
                   pedido1.setVerificado(True)
-                  pedido.actualizarInventario(restaurante, pedido1)
+                  Pedido.actualizarInventario(restaurante, pedido1)
         self.delete_frames()
 
     # def delete_frames(self):
@@ -1271,22 +1271,22 @@ for i in range(3):
 ancho_receta, alto_receta = 30, 30
 
 # Rutas de las imágenes  FINANCIA
-tomates = Image.open("src\imagenes\tomate.jpg")
+tomates = Image.open("src\imagenes\\tomate.jpg")
 cebollas = Image.open("src\imagenes\cebolla-roja-1.jpg")
 papas = Image.open("src\imagenes\papaa.jpg")
-aceites = Image.open("src\imagenes\aceite.jpg")
-vinos = Image.open("src\imagenes\vino.jpg")
+aceites = Image.open("src\imagenes\\aceite.jpg")
+vinos = Image.open("src\imagenes\\vino.jpg")
 quesos = Image.open("src\imagenes\queso.jpg")
 champiñones = Image.open("src\imagenes\champiñones.jpg")
-res = Image.open("src\imagenes\res.jpg")
+res = Image.open("src\imagenes\\res.jpg")
 pescados = Image.open("src\imagenes\pescado.jpg")
 cerdos = Image.open("src\imagenes\cerdo.jpg")
 pollos = Image.open("src\imagenes\pollo.jpg")
 panes = Image.open("src\imagenes\pan.jpg")
-ajos = Image.open("src\imagenes\ajos.jpg")
+ajos = Image.open("src\imagenes\\ajos.jpg")
 especies = Image.open("src\imagenes\especies.jpg")
 huevos = Image.open("src\imagenes\huevo.jpg")
-atun = Image.open("src\imagenes\atun.jpg")
+atun = Image.open("src\imagenes\\atun.jpg")
 
 # Redimensionamiento de las imágenes  FINANCIA
 
