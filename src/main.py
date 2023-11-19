@@ -1366,25 +1366,23 @@ class GestionFinancieraApp:
         self.options_frame.pack_propagate(False)
 
 
-        # Crear una lista de platos (nombre, imagen)
+         # Crear una lista de Materiales (nombre, imagen)
         self.material = []
 
-        for i, plato in enumerate(menu):
-            plato_dict = {
-                "nombre": plato.getNombre(),
-                "precio": plato.getPrecio(),
-                "descripcion": plato.getDescripcion(),
-                "tiempo de preparacion": plato.getTiempoPreparacion(),
-                "ingredientes": plato.getIngredientes(),
+        for i, material in enumerate(menu):
+            material_dict = {
+                "nombre": material.getTipo(),
+                "precio": material.getPrecioUnitario(),
                 "imagen": imagenes_recetas[i]
             }
-            self.platos.append(plato_dict)
+            self.material.append(material_dict)
 
         self.main_frame = Frame(self.funcionalidad_gestionFinanciera,
                                 highlightbackground='black',
                                 highlightthickness=2,
                                 width=500,
                                 height=400)
+
 
         # Crear botones de selección de opción
         self.btn_home_page = Button(self.options_frame, text="Inicio", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_home_page, self.home_indicate))
