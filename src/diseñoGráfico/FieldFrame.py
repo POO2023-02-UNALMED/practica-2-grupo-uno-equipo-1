@@ -10,7 +10,6 @@ class FieldFrame(Frame):
     con el titulo de el criterio 
     """
     def __init__(self, master, tituloCriterios, criterios, tituloValores, valores, habilitado, consulta):
-        from diseñoGráfico.GestionPedidosApp import GestionPedidosApp
         super().__init__(master)
 
         self.data = {}
@@ -100,6 +99,7 @@ class FieldFrame(Frame):
         que una consulta dependa de la otr
         """
         print("entra")
+        from diseñoGráfico.GestionPedidosApp import GestionPedidosApp
         if GestionPedidosApp.plato_seleccionado == False:
             print("captura la funcion")
             messagebox.showinfo("Alerta", "Debes seleccionar al menos un plato antes de continuar.")

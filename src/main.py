@@ -323,11 +323,11 @@ imagenesIzquierda = Frame(frameIzquierdo, highlightthickness=2)
 imagenesIzquierda.pack(side="bottom", padx=10, pady=10)
 
 # Imagenes leQuaso
-logoLeQuaso = Image.open("src\imagenes\logo_leQuaso.png")
-localLeQuaso = Image.open("src\imagenes\local_leQuaso.png")
-especialidad1 = Image.open("src\imagenes\especialidad1.png")
-especialidad2 = Image.open("src\imagenes\especialidad2.png")
-especialidad3 = Image.open("src\imagenes\especialidad3.png")
+logoLeQuaso = Image.open("src\\imagenes\\logo_leQuaso.png")
+localLeQuaso = Image.open("src\\imagenes\\local_leQuaso.png")
+especialidad1 = Image.open("src\\imagenes\\especialidad1.png")
+especialidad2 = Image.open("src\\imagenes\\especialidad2.png")
+especialidad3 = Image.open("src\\imagenes\\especialidad3.png")
 
 # Redimensionamiento de las imágenes
 logoLeQuaso = logoLeQuaso.resize((320, 275))
@@ -387,30 +387,30 @@ ancho = 150
 alto = 150
 
 # Rutas de las imágenes
-imagen_daniel1 = Image.open("src\imagenes\imagen_daniel1.png")
-imagen_daniel2 = Image.open("src\imagenes\imagen_daniel2.png")
-imagen_daniel3 = Image.open("src\imagenes\imagen_daniel3.png")
-imagen_daniel4 = Image.open("src\imagenes\imagen_daniel4.png")
+imagen_daniel1 = Image.open("src\\imagenes\\imagen_daniel1.png")
+imagen_daniel2 = Image.open("src\\imagenes\\imagen_daniel2.png")
+imagen_daniel3 = Image.open("src\\imagenes\\imagen_daniel3.png")
+imagen_daniel4 = Image.open("src\\imagenes\\imagen_daniel4.png")
 
-imagen_samuel1 = Image.open("src\imagenes\imagen_samuel1.png")
-imagen_samuel2 = Image.open("src\imagenes\imagen_samuel2.png")
-imagen_samuel3 = Image.open("src\imagenes\imagen_samuel3.png")
-imagen_samuel4 = Image.open("src\imagenes\imagen_samuel4.png")
+imagen_samuel1 = Image.open("src\\imagenes\\imagen_samuel1.png")
+imagen_samuel2 = Image.open("src\\imagenes\\imagen_samuel2.png")
+imagen_samuel3 = Image.open("src\\imagenes\\imagen_samuel3.png")
+imagen_samuel4 = Image.open("src\\imagenes\\imagen_samuel4.png")
 
-imagen_jhogert1 = Image.open("src\imagenes\imagen_jhogert1.png")
-imagen_jhogert2 = Image.open("src\imagenes\imagen_jhogert2.png")
-imagen_jhogert3 = Image.open("src\imagenes\imagen_jhogert3.png")
-imagen_jhogert4 = Image.open("src\imagenes\imagen_jhogert4.png")
+imagen_jhogert1 = Image.open("src\\imagenes\\imagen_jhogert1.png")
+imagen_jhogert2 = Image.open("src\\imagenes\\imagen_jhogert2.png")
+imagen_jhogert3 = Image.open("src\\imagenes\\imagen_jhogert3.png")
+imagen_jhogert4 = Image.open("src\\imagenes\\imagen_jhogert4.png")
 
-imagen_sebastian1 = Image.open("src\imagenes\imagen_sebastian1.png")
-imagen_sebastian2 = Image.open("src\imagenes\imagen_sebastian2.png")
-imagen_sebastian3 = Image.open("src\imagenes\imagen_sebastian3.png")
-imagen_sebastian4 = Image.open("src\imagenes\imagen_sebastian1.png")
+imagen_sebastian1 = Image.open("src\\imagenes\\imagen_sebastian1.png")
+imagen_sebastian2 = Image.open("src\\imagenes\\imagen_sebastian2.png")
+imagen_sebastian3 = Image.open("src\\imagenes\\imagen_sebastian3.png")
+imagen_sebastian4 = Image.open("src\\imagenes\\imagen_sebastian1.png")
 
-imagen_nicole1 = Image.open("src\imagenes\imagen_nicole1.png")
-imagen_nicole2 = Image.open("src\imagenes\imagen_nicole2.png")
-imagen_nicole3 = Image.open("src\imagenes\imagen_nicole3.png")
-imagen_nicole4 = Image.open("src\imagenes\imagen_nicole4.png")
+imagen_nicole1 = Image.open("src\\imagenes\\imagen_nicole1.png")
+imagen_nicole2 = Image.open("src\\imagenes\\imagen_nicole2.png")
+imagen_nicole3 = Image.open("src\\imagenes\\imagen_nicole3.png")
+imagen_nicole4 = Image.open("src\\imagenes\\imagen_nicole4.png")
 
 
 # Redimensionamiento de las imágenes
@@ -527,16 +527,16 @@ menuInicio.add_command(label="Descripcion", command=ver_descripcion)
 ancho_receta, alto_receta = 30, 30
 
 # Rutas de las imágenes
-muton_shot = Image.open("src\imagenes\muton_shot.png")
-coq_au_vin = Image.open("src\imagenes\coq_au_vin.png")
-rat_a_toulile = Image.open("src\imagenes\\rat_a_toulile.png")
-boeuf_bourguignon = Image.open("src\imagenes\imagen_burginon.png")
-quiche_lorraine = Image.open("src\imagenes\quiche_lorraine.png")
-salade_nicoise = Image.open("src\imagenes\salade_nicoise.png")
-soupe_a_loignon = Image.open("src\imagenes\soupe_a_loignon.png")
-croque_monsieur = Image.open("src\imagenes\croque_monsieur.png")
-bouillabaisse = Image.open("src\imagenes\imagen_bullabaise.png")
-tartiflette = Image.open("src\imagenes\imagen_tartiflete.png")
+muton_shot = Image.open("src\\imagenes\\muton_shot.png")
+coq_au_vin = Image.open("src\\imagenes\\coq_au_vin.png")
+rat_a_toulile = Image.open("src\\imagenes\\rat_a_toulile.png")
+boeuf_bourguignon = Image.open("src\\imagenes\\imagen_burginon.png")
+quiche_lorraine = Image.open("src\\imagenes\\quiche_lorraine.png")
+salade_nicoise = Image.open("src\\imagenes\\salade_nicoise.png")
+soupe_a_loignon = Image.open("src\\imagenes\\soupe_a_loignon.png")
+croque_monsieur = Image.open("src\\imagenes\\croque_monsieur.png")
+bouillabaisse = Image.open("src\\imagenes\\imagen_bullabaise.png")
+tartiflette = Image.open("src\\imagenes\\imagen_tartiflete.png")
 
 # Redimensionamiento de las imágenes
 muton_shot = muton_shot.resize((ancho_receta, alto_receta))
@@ -578,22 +578,22 @@ imagenes_recetas = [
 
 
 # Rutas de las imágenes  FINANCIA
-tomates = Image.open("src\imagenes\tomate.jpg")
-cebollas = Image.open("src\imagenes\cebolla-roja-1.jpg")
-papas = Image.open("src\imagenes\papaa.jpg")
-aceites = Image.open("src\imagenes\aceite.jpg")
-vinos = Image.open("src\imagenes\vino.jpg")
-quesos = Image.open("src\imagenes\queso.jpg")
-champiñones = Image.open("src\imagenes\champiñones.jpg")
-res = Image.open("src\imagenes\res.jpg")
-pescados = Image.open("src\imagenes\pescado.jpg")
-cerdos = Image.open("src\imagenes\cerdo.jpg")
-pollos = Image.open("src\imagenes\pollo.jpg")
-panes = Image.open("src\imagenes\pan.jpg")
-ajos = Image.open("src\imagenes\ajos.jpg")
-especies = Image.open("src\imagenes\especies.jpg")
-huevos = Image.open("src\imagenes\huevo.jpg")
-atun = Image.open("src\imagenes\atun.jpg")
+tomates = Image.open("src\\imagenes\\tomate.jpg")
+cebollas = Image.open("src\\imagenes\\cebolla-roja-1.jpg")
+papas = Image.open("src\\imagenes\\papaa.jpg")
+aceites = Image.open("src\\imagenes\\aceite.jpg")
+vinos = Image.open("src\\imagenes\\vino.jpg")
+quesos = Image.open("src\\imagenes\\queso.jpg")
+champiñones = Image.open("src\\imagenes\\champiñones.jpg")
+res = Image.open("src\\imagenes\\res.jpg")
+pescados = Image.open("src\\imagenes\\pescado.jpg")
+cerdos = Image.open("src\\imagenes\\cerdo.jpg")
+pollos = Image.open("src\\imagenes\\pollo.jpg")
+panes = Image.open("src\\imagenes\\pan.jpg")
+ajos = Image.open("src\\imagenes\\ajos.jpg")
+especies = Image.open("src\\imagenes\\especies.jpg")
+huevos = Image.open("src\\imagenes\\huevo.jpg")
+atun = Image.open("src\\imagenes\\atun.jpg")
 
 # Redimensionamiento de las imágenes  FINANCIA
 
@@ -651,7 +651,6 @@ imagenes_materiales = [
     especies_imagen, 
     huevos_imagen, 
     atun_imagen
-    
 ]
 
 # Creacion de ventana principal
