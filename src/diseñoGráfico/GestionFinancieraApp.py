@@ -181,6 +181,16 @@ class GestionFinancieraApp:
         self.frame_gastosMaterialesEspecificos.grid(pady=5, padx=5)
         self.frame_gastosMaterialesEspecificos.pack_propagate(False)
         
+    def toggle_seleccion(self, indice):
+        material_seleccionado = self.material[indice]
+    
+        # Obtener el nombre y el precio del material seleccionado
+        nombre = material_seleccionado["Nombre"]
+        precio = material_seleccionado["Precio"]
+        
+        # Agregar el nombre y el precio a alguna visualización en la interfaz de usuario
+        etiqueta_nombre_precio = Label(self.frame_gastosMaterialesEspecificos, text=f"Material seleccionado: {nombre}, Precio: {precio}")
+        etiqueta_nombre_precio.grid(row=2, column=0, padx=10, pady=10)   
 
     def indicador(self, pagina, lb):
         """
