@@ -536,12 +536,19 @@ menuInicio.add_command(label="Descripcion", command=ver_descripcion)
 
 # Fieldframe para consultas
 class FieldFrame(Frame):
+    """
+    hay dos formularios para que data se van guardando la inforfmacion de los widgets
+    para poder deshabilitarlos luego de haber respondido el formulario, en dataform
+    puedes visualizar los datos de los criterios que has mandado, como un diccionario
+    con el titulo de el criterio 
+    """
     def __init__(self, master, tituloCriterios, criterios, tituloValores, valores, habilitado, consulta):
 
         super().__init__(master)
 
         self.data = {}
         self.dataform = {}
+
         self.tituloValores = tituloValores
         self.tituloCriterios = tituloCriterios
         self.criterios = criterios
@@ -555,11 +562,13 @@ class FieldFrame(Frame):
         frameForm.grid_rowconfigure(0, weight=1)
         frameForm.grid_columnconfigure(0, weight=1)
 
+        # Contenedor que tiene el titulo de la consulta
         tituloCriterios = Label(frameForm, text=f"{tituloCriterios}")
         tituloCriterios.grid(row=0, column=0, padx=5, pady =10)
         frameForm.grid_rowconfigure(0, weight=1)
         frameForm.grid_columnconfigure(0, weight=1)
 
+        # Contenedor que contiene el titulo de valores
         tituloValores = Label(frameForm, text=f"{tituloValores}")
         tituloValores.grid(row=0, column=1, pady =10)
         frameForm.grid_rowconfigure(0, weight=1)
@@ -582,7 +591,8 @@ class FieldFrame(Frame):
             
             if not habilitado[index]:
                 input_widget.config(state="disabled")
-
+            # Esta parte es necesaria para deshabilitarlos luego de haber 
+            # Mnadado el trabajo
             self.data[criterio] = {
                 "widget": input_widget,
                 "value": None
@@ -594,36 +604,48 @@ class FieldFrame(Frame):
         frameForm.grid_rowconfigure(index+2, weight=1)
         frameForm.grid_columnconfigure(0, weight=1)
 
+        # Crear boton de eliminar campos
         self.buttonClear = Button(frameForm, text="clear", bg="white", command=self.clear, height=1, width=6)
         self.buttonClear.grid(row=index + 2, column=1)
         frameForm.grid_rowconfigure(index+2, weight=1)
         frameForm.grid_columnconfigure(1, weight=1)
-
-        # self.data["submit"] = button
-        # self.data["clear"] = clear
-
-    def getValue(self, criterio):
-        return self.data[criterio]["value"]
     
+    # Obtener valores por titulo de criterio
+    def getValue(self, criterio):
+        return self.dataform[criterio]["value"]
+    
+    # Obtener todos los valores
     def getValues(self):
         return self.dataform
     
+    # Limpiar los campos
     def clear(self):
         for criterio, info in self.data.items():
             info["widget"].delete(0, END)
             info["value"] = None
 
     def enviar(self):
+        """
+        Al momento de enviar el formulario, se selecciona los
+        valores de los campos y se deshabilitan los botones de clear
+        y submit, se manda la consulta de el usuario con los valores,
+        para que se vayan haciendo consultas en cadena, en caso de
+        que una consulta dependa de la otr
+        """
         self.submitForm()
         valores = self.getValues()
-        print("NO SE DESTRUYEN")
         self.buttonClear.destroy()
         self.buttonSubmmit.destroy()
-        print("---------------")
         self.consulta(valores)
 
 
     def submitForm(self):
+        """
+        Aqui se envia el formulario, se verifica que todos los campos
+        esten llenos, en caso de que no, se muestra una alerta, y se
+        retorna, en caso de que si, se deshabilitan los campos y se
+        guardan los valores en dataform
+        """
         for criterio, info in self.data.items():
             valor = info["widget"].get()
             if valor is None or valor == "":
@@ -631,7 +653,11 @@ class FieldFrame(Frame):
                 return
             self.data[criterio]["widget"].config(state="disabled")
             self.data[criterio]["widget"].config(state="disabled")
+
+            # Obtener el valor de el widget
             self.data[criterio]["value"] = valor
+            
+            # Guardar el valor en el formulario de dataform
             self.dataform[criterio] = valor
             # self.data["submit"].destroy()
             # self.data["clear"].destroy()
@@ -690,17 +716,31 @@ class GestionPedidosApp:
                                 height=400)
 
         # Crear botones de selección de opción
-        btn_home_page = Button(self.options_frame, text="Inicio", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_home_page))
-        btn_home_page.grid(row=0, column=0, padx=10, pady=30)
+        self.btn_home_page = Button(self.options_frame, text="Inicio", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_home_page, self.home_indicate))
+        self.btn_home_page.grid(row=0, column=0, padx=0, pady=30)
 
-        btn_consultar_domicilio = Button(self.options_frame, text="Consultar\npedidos\ndomicilio", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_frame_domicilio))
-        btn_consultar_domicilio.grid(row=1, column=0, padx=10, pady=30)
+        self.btn_consultar_domicilio = Button(self.options_frame, text="pedidos\n domicilio", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_frame_domicilio, self.indicate_pedidos_dm))
+        self.btn_consultar_domicilio.grid(row=1, column=0, padx=0, pady=30)
 
-        btn_consultar_restaurante = Button(self.options_frame, text="Consultar\npedidos\nrestaurante", font=('Bold', 15), bd = 0, bg ='#c3c3c3',fg='#158aff', command = lambda : self.indicador(self.function_frame_restaurante))
-        btn_consultar_restaurante.grid(row=2, column=0, padx=10, pady=30)
+        self.btn_consultar_restaurante = Button(self.options_frame, text="pedidos\n     restaurante", font=('Bold', 15), bd = 0, bg ='#c3c3c3',fg='#158aff', command = lambda : self.indicador(self.function_frame_restaurante, self.indicate_pedidos_rs))
+        self.btn_consultar_restaurante.grid(row=2, column=0, padx=0, pady=30)
 
-        btn_anadir_pedidos = Button(self.options_frame, text="Añadir\npedidos", font=('Bold', 15), fg='#158aff', bd = 0, bg ='#c3c3c3',command = lambda : self.indicador(self.function_frame_pedidos))
-        btn_anadir_pedidos.grid(row=3, column=0, padx=10, pady=30)
+        btn_anadir_pedidos = Button(self.options_frame, text="añadir\n  pedidos", font=('Bold', 15), fg='#158aff', bd = 0, bg ='#c3c3c3',command = lambda : self.indicador(self.function_frame_pedidos, self.indicate_anadir_pedidos))
+        btn_anadir_pedidos.grid(row=3, column=0, padx=0, pady=30)
+
+        # Crear indicadores de opción seleccionada
+        self.home_indicate = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.home_indicate.place(x=20, y=30, width=5, height=40, )
+
+        self.indicate_pedidos_dm = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_pedidos_dm.place(x=20, y=135, width=5, height=40, )
+        
+        self.indicate_pedidos_rs = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_pedidos_rs.place(x=20, y=255, width=5, height=40, )
+        
+        self.indicate_anadir_pedidos = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_anadir_pedidos.place(x=20, y=375, width=5, height=40, )
+
 
         self.main_frame.grid(row=0, column=1, sticky="nsew")
         self.main_frame.pack_propagate(False)
@@ -1007,22 +1047,42 @@ class GestionPedidosApp:
                   pedido.actualizarInventario(restaurante, pedido1)
         self.delete_frames()
 
-    def delete_frames(self):
-        widgets = self.main_frame.winfo_children()
-        # Recorrer y destruir todos los frames temporales
-        for widget in widgets:
-            if widget.winfo_children():
-                # Si el widget tiene hijos, también eliminar esos hijos
-                child_widgets = widget.winfo_children()
-                for child_widget in child_widgets:
-                    child_widget.destroy()
+    # def delete_frames(self):
+    #     widgets = self.main_frame.winfo_children()
+    #     # Recorrer y destruir todos los frames temporales
+    #     for widget in widgets:
+    #         if widget.winfo_children():
+    #             # Si el widget tiene hijos, también eliminar esos hijos
+    #             child_widgets = widget.winfo_children()
+    #             for child_widget in child_widgets:
+    #                 child_widget.destroy()
 
 
     def delete_pages(self):
+        """
+        Esta se hace para borrar los frames actuales 
+        y evitar que se superpongan los frames,
+        para que solo se muestre el frame indicado
+        dentro de la funcionalidad
+        """
         for widget in self.main_frame.winfo_children():
             widget.destroy()
 
-    def indicador(self, pagina):
+    def hide_indicators(self):
+        self.home_indicate.config(bg='#c3c3c3')
+        self.indicate_pedidos_dm.config(bg='#c3c3c3')
+        self.indicate_pedidos_rs.config(bg='#c3c3c3')
+        self.indicate_anadir_pedidos.config(bg='#c3c3c3')
+
+    def indicador(self, pagina, lb):
+        """
+        hide_indicatros para ocultar indicadores,
+        se configura para que se muestre el de la que
+        se selecciona, se elimina las paginas y se
+        muestra la pagina seleccionada
+        """
+        self.hide_indicators()
+        lb.config(bg='#158aff')
         self.delete_pages()
         pagina()
 
