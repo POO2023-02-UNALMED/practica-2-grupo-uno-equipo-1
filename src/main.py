@@ -16,6 +16,7 @@ from gestorAplicacion.Restaurante.reserva import Reserva
 from gestorAplicacion.Restaurante.restaurante import Restaurante
 from gestorAplicacion.Restaurante.turno import Turno, TipoTurno
 from diseñoGráfico.GestionPedidosApp import GestionPedidosApp
+from diseñoGráfico.GestionReservasApp import GestionReservasApp
 from baseDatos.Serializacion import serializar,deserializar
 
 
@@ -218,23 +219,12 @@ def volverAInicio():
     ventanaPrincipal.withdraw()
 
 def gReserva():
-    v1 = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
-    v1.grid(row=0, column=0, sticky="nsew")
-    label1 = Label(v1, text="Gestión de reservas", font=("arial", 30), fg="blue", bg="gray77")
-    botonConsultarRSV = Button(v1, text="Reservas sin verificar", width=30, height=10)
-    botonConsultarRV = Button(v1, text="Reservas verificadas", width=30, height=10)
-    botonCrearR = Button(v1, text="Crear reserva", width=30, height=10)
-    botonCancelarR = Button(v1, text="Cancelar reservas", width=30, height=10)
-    botonAsignarM= Button(v1, text="Asignar mesas a las reservas", width=30, height=10)
-    label1.grid(row=0, column=1, padx=10, pady=10)
-    botonConsultarRSV.grid(row=1, column=0, padx=20, pady=10)
-    botonConsultarRV.grid(row=1, column=2, padx=10, pady=10)
-    botonCrearR.grid(row=2, column=1, padx=10, pady=10)
-    botonCancelarR.grid(row=3, column=0, padx=20, pady=10)
-    botonAsignarM.grid(row=3, column=2, padx=10, pady=10)
-    for i in range(5):
-        v1.grid_columnconfigure(i, weight=1)
-    pass
+    delete_frames_ventana_principal()
+    gestion_reserva = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
+    gestion_reservas_app = GestionReservasApp(gestion_reserva, restaurante)
+    gestion_reserva.grid(row=1, column=0, sticky="nsew")
+    gestion_reserva.pack_propagate(False)
+
 def delete_frames_ventana_principal():
     for widget in ventanaPrincipal.winfo_children():
         if(isinstance(widget,Frame)):
@@ -249,7 +239,7 @@ def gestion_pedidos():
     menu = [mutonShot]
     delete_frames_ventana_principal()
     gestion_pedidos = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
-    gestion_pedidos_app = GestionPedidosApp(gestion_pedidos)
+    gestion_pedidos_app = GestionPedidosApp(gestion_pedidos, menu, imagenes_recetas, restaurante)
     gestion_pedidos.grid(row=1, column=0, sticky="nsew")
     gestion_pedidos.pack_propagate(False)
 
@@ -692,7 +682,7 @@ botarMat.grid(row=2,column=2,padx=10,pady=10)
 for i in range(3):
     v4.grid_columnconfigure(i,weight=1)
 ancho_receta, alto_receta = 30, 30
-        
+
 # Ocultar ventana principal
 ventanaPrincipal.withdraw()
 

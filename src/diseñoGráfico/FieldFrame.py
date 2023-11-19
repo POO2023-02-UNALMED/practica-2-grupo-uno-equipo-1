@@ -1,7 +1,6 @@
 # Fieldframe para consultas
 from tkinter import *
 from tkinter import messagebox
-from diseñoGráfico.GestionPedidosApp import GestionPedidosApp
 
 class FieldFrame(Frame):
     """
@@ -11,7 +10,7 @@ class FieldFrame(Frame):
     con el titulo de el criterio 
     """
     def __init__(self, master, tituloCriterios, criterios, tituloValores, valores, habilitado, consulta):
-
+        from diseñoGráfico.GestionPedidosApp import GestionPedidosApp
         super().__init__(master)
 
         self.data = {}

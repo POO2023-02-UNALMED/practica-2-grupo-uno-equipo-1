@@ -7,9 +7,12 @@ class GestionPedidosApp:
     Aqui se plantea toda la funcionalidad de gestion de pedidos
     """
     plato_seleccionado=False
-    def __init__(self, framePadre, menu, imagenes_recetas):
+    def __init__(self, framePadre, menu, imagenes_recetas, restaurante):
         self.row_height = 200
         self.col_width = 200
+        self.restaurante = restaurante
+        self.menu = menu
+        self.imagenes_recetas = imagenes_recetas
         # self.rows = 2
 
         self.frames_temporales = []
@@ -163,7 +166,7 @@ class GestionPedidosApp:
             # Si ya está seleccionado, quitarlo de la lista
             self.platos_seleccionados.remove(indice)
         
-    def seleccionarCocinero(self, valores, restaurante, menu):
+    def seleccionarCocinero(self, valores):
 
         # Almacenar los platos seleccionados y el tipo de pedido en el objeto de pedido
         print(self.platos_temp)
@@ -183,7 +186,7 @@ class GestionPedidosApp:
 
         # Filtrar los platos seleccionados
         for i in self.platos_seleccionados:
-            self.platos_temp.append(menu[i-1])
+            self.platos_temp.append(self.menu[i-1])
 
         # no se esta usando 
         # # Obtener los platos seleccionados
@@ -191,7 +194,7 @@ class GestionPedidosApp:
 
 
         #Seleccionar cocineros
-        cocineros = restaurante.verificarCocinero(restaurante.getEmpleados(), self.platos_temp)
+        cocineros = self.restaurante.verificarCocinero(self.restaurante.getEmpleados(), self.platos_temp)
 
         print(cocineros)
 
