@@ -1,14 +1,17 @@
-from tkinter import Frame, Button, Label
+from tkinter import *
+from diseñoGráfico.FieldFrame import FieldFrame
+from gestorAplicacion.Restaurante.financia import financia
 
 class GestionFinancieraApp:
     """
     Aqui se plantea toda la funcionalidad de gestion Financiera
     """
-    def __init__(self, framePadre, menu, imagenes_recetas):
+    def __init__(self, framePadre, menu, imagenes_materiales):
         self.row_height = 200
         self.col_width = 200
-        # self.rows = 2
-        self.material_seleccionado=False  #colocar los materiales de inventario, para asi calcular cuanto se gasto de el
+        self.restaurante = restaurante
+        self.menu = menu
+        self.imagenes_materiales = imagenes_materiales
 
         self.frames_temporales = []
         self.framePadre = framePadre
