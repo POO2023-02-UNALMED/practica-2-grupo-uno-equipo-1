@@ -691,6 +691,7 @@ botarMat.grid(row=2,column=2,padx=10,pady=10)
 
 for i in range(3):
     v4.grid_columnconfigure(i,weight=1)
+ancho_receta, alto_receta = 30, 30
         
 # Ocultar ventana principal
 ventanaPrincipal.withdraw()
