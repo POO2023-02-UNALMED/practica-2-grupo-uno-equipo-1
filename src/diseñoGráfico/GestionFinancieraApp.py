@@ -18,20 +18,16 @@ class GestionFinancieraApp:
         self.options_frame.grid(row=0, column=0, sticky="nsew")
         self.options_frame.pack_propagate(False)
 
-
-        # Crear una lista de platos (nombre, imagen)
+         # Crear una lista de platos (nombre, imagen)
         self.material = []
 
-        for i, plato in enumerate(menu):
-            plato_dict = {
-                "nombre": plato.getNombre(),
-                "precio": plato.getPrecio(),
-                "descripcion": plato.getDescripcion(),
-                "tiempo de preparacion": plato.getTiempoPreparacion(),
-                "ingredientes": plato.getIngredientes(),
+        for i, material in enumerate(menu):
+            material_dict = {
+                "nombre": material.getTipo(),
+                "precio": material.getPrecioUnitario(),
                 "imagen": imagenes_recetas[i]
             }
-            self.platos.append(plato_dict)
+            self.material.append(material_dict)
 
         self.main_frame = Frame(self.funcionalidad_gestionFinanciera,
                                 highlightbackground='black',
@@ -125,6 +121,66 @@ class GestionFinancieraApp:
         Label(self.frame_pagosEmpleados, text="Pagos Empleados", font=("Bold", 15)).place(x=150, y=30)
         self.frame_pagosEmpleados.grid(pady=5, padx=5)
         self.frame_pagosEmpleados.pack_propagate(False)
+
+    def function_frame_gastosMaterialesEspecificos(self):
+
+        # Definir frame gastos de material especifico
+
+        self.frame_gastosMaterialesEspecificos = Frame(self.main_frame, width=500, height=400)
+
+        # Título de frame 
+        # self.titulo_gastosMaterialEspecifico = Label(self.framegastosMaterialesEspecificos_, text="Gasto Material", font=("Bold", 15)).place(x=150, y=30)
+
+        # Frame de interacción
+        self.frameSeleccionMaterial = Frame(self.frame_gastosMaterialesEspecificos, width=500, height=400)
+        self.busquedadMaterial = FieldFrame(self.frameSeleccionMaterial, "Material Espeficico", ["Material", "Cantidad"],"Seleccione el Material y escribe la cantidada")
+        self.busquedadMaterial.grid(row = 0, column=0, padx=10, pady=10)
+
+        # Crear un Canvas para la cuadrícula dentro del Frame principal
+        self.canvas = Canvas(self.frameSeleccionMaterial)
+        self.canvas.grid(row = 1, column=0, padx=10, pady=10)
+
+        self.frames_temporales.append(self.canvas)
+
+        # Ubicación del frame seleccionPlatos dentro de frame_pedidos mediante grid
+        self.frameSeleccion.grid(row=0, column=0)
+
+        # Configurar la cuadrícula
+        cols=2
+        rows = len(self.material) // cols+1
+
+
+        from tkinter import Label, PhotoImage
+
+        # Dentro del bucle para mostrar Materiales en la cuadrícula
+        for i, material in enumerate(self.material):
+            row = i // cols
+            col = i % cols
+
+            # Crear un Frame para cada material dentro del Canvas
+
+            frame = Frame(self.canvas, width=self.col_width, height=self.row_height, bd=2, relief=RIDGE)
+            frame.grid(row=row, column=col, padx=5, pady=5)
+
+            imagen = material["imagen"]
+
+            # Mostrar imagen del material (esto podría ser un botón en lugar de una etiqueta)
+            boton_material = Button(frame, image=imagen, command=lambda i=i: self.toggle_seleccion(i))
+            boton_material.grid(row=0, column=0, padx=5, pady=5, sticky="w")  # sticky="w" alinea a la izquierda
+
+            # Mostrar nombre del Material
+            nombreMaterial_label = Label(frame, text=material["nombre"])
+            nombreMaterial_label.grid(row=0, column=1, padx=5, pady=1)
+
+            # Mostrar precio del plato
+            precioMaterial_label = Label(frame, text=f"Precio: {material['precio']}")
+            precioMaterial_label.grid(row=1, column=1, padx=5, pady=1)
+
+
+        # Ubicación frame material
+        self.frame_gastosMaterialesEspecificos.grid(pady=5, padx=5)
+        self.frame_gastosMaterialesEspecificos.pack_propagate(False)
+        
 
     def indicador(self, pagina, lb):
         """
