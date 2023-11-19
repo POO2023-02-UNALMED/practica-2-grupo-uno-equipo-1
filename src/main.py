@@ -280,31 +280,7 @@ def gInventario():
     v4.tkraise()
 
 def gFinanciera():
-    v5 = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
-    v5.grid(row=0, column=0, sticky="nsew")
-
-# - - - - - - - - - - - - - - - -
-
-    label1 = Label(v5, text="Gestión Financiera", font=("arial", 30), fg="blue", bg="gray77")
-    botonPresupuesto = Button(v5, text="Presupuesto", width=30, height=10)
-    botonGananciasBrutas = Button(v5, text="Ganancias Brutas", width=30, height=10)
-    botonGananciasNetas = Button(v5, text="Ganancias Netas", width=30, height=10)
-    botonGastosMateriales = Button(v5, text="Consultar Gastos del Inventario", width=30, height=10)
-    botonGastosMaterialesEsp= Button(v5, text="Consultar Gasto Especifico de un Material", width=30, height=10)
-    botonLiquidacion= Button(v5, text="Consultar Liquidación de un Empleado", width=30, height=10)
-    botonPagoEmpleados= Button(v5, text="Consultar Pago total de los Empleados", width=30, height=10)
-    botonPagoEmpleadosEsp= Button(v5, text="Consultar Pago total de un Empleado", width=30, height=10)
-    botonCostoPromedio= Button(v5, text="Consultar el costo Promedio de realizar un plato", width=30, height=10)
-
-    label1.grid(row=0, column=1, padx=10, pady=10)
-    botonPresupuesto.grid(row=1, column=0, padx=20, pady=10)
-    botonGananciasBrutas.grid(row=1, column=2, padx=10, pady=10)
-    botonGananciasNetas.grid(row=2, column=1, padx=10, pady=10)
-    botonGastosMateriales.grid(row=3, column=0, padx=20, pady=10)
-    botonGastosMaterialesEsp.grid(row=3, column=2, padx=10, pady=10)
-
-    for i in range(5):
-        v5.grid_columnconfigure(i, weight=5)
+    pass
 
 def ayuda():
     opcion=messagebox.showinfo("Autores la aplicación","Daniel Garzón\n Samuel Ortiz\n Jhogert Bita\n Sebastian Hoyos\n Nicole Guaranguay")
@@ -598,6 +574,84 @@ imagenes_recetas = [
     croque_monsieur_imagen,
     bouillabaisse_imagen,
     tartiflette_imagen
+]
+
+
+# Rutas de las imágenes  FINANCIA
+tomates = Image.open("src\imagenes\tomate.jpg")
+cebollas = Image.open("src\imagenes\cebolla-roja-1.jpg")
+papas = Image.open("src\imagenes\papaa.jpg")
+aceites = Image.open("src\imagenes\aceite.jpg")
+vinos = Image.open("src\imagenes\vino.jpg")
+quesos = Image.open("src\imagenes\queso.jpg")
+champiñones = Image.open("src\imagenes\champiñones.jpg")
+res = Image.open("src\imagenes\res.jpg")
+pescados = Image.open("src\imagenes\pescado.jpg")
+cerdos = Image.open("src\imagenes\cerdo.jpg")
+pollos = Image.open("src\imagenes\pollo.jpg")
+panes = Image.open("src\imagenes\pan.jpg")
+ajos = Image.open("src\imagenes\ajos.jpg")
+especies = Image.open("src\imagenes\especies.jpg")
+huevos = Image.open("src\imagenes\huevo.jpg")
+atun = Image.open("src\imagenes\atun.jpg")
+
+# Redimensionamiento de las imágenes  FINANCIA
+
+tomates = tomates.resize((ancho_receta, alto_receta))
+cebollas = cebollas.resize((ancho_receta, alto_receta))
+papas = papas.resize((ancho_receta, alto_receta))
+aceites = aceites.resize((ancho_receta, alto_receta))
+vinos = vinos.resize((ancho_receta, alto_receta))
+quesos = quesos.resize((ancho_receta, alto_receta))
+champiñones = champiñones.resize((ancho_receta, alto_receta))
+res = res.resize((ancho_receta, alto_receta))
+pescados = pescados.resize((ancho_receta, alto_receta))
+cerdos = cerdos.resize((ancho_receta, alto_receta))
+pollos = pollos.resize((ancho_receta, alto_receta))
+panes = panes.resize((ancho_receta, alto_receta))
+ajos = ajos.resize((ancho_receta, alto_receta))
+especies = especies.resize((ancho_receta, alto_receta))
+huevos = huevos.resize((ancho_receta, alto_receta))
+atun = atun.resize((ancho_receta, alto_receta))
+
+# Leer imagenes de FINANCIA
+
+tomates_imagen = ImageTk.PhotoImage(tomates)
+cebollas_imagen = ImageTk.PhotoImage(cebollas)
+papas_imagen = ImageTk.PhotoImage(papas)
+aceites_imagen = ImageTk.PhotoImage(aceites)
+vinos_imagen = ImageTk.PhotoImage(vinos)
+quesos_imagen = ImageTk.PhotoImage(quesos)
+champiñones_imagen = ImageTk.PhotoImage(champiñones)
+res_imagen = ImageTk.PhotoImage(res)
+pescados_imagen = ImageTk.PhotoImage(pescados)
+cerdos_imagen = ImageTk.PhotoImage(cerdos)
+pollos_imagen = ImageTk.PhotoImage(pollos)
+panes_imagen = ImageTk.PhotoImage(panes)
+ajos_imagen = ImageTk.PhotoImage(ajos)
+especies_imagen = ImageTk.PhotoImage(especies)
+huevos_imagen = ImageTk.PhotoImage(huevos)
+atun_imagen = ImageTk.PhotoImage(atun)
+
+# Crear lista de imagenes de FINANCIAS
+imagenes_materiales = [
+    tomates_imagen, 
+    cebollas_imagen, 
+    papas_imagen, 
+    aceites_imagen, 
+    vinos_imagen, 
+    quesos_imagen, 
+    champiñones_imagen, 
+    res_imagen, 
+    pescados_imagen, 
+    cerdos_imagen, 
+    pollos_imagen, 
+    panes_imagen, 
+    ajos_imagen, 
+    especies_imagen, 
+    huevos_imagen, 
+    atun_imagen
+    
 ]
 
 # Creacion de ventana principal
