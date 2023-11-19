@@ -208,8 +208,11 @@ def gestion_pedidos():
     menu = [mutonShot]
     for widget in ventanaPrincipal.winfo_children():
         widget.destroy()
-    gestion_pedidos = GestionPedidosApp(ventanaPrincipal)
-    gestion_pedidos.grid(row=0, column=0, sticky="nsew")
+    gestion_pedidos = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
+    gestion_pedidos_app = GestionPedidosApp(gestion_pedidos)
+    gestion_pedidos.grid(row=1, column=0, sticky="nsew")
+    gestion_pedidos.pack_propagate(False)
+    # gestion_pedidos_app.grid(row=0, column=0, sticky="nsew")
     # frameGestionPedidos = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
     # frameGestionPedidos.grid(row=0, column=0, sticky="nsew")
     # label1 = Label(frameGestionPedidos, text="Gestión de Pedidos", font=("arial", 30), fg="blue", bg="gray77")
@@ -644,21 +647,19 @@ menu = [plato]
 class GestionPedidosApp:
     
 
-    def __init__(self, root):
+    def __init__(self, framePadre):
         self.row_height = 200
         self.col_width = 200
         # self.rows = 2
 
         self.frames_temporales = []
-        self.root = root
-        self.root.geometry('700x650')
-        self.root.title('Gestión de Pedidos')
-        self.root.pack_propagate(False)
-
-        self.options_frame = Frame(root, bg='#c3c3c3', width=100, height=500)
+        # self.root.geometry('700x650')
+        # self.root.title('Gestión de Pedidos')
+        # self.root.pack_propagate(False)
+        self.framePadre = framePadre
+        self.options_frame = Frame(framePadre, bg='#c3c3c3', width=100, height=500)
         self.options_frame.grid(row=0, column=0, sticky="nsew")
         self.options_frame.pack_propagate(False)
-
 
         self.platos_temp = []
         self.pedido = {}
@@ -677,7 +678,7 @@ class GestionPedidosApp:
         {"nombre": "Plato 10", "precio": 0, "descripcion": "Descripción del Plato 10", "tiempo de preparacion": 0, "ingredientes": ["PAPAS", "CERDOS", "CEBOLLAS", "QUESOS"], "imagen": "imagen10.png"},
     ]
 
-        self.main_frame = Frame(root,
+        self.main_frame = Frame(framePadre,
                                 highlightbackground='black',
                                 highlightthickness=2,
                                 width=500,
@@ -698,9 +699,9 @@ class GestionPedidosApp:
 
         self.main_frame.grid(row=0, column=1, sticky="nsew")
         self.main_frame.pack_propagate(False)
-        self.root.grid_rowconfigure(0, weight=1)
-        self.root.grid_columnconfigure(0, weight=1)
-        self.root.grid_columnconfigure(1, weight=1)
+        self.framePadre.grid_rowconfigure(0, weight=1)
+        self.framePadre.grid_columnconfigure(0, weight=1)
+        self.framePadre.grid_columnconfigure(1, weight=1)
 
     def function_home_page(self):
         self.frame_home = Frame(self.main_frame, width=500, height=400)
