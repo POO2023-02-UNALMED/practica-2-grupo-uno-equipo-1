@@ -1591,7 +1591,7 @@ class GestionFinancieraApp:
         self.row_height = 200
         self.col_width = 200
         self.restaurante = restaurante
-    
+        self.financia = Financia()
         self.frames_temporales = []
         self.framePadre = framePadre
         self.funcionalidad_gestionFinanciera = Frame(self.framePadre, bg='#c3c3c3', width=100, height=500)
@@ -1662,20 +1662,24 @@ class GestionFinancieraApp:
         Label(self.frame_ganancias, text="Ganancias", font=("Bold", 15)).place(x=200, y=30)
         self.frame_ganancias.grid(pady=5, padx=5)
         self.frame_ganancias.pack_propagate(False)
+   
+        # Crear el Label para las Ganancias Netas
+        self.label_ganancias_netas = Label(self.frame_ganancias, text="Ganancias Netas: ", font=('Bold', 15))
 
         # Botón para las Ganancias Netas
         btn_ganancias_netas = Button(self.frame_ganancias, text="Ganancias Netas", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='black', command=self.function_ganancias_netas)
         btn_ganancias_netas.place(x=50, y=100)
 
-        
         # Botón para las Ganancias Brutas
         btn_ganancias_Brutas = Button(self.frame_ganancias, text="Ganancias Brutas", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='black', command=self.function_ganancias_brutas)
         btn_ganancias_Brutas.place(x=300, y=100)
 
 
     def function_ganancias_netas(self):
-        # Lógica para mostrar las Ganancias Netas
-        pass
+            ganancias_netas = self.financia.gananciasNetas()  # Obtener el valor de las ganancias netas
+            self.label_ganancias_netas.config(text=f"Ganancias Netas: {gananciasNetas}")  # Actualizar el texto del Label
+            self.label_ganancias_netas.place(x=50, y=200)  # Mostrar el Label al presionar el botón
+
     def function_ganancias_brutas(self):
         # Lógica para mostrar las Ganancias Brutas
         pass
