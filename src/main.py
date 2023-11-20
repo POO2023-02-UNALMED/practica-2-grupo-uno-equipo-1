@@ -137,7 +137,7 @@ def salir():
     exit()
 
 def ver_descripcion():
-    pass
+    opcion=messagebox.showinfo("Información sobre la aplicación","Esta aplicacion esta diseñada para que puedas llevar toda la gestion de tu restaurante como administrador, reservas, pedidos, empleados y materiales")
 
 def cambiarHojaVida(hojaVida, widget):
     """
