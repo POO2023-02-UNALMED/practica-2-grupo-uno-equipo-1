@@ -1461,6 +1461,7 @@ class GestionInventarioApp:
         self.delete_pages()
         pagina()
 
+import tkinter as tkk
 class GestionFinancieraApp:
     """
     Aqui se plantea toda la funcionalidad de gestion Financiera
@@ -1470,7 +1471,9 @@ class GestionFinancieraApp:
         self.col_width = 200
         self.restaurante = restaurante
         self.financia = Financia()
+        self.empleados = self.restaurante.listadoEmpleados  
         self.frames_temporales = []
+
         self.framePadre = framePadre
         self.funcionalidad_gestionFinanciera = Frame(self.framePadre, bg='#c3c3c3', width=100, height=500)
         self.funcionalidad_gestionFinanciera.grid(row=0, column=0, sticky="nsew")
@@ -1478,7 +1481,7 @@ class GestionFinancieraApp:
         self.options_frame.grid(row=0, column=0, sticky="nsew")
         self.options_frame.pack_propagate(False)
         self.main_frame = Frame(self.funcionalidad_gestionFinanciera, highlightbackground='black', highlightthickness=2, width=500, height=400)
-
+        
         # Crear una lista de materiales (nombre, imagen)
         self.materiales = []
 
@@ -1657,11 +1660,34 @@ class GestionFinancieraApp:
         self.frame_gastos_material_especifico.grid(pady=5, padx=5)
         self.frame_gastos_material_especifico.pack_propagate(False)
 
+
     def function_frame_pago_empleado_especifico(self):
-        self.frame_pago_empleado_especifico = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_pago_empleado_especifico, text="Pago Empleado Especifico", font=("Bold", 15)).place(x=150, y=30)
-        self.frame_pago_empleado_especifico.grid(pady=5, padx=5)
-        self.frame_pago_empleado_especifico.pack_propagate(False)
+        self.frame_gastos_material_especifico = Frame(self.main_frame, width=500, height=400)
+        Label(self.frame_gastos_material_especifico, text="Pago Empleado Especifico", font=("Bold", 15)).place(x=150, y=30)
+        
+        # Obtener la lista de empleados del restaurante
+        lista_empleados = [empleado.getNombre() for empleado in self.empleados]
+
+        # Crear una etiqueta para el texto
+        label = tk.Label(self.main_frame, text="Seleccione el empleado:")
+        label.grid(row=0, column=0)  # Ubicar la etiqueta en la fila 0, columna 0
+
+        # Crear el Combobox
+        combobox = ttk.Combobox(self.main_frame, values=lista_empleados)
+        combobox.grid(row=0, column=1)  # Ubicar el combobox en la fila 0, columna 1
+
+        # Ubicación frame pago_empleado_especifico
+        self.main_frame.grid(pady=5, padx=5)
+        self.main_frame.pack_propagate(False)
+
+    def pagar_empleado_seleccionado(self):
+        empleado_seleccionado = self.combo_empleados.get()
+        if not empleado_seleccionado:
+            messagebox.showwarning("Error", "Por favor, selecciona un empleado.")
+        else:
+            # Realizar la lógica para el pago al empleado seleccionado
+            messagebox.showinfo("Pago Realizado", f"Se ha realizado el pago a: {empleado_seleccionado}")
+
 
     def indicador(self, pagina, lb):
         """
