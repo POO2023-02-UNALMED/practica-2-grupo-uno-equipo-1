@@ -3,18 +3,19 @@
 class Pedido():
     tiempoDomicilio = 45
     tiempoMesero = 30
-
-    def __init__(self, mesa=None, tipoPedido='', cocinero=None, mesero=None, platos=None, restaurante=None, reserva=None, domiciliario=None):
-        from gestorAplicacion.Personas.empleado import Empleado
+    pedidos=[]
+    def __init__(self, platos = [], mesa=None, tipoPedido='', cocinero=None, mesero=None, restaurante=None, reserva=None, domiciliario=None):
+        # from gestorAplicacion.Personas.empleado import Empleado
         self.mesa = mesa
         self.tipoPedido = tipoPedido
         self.cocinero = cocinero
         self.mesero = mesero
-        self.platos = platos if platos is not None else []
+        self.platos = platos 
         self.restaurante = restaurante
         self.reserva = reserva
         self.domiciliario = domiciliario
         self.verificado = False
+        restaurante.pedidos.append(self)
 
     # Metodos setter
     def setMesa(self, mesa):
@@ -72,8 +73,12 @@ class Pedido():
     def imprimirPlatos(self):
         stringPlatos = ""
         for i, plato in enumerate(self.platos, 1):
-            stringPlatos += f"\n   Plato número {i}: {plato.detallesPlato()}\n"
+            if isinstance(plato, Plato):
+                stringPlatos += f"\n   Plato número {i}: {plato.detallesPlato()}\n"
+            else:
+                stringPlatos += f"\n   Plato número {i}: {plato}\n"
         return stringPlatos
+
 
     # ToString de la clase
     def __str__(self):

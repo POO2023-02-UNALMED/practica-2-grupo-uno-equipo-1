@@ -1,3 +1,4 @@
+from datetime import date
 from datetime import datetime
 from gestorAplicacion.Personas.persona import Persona
 from gestorAplicacion.Restaurante.material import Material
@@ -13,6 +14,7 @@ class Empleado(Persona):
         super().__init__(nombre,cedula)
         self.puesto=puesto
         self.restaurante=restaurante
+        self.cedula = cedula
         self.turnos=[]
         self.turnos.append(turno)
         self.turno=turno
@@ -74,41 +76,52 @@ class Empleado(Persona):
 
     def clasificarDia(self, fecha):
         diaDeLaSemana = fecha.strftime('%A')
-        if (diaDeLaSemana=="Saturday"):
+        if diaDeLaSemana == "Saturday":
             return "SABADO"
-        elif (diaDeLaSemana=="SUNDAY"):
+        elif diaDeLaSemana == "Sunday":
             return "DOMINGO"
         else:
             return "SEMANA"
 
+
     #Metodo encargado de verificar la capacidad del empleado de cumplir con su trabajo
 
-    def verificarTiempo(self, empleado, tiempoPreparacion=0):
-        fechaActual = datetime.date.today()
+    # def verificarTiempo(self, empleado, tiempoPreparacion):
+    #     print("entra a verificar tiempo")
+    #     return 
+
+    def verificarTiempoCocinero(self, empleado, tiempoPreparacion):
+        fechaActual = date.today()
         dia = self.clasificarDia(fechaActual)
-        if (tiempoPreparacion == 0):
-            for turno in empleado.getTurnos():
-                if (turno.getTipo().toString() == dia):
+        
+        for turno in empleado.getTurnos():
+                if (turno.getTipo().value == dia):
                     if not (turno.isCobrado()):
                         tiempoDisponible = turno.getHoras() * 60
                         if (tiempoDisponible > tiempoPreparacion):
                             return True
-            return False
         else:
-            if(empleado.getPuesto() == "domiciliario"):
+            return False
+    
+    def verificarTiempoGeneral(self, empleado):
+        fechaActual = date.today()
+        dia = self.clasificarDia(fechaActual)
+
+        if(empleado.getPuesto() == "domiciliario"):
                 for turno in empleado.getTurnos():
-                    if (turno.getTipo().toString() == dia):
+                    if (turno.getTipo().value == dia):
                         if not (turno.isCobrado()):
                             tiempoDisponible = turno.getHoras()* 60
-                            if (tiempoDisponible > Pedido.TIEMPO_DOMICILIO):
+                            if (tiempoDisponible > Pedido.tiempoDomicilio):
                                 return True
-            elif (empleado.getPuesto() == "mesero"):
+        if (empleado.getPuesto() == "mesero"):
                 for turno in empleado.getTurnos():
-                    if (turno.getTipo().toString() == dia):
+                    if (turno.getTipo().value == dia):
                         if not(turno.isCobrado()):
                             tiempoDisponible = turno.getHoras()* 60
-                            if(tiempoDisponible > Pedido.TIEMPO_MESERO):
+                            if(tiempoDisponible > Pedido.tiempoMesero):
                                 return True
+        else:
             return False
 
     #Metodo encargado de reportar el daño en un material y lo elimina del inventario automaticamente
@@ -140,7 +153,7 @@ class Empleado(Persona):
     def agregarTurno(self, turno):
         self.turnos.append(turno)
 
-    def Puntuacion(self):
+    def puntuacion(self):
         return "La puntacion del Empleado es: "+ self.getPuntuacion()
 
     def trabajo(self):

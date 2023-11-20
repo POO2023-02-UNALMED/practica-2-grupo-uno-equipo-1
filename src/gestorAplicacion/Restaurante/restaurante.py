@@ -1,4 +1,5 @@
 from datetime import datetime
+#from baseDatos.deserializador import Deserializador
 from gestorAplicacion.Restaurante.reserva import Reserva
 from gestorAplicacion.Restaurante.pedido import Pedido
 from gestorAplicacion.Restaurante.material import Material
@@ -130,7 +131,7 @@ class Restaurante():
 
 
 	#Se verifica el menu si es apto para ofrecerlo
-	def verificarMenu(self, menu):
+	def veirificarMenu(self, menu):
 		menuVerificado = []
 		for plato in menu:
 			# Se verifica si cada plato cumple
@@ -155,6 +156,11 @@ class Restaurante():
 			if (empleado.getPuesto() == tipo):
 				empleadosClasificados.append(empleado)
 		return empleadosClasificados
+	
+	def encontrarEmpleado(self, nombreEmpleado):
+		for empleado in self.getEmpleados():
+			if empleado.getNombre() == nombreEmpleado:
+				return empleado
 
 	#Encontrar una mesa disponible en la fecha de el dia actual
 	def buscarMesaDisponible(self):
@@ -167,12 +173,21 @@ class Restaurante():
 
 	#Verificar los cocineros aptos para la cantidad de platos
 	def verificarCocineros(self, empleados, platos):
-		cocineros = self.clasificarEmpleados(empleados, "cocinero")
+		print("entraaaaaaaaaa")
 		cocinerosVerificados = []
+
+		cocineros = self.clasificarEmpleados(empleados, "cocinero")
+		print("cocinerosclasificados")
+		print(cocineros)
+		print("---------------------")
 		tiempoPreparacion = platos[0].getTiempoTotal(platos)
+
 		for empleado in cocineros:
-			if (empleado.verificarTiempo(empleado, tiempoPreparacion)):
+			print("---mirar si hay cocineros verificados---")
+			print(empleado.getNombre())
+			if (empleado.verificarTiempoCocinero(empleado, tiempoPreparacion)):
 				cocinerosVerificados.append(empleado)
+		
 		return cocinerosVerificados
 
 	#Verificar los domiciliarios aptos para entregar el pedido
@@ -180,7 +195,7 @@ class Restaurante():
 		domiciliarios = self.clasificarEmpleados(empleados, "domiciliario")
 		domiciliariosVerificados = []
 		for empleado in domiciliarios:
-			if (empleado.verificarTiempo(empleado)):
+			if (empleado.verificarTiempoGeneral(empleado)):
 				domiciliariosVerificados.append(empleado)
 		return domiciliariosVerificados
 
@@ -189,7 +204,7 @@ class Restaurante():
 		meseros = self.clasificarEmpleados(empleados, "mesero")
 		meserosVerificados = []
 		for empleado in meseros:
-			if (empleado.verificarTiempo(empleado)):
+			if (empleado.verificarTiempoGeneral(empleado)):
 				meserosVerificados.append(empleado)
 		return meserosVerificados
 
@@ -201,7 +216,6 @@ class Restaurante():
 			domicilios += str((i + 1)) + ". " + pedidosDomicilio[i]
 			domicilios += "\n-------------------------------------------------------\n"
 		return domicilios
-	
 	def getPedidosDomicilio(self):
 		pedidosDomicilio = []
 		for pedido in self.getPedidos():
@@ -262,8 +276,8 @@ class Restaurante():
 						turno.restarTiempo(turno,Pedido.TIEMPO_DOMICILIO)
 		#Llama metodo para cobrar turno
 		pedido.getDomiciliario().turnosCompletados(pedido.getDomiciliario())
-
-	#Buscar un por su nombre y puesto
+		#Buscar un por su nombre y puesto
+		
 	def buscarEmpleado(self, nombre, puesto):
 		for empleado in self.listadoEmpleados:
 			if((empleado.getNombre()) == nombre and (empleado.getPuesto()) == puesto):
