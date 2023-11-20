@@ -1608,25 +1608,36 @@ class GestionFinancieraApp:
         self.btn_consultar_presupuesto = Button(self.options_frame, text="Presupuesto", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_frame_presupuesto, self.indicate_consultarPresupuesto))
         self.btn_consultar_presupuesto.grid(row=1, column=0, padx=0, pady=30)
 
-        self.btn_consultar_ganancias = Button(self.options_frame, text="Ganancias", font=('Bold', 15), bd = 0, bg ='#c3c3c3',fg='#158aff', command = lambda : self.indicador(self.function_frame_gananciasBrutas, self.indicate_consultarGB))
+        self.btn_consultar_ganancias = Button(self.options_frame, text="Ganancias", font=('Bold', 15), bd = 0, bg ='#c3c3c3',fg='#158aff', command = lambda : self.indicador(self.function_frame_ganancias, self.indicate_consultarGanancias))
         self.btn_consultar_ganancias.grid(row=2, column=0, padx=0, pady=30)
 
-        self.btn_consultar_gastos = Button(self.options_frame, text="Gastos", font=('Bold', 15), bd = 0, bg ='#c3c3c3',fg='#158aff', command = lambda : self.indicador(self.function_frame_gastosMateriales, self.indicate_consultarGastosMateriales))
+        self.btn_consultar_gastos = Button(self.options_frame, text="Gastos Totales", font=('Bold', 15), bd = 0, bg ='#c3c3c3',fg='#158aff', command = lambda : self.indicador(self.function_frame_gastos, self.indicate_consultarGastos))
         self.btn_consultar_gastos.grid(row=3, column=0, padx=0, pady=30)
+
+        self.btn_consultar_gastosMaterialEspecifico = Button(self.options_frame, text="Gastos Material\n Especifico", font=('Bold', 15), bd = 0, bg ='#c3c3c3',fg='#158aff', command = lambda : self.indicador(self.function_frame_gastos_material_especifico, self.indicate_consultarGastosMaterial))
+        self.btn_consultar_gastosMaterialEspecifico.grid(row=4, column=0, padx=0, pady=30)
+
+        self.btn_consultar_pagoEmpleadoEspecifico = Button(self.options_frame, text="Pago Empleado\n Especifico", font=('Bold', 15), bd = 0, bg ='#c3c3c3',fg='#158aff', command = lambda : self.indicador(self.function_frame_pago_empleado_especifico, self.indicate_consultarEmpleado))
+        self.btn_consultar_pagoEmpleadoEspecifico.grid(row=5, column=0, padx=0, pady=30)
 
         # Crear indicadores de opción seleccionada
         self.home_indicate = Label(self.options_frame, text="", bg='#c3c3c3')
-        self.home_indicate.place(x=0, y=30, width=5, height=40, )
+        self.home_indicate.place(x=0, y=30, width=5, height=30, )
 
         self.indicate_consultarPresupuesto = Label(self.options_frame, text="", bg='#c3c3c3')
-        self.indicate_consultarPresupuesto.place(x=0, y=135, width=5, height=40, )
+        self.indicate_consultarPresupuesto.place(x=0, y=130, width=5, height=30, )
         
         self.indicate_consultarGanancias = Label(self.options_frame, text="", bg='#c3c3c3')
-        self.indicate_consultarGanancias.place(x=0, y=255, width=5, height=40, )
+        self.indicate_consultarGanancias.place(x=0, y=220, width=5, height=30, )
 
         self.indicate_consultarGastos = Label(self.options_frame, text="", bg='#c3c3c3')
-        self.indicate_consultarGastos.place(x=0, y=375, width=5, height=40, )
+        self.indicate_consultarGastos.place(x=0, y=320, width=5, height=30, )
 
+        self.indicate_consultarGastosMaterial = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_consultarGastosMaterial.place(x=0, y=420, width=5, height=30, )
+
+        self.indicate_consultarEmpleado = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_consultarEmpleado.place(x=0, y=540, width=5, height=30, )
 
         self.main_frame.grid(row=0, column=1, sticky="nsew")
         self.main_frame.pack_propagate(False)
@@ -1636,34 +1647,71 @@ class GestionFinancieraApp:
 
     def function_home_inicio(self):
         self.frame_home = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_home, text="Bienvenido a la Gestion de Financiera", font=("Bold", 15)).place(x=150, y=30)
+        Label(self.frame_home, text="Bienvenido a la Gestion de Financiera", font=("Bold", 15)).place(x=80, y=30)
         self.frame_home.grid(pady=5, padx=5)
         self.frame_home.pack_propagate(False)
 
     def function_frame_presupuesto(self):
         self.frame_presupuesto = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_presupuesto, text="Presupuesto", font=("Bold", 15)).place(x=150, y=30)
+        Label(self.frame_presupuesto, text="Presupuesto", font=("Bold", 15)).place(x=200, y=30)
         self.frame_presupuesto.grid(pady=5, padx=5)
         self.frame_presupuesto.pack_propagate(False)
 
     def function_frame_ganancias(self):
         self.frame_ganancias = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_ganancias, text="Ganancias", font=("Bold", 15)).place(x=150, y=30)
+        Label(self.frame_ganancias, text="Ganancias", font=("Bold", 15)).place(x=200, y=30)
         self.frame_ganancias.grid(pady=5, padx=5)
         self.frame_ganancias.pack_propagate(False)
 
+        # Botón para las Ganancias Netas
+        btn_ganancias_netas = Button(self.frame_ganancias, text="Ganancias Netas", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='black', command=self.function_ganancias_netas)
+        btn_ganancias_netas.place(x=50, y=100)
+
+        
+        # Botón para las Ganancias Brutas
+        btn_ganancias_Brutas = Button(self.frame_ganancias, text="Ganancias Brutas", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='black', command=self.function_ganancias_brutas)
+        btn_ganancias_Brutas.place(x=300, y=100)
+
+
+    def function_ganancias_netas(self):
+        # Lógica para mostrar las Ganancias Netas
+        pass
+    def function_ganancias_brutas(self):
+        # Lógica para mostrar las Ganancias Brutas
+        pass
+
     def function_frame_gastos(self):
         self.frame_gastos = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_gastos, text="Gastos", font=("Bold", 15)).place(x=150, y=30)
+        Label(self.frame_gastos, text="Gastos Totales", font=("Bold", 15)).place(x=200, y=30)
         self.frame_gastos.grid(pady=5, padx=5)
         self.frame_gastos.pack_propagate(False)
 
-    def function_frame_pagosEmpleados(self):
-        self.frame_pagosEmpleados = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_pagosEmpleados, text="Pagos Empleados", font=("Bold", 15)).place(x=150, y=30)
-        self.frame_pagosEmpleados.grid(pady=5, padx=5)
-        self.frame_pagosEmpleados.pack_propagate(False)
+        # Botón para las Gastos Materiales
+        btn_gastos_Materiales = Button(self.frame_gastos, text="Gastos Materiales", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='black', command=self.function_gastos_materiales)
+        btn_gastos_Materiales.place(x=50, y=100)
 
+        
+        # Botón para los Pagos Empleados
+        btn_pagos_empleados = Button(self.frame_gastos, text="Pagos Empleados", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='black', command=self.function_pagos_empleados)
+        btn_pagos_empleados.place(x=300, y=100)
+
+    def function_gastos_materiales(self):
+        # Lógica para mostrar las Ganancias Netas
+        pass
+    def function_pagos_empleados(self):
+        # Lógica para mostrar las Ganancias Brutas
+        pass
+    def function_frame_gastos_material_especifico(self):
+        self.frame_gastos_material_especifico = Frame(self.main_frame, width=500, height=400)
+        Label(self.frame_gastos_material_especifico, text="Gastos Material Especifico", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_gastos_material_especifico.grid(pady=5, padx=5)
+        self.frame_gastos_material_especifico.pack_propagate(False)
+
+    def function_frame_pago_empleado_especifico(self):
+        self.frame_pago_empleado_especifico = Frame(self.main_frame, width=500, height=400)
+        Label(self.frame_pago_empleado_especifico, text="Pago Empleado Especifico", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_pago_empleado_especifico.grid(pady=5, padx=5)
+        self.frame_pago_empleado_especifico.pack_propagate(False)
 
     def indicador(self, pagina, lb):
         """
@@ -1839,116 +1887,6 @@ class GestionReservasApp:
         lb.config(bg='#158aff')
         self.delete_pages()
         pagina()
-
-class GestionFinancieraApp:
-    """
-    Aqui se plantea toda la funcionalidad de gestion Financiera
-    """
-    def __init__(self, framePadre, restaurante):
-        self.row_height = 200
-        self.col_width = 200
-        self.restaurante = restaurante
-    
-        self.frames_temporales = []
-        self.framePadre = framePadre
-        self.funcionalidad_gestionFinanciera = Frame(self.framePadre, bg='#c3c3c3', width=100, height=500)
-        self.funcionalidad_gestionFinanciera.grid(row=0, column=0, sticky="nsew")
-        self.options_frame = Frame(self.funcionalidad_gestionFinanciera, bg='#c3c3c3', width=100, height=500)
-        self.options_frame.grid(row=0, column=0, sticky="nsew")
-        self.options_frame.pack_propagate(False)
-        self.main_frame = Frame(self.funcionalidad_gestionFinanciera, highlightbackground='black', highlightthickness=2, width=500, height=400)
-
-        # Crear botones de selección de opción
-        self.btn_home_page = Button(self.options_frame, text="Inicio", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_home_inicio, self.home_indicate))
-        self.btn_home_page.grid(row=0, column=0, padx=0, pady=30)
-
-        self.btn_consultar_presupuesto = Button(self.options_frame, text="Presupuesto", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_frame_presupuesto, self.indicate_consultarPresupuesto))
-        self.btn_consultar_presupuesto.grid(row=1, column=0, padx=0, pady=30)
-
-        self.btn_consultar_ganancias = Button(self.options_frame, text="Ganancias", font=('Bold', 15), bd = 0, bg ='#c3c3c3',fg='#158aff', command = lambda : self.indicador(self.function_frame_gananciasBrutas, self.indicate_consultarGB))
-        self.btn_consultar_ganancias.grid(row=2, column=0, padx=0, pady=30)
-
-        self.btn_consultar_gastos = Button(self.options_frame, text="Gastos", font=('Bold', 15), bd = 0, bg ='#c3c3c3',fg='#158aff', command = lambda : self.indicador(self.function_frame_gastosMateriales, self.indicate_consultarGastosMateriales))
-        self.btn_consultar_gastos.grid(row=3, column=0, padx=0, pady=30)
-
-        # Crear indicadores de opción seleccionada
-        self.home_indicate = Label(self.options_frame, text="", bg='#c3c3c3')
-        self.home_indicate.place(x=0, y=30, width=5, height=40, )
-
-        self.indicate_consultarPresupuesto = Label(self.options_frame, text="", bg='#c3c3c3')
-        self.indicate_consultarPresupuesto.place(x=0, y=135, width=5, height=40, )
-        
-        self.indicate_consultarGanancias = Label(self.options_frame, text="", bg='#c3c3c3')
-        self.indicate_consultarGanancias.place(x=0, y=255, width=5, height=40, )
-
-        self.indicate_consultarGastos = Label(self.options_frame, text="", bg='#c3c3c3')
-        self.indicate_consultarGastos.place(x=0, y=375, width=5, height=40, )
-
-
-        self.main_frame.grid(row=0, column=1, sticky="nsew")
-        self.main_frame.pack_propagate(False)
-        self.framePadre.grid_rowconfigure(0, weight=1)
-        self.framePadre.grid_columnconfigure(0, weight=1)
-        self.framePadre.grid_columnconfigure(1, weight=1)
-
-    def function_home_inicio(self):
-        self.frame_home = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_home, text="Bienvenido a la Gestion de Financiera", font=("Bold", 15)).place(x=150, y=30)
-        self.frame_home.grid(pady=5, padx=5)
-        self.frame_home.pack_propagate(False)
-
-    def function_frame_presupuesto(self):
-        self.frame_presupuesto = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_presupuesto, text="Presupuesto", font=("Bold", 15)).place(x=150, y=30)
-        self.frame_presupuesto.grid(pady=5, padx=5)
-        self.frame_presupuesto.pack_propagate(False)
-
-    def function_frame_ganancias(self):
-        self.frame_ganancias = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_ganancias, text="Ganancias", font=("Bold", 15)).place(x=150, y=30)
-        self.frame_ganancias.grid(pady=5, padx=5)
-        self.frame_ganancias.pack_propagate(False)
-
-    def function_frame_gastos(self):
-        self.frame_gastos = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_gastos, text="Gastos", font=("Bold", 15)).place(x=150, y=30)
-        self.frame_gastos.grid(pady=5, padx=5)
-        self.frame_gastos.pack_propagate(False)
-
-    def function_frame_pagosEmpleados(self):
-        self.frame_pagosEmpleados = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_pagosEmpleados, text="Pagos Empleados", font=("Bold", 15)).place(x=150, y=30)
-        self.frame_pagosEmpleados.grid(pady=5, padx=5)
-        self.frame_pagosEmpleados.pack_propagate(False)
-
-
-    def indicador(self, pagina, lb):
-        """
-        hide_indicatros para ocultar indicadores,
-        se configura para que se muestre el de la que
-        se selecciona, se elimina las paginas y se
-        muestra la pagina seleccionada
-        """
-        self.hide_indicators()
-        lb.config(bg='#158aff')
-        self.delete_pages()
-        pagina()
-
-    def delete_pages(self):
-        """
-        Esta se hace para borrar los frames actuales 
-        y evitar que se superpongan los frames,
-        para que solo se muestre el frame indicado
-        dentro de la funcionalidad
-        """
-        for widget in self.main_frame.winfo_children():
-            widget.destroy()
-
-    def hide_indicators(self):
-        self.home_indicate.config(bg='#c3c3c3')
-        self.indicate_consultarPresupuesto.config(bg='#c3c3c3')
-        self.indicate_consultarGanancias.config(bg='#c3c3c3')
-        self.indicate_consultarGastos.config(bg='#c3c3c3')
 
 # Creacion de ventana principal
 ventanaPrincipal = Toplevel()
