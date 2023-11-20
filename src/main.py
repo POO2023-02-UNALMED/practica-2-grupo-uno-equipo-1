@@ -289,7 +289,11 @@ def gEmpleado():
     pass
 
 def gInventario():
-    v4.tkraise()
+    delete_frames_ventana_principal()
+    gestion_inv = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
+    gestion_inv_app = GestionInventarioApp(gestion_inv)
+    gestion_inv.grid(row=1, column=0, sticky="nsew")
+    gestion_inv.pack_propagate(False)
 
 def gFinanciera():
     delete_frames_ventana_principal()
@@ -800,6 +804,142 @@ imagenes_materiales = [
     huevos_imagen, 
     atun_imagen
 ]
+
+
+
+class FieldFrame(Frame):
+    """
+    hay dos formularios para que data se van guardando la inforfmacion de los widgets
+    para poder deshabilitarlos luego de haber respondido el formulario, en dataform
+    puedes visualizar los datos de los criterios que has mandado, como un diccionario
+    con el titulo de el criterio 
+    """
+    def __init__(self, master, tituloCriterios, criterios, tituloValores, valores, habilitado, consulta):
+        super().__init__(master)
+
+        self.data = {}
+        self.dataform = {}
+
+        self.tituloValores = tituloValores
+        self.tituloCriterios = tituloCriterios
+        self.criterios = criterios
+        self.valores = valores
+        self.habilitado = habilitado
+        self.consulta = consulta
+
+        # Contenedor que tiene todo el formulario de la consulta
+        frameForm = Frame(self, bg="blue", borderwidth=1, relief="solid")
+        frameForm.grid(padx=5, pady=5)
+        frameForm.grid_rowconfigure(0, weight=1)
+        frameForm.grid_columnconfigure(0, weight=1)
+
+        # Contenedor que tiene el titulo de la consulta
+        tituloCriterios = Label(frameForm, text=f"{tituloCriterios}")
+        tituloCriterios.grid(row=0, column=0, padx=5, pady =10)
+        frameForm.grid_rowconfigure(0, weight=1)
+        frameForm.grid_columnconfigure(0, weight=1)
+
+        # Contenedor que contiene el titulo de valores
+        tituloValores = Label(frameForm, text=f"{tituloValores}")
+        tituloValores.grid(row=0, column=1, pady =10)
+        frameForm.grid_rowconfigure(0, weight=1)
+        frameForm.grid_columnconfigure(1, weight=1)
+
+        # Etiqueta para mostrar el titulo de la consulta
+        for index, criterio in enumerate(criterios):
+            criterio_label = Label(frameForm, text=f"{criterio}")
+            criterio_label.grid(row=index+1, column=0, padx=5, pady=10)
+            frameForm.grid_rowconfigure(index+1, weight=1)
+            frameForm.grid_columnconfigure(0, weight=1)
+            
+            input_widget = Entry(frameForm)
+            input_widget.grid(row=index+1, column=1, padx=5, pady=10)
+            frameForm.grid_rowconfigure(index+1, weight=1)
+            frameForm.grid_columnconfigure(0, weight=1)
+            
+            if valores and index < len(valores):
+                input_widget.insert(0, valores[index])
+            
+            if not habilitado[index]:
+                input_widget.config(state="disabled")
+            # Esta parte es necesaria para deshabilitarlos luego de haber 
+            # Mnadado el trabajo
+            self.data[criterio] = {
+                "widget": input_widget,
+                "value": None
+            }
+
+        # Botón para enviar el formulario
+        self.buttonSubmmit = Button(frameForm, text="enviar", command=self.enviar, height=1, width=7)
+        self.buttonSubmmit.grid(row=index+2, column=0, pady=20)
+        frameForm.grid_rowconfigure(index+2, weight=1)
+        frameForm.grid_columnconfigure(0, weight=1)
+
+        # Crear boton de eliminar campos
+        self.buttonClear = Button(frameForm, text="clear", bg="white", command=self.clear, height=1, width=6)
+        self.buttonClear.grid(row=index + 2, column=1)
+        frameForm.grid_rowconfigure(index+2, weight=1)
+        frameForm.grid_columnconfigure(1, weight=1)
+    
+    # Obtener valores por titulo de criterio
+    def getValue(self, criterio):
+        return self.dataform[criterio]["value"]
+    
+    # Obtener todos los valores
+    def getValues(self):
+        return self.dataform
+    
+    # Limpiar los campos
+    def clear(self):
+        for criterio, info in self.data.items():
+            info["widget"].delete(0, END)
+            info["value"] = None
+
+    def enviar(self):
+        """
+        Al momento de enviar el formulario, se selecciona los
+        valores de los campos y se deshabilitan los botones de clear
+        y submit, se manda la consulta de el usuario con los valores,
+        para que se vayan haciendo consultas en cadena, en caso de
+        que una consulta dependa de la otr
+        """
+        print("entra")
+        from diseñoGráfico.GestionPedidosApp import GestionPedidosApp
+        if GestionPedidosApp.plato_seleccionado == False:
+            print("captura la funcion")
+            messagebox.showinfo("Alerta", "Debes seleccionar al menos un plato antes de continuar.")
+        else:
+            self.submitForm()
+            valores = self.getValues()
+            self.consulta(valores)
+            self.buttonClear.destroy()
+            self.buttonSubmmit.destroy()
+
+    def submitForm(self):
+        """
+        Aqui se envia el formulario, se verifica que todos los campos
+        esten llenos, en caso de que no, se muestra una alerta, y se
+        retorna, en caso de que si, se deshabilitan los campos y se
+        guardan los valores en dataform
+        """
+        for criterio, info in self.data.items():
+            valor = info["widget"].get()
+            if valor is None or valor == "":
+                messagebox.showinfo("Alerta", f"Campo '{criterio}' no puede estar vacío.")
+                return
+            self.data[criterio]["widget"].config(state="disabled")
+            self.data[criterio]["widget"].config(state="disabled")
+
+            # Obtener el valor de el widget
+            self.data[criterio]["value"] = valor
+
+            # Guardar el valor en el formulario de dataform
+            self.dataform[criterio] = valor
+            # self.data["submit"].destroy()
+            # self.data["clear"].destroy()
+
+
+
 class GestionPedidosApp:
     """
     Aqui se plantea toda la funcionalidad de gestion de pedidos
@@ -1287,6 +1427,418 @@ class GestionPedidosApp:
         lb.config(bg='#158aff')
         self.delete_pages()
         pagina()
+class GestionInventarioApp:
+    """
+    Aqui se plantea la funcionalidad de gestion de inventario
+    """
+    def __init__(self,framePadre,imagenes_ingredientes,restaurante):
+        self.row_height = 300
+        self.col_width = 300
+        self.restaurante=restaurante
+        self.imagenes_ingredientes=imagenes_ingredientes
+
+        self.frames_temporales=[]
+        self.framePadre=framePadre
+        self.funcionalidad_gestionInv = Frame(self.framePadre, bg='#c3c3c3', width=100, height=500)
+        self.funcionalidad_gestionInv.grid(row=0, column=0, sticky="nsew")
+        self.options_frame = Frame(self.funcionalidad_gestionInv, bg='#c3c3c3', width=120, height=500)
+        self.options_frame.grid(row=0, column=0, sticky="nsew")
+        self.options_frame.pack_propagate(False)
+
+        self.main_frame = Frame(self.funcionalidad_gestionInv,
+                                highlightbackground='black',
+                                highlightthickness=2,
+                                width=500,
+                                height=400)
+        #Botones frame
+        self.btn_home_page = Button(self.options_frame, text="Inicio", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_home_page, self.home_indicate))
+        self.btn_home_page.grid(row=0, column=0, padx=0, pady=30)
+
+        self.btn_consultar_inventario = Button(self.options_frame, text="Consultar\n Inventario", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_frame_consultar_inventario, self.indicate_consultar_inventario))
+        self.btn_consultar_inventario.grid(row=1, column=0, padx=0, pady=30)
+
+        self.btn_comprar_mat = Button(self.options_frame, text="Comprar\n Materiales", font=('Bold', 15), bd = 0, bg ='#c3c3c3',fg='#158aff', command = lambda : self.indicador(self.function_frame_comprar_mat, self.indicate_comprar_mat))
+        self.btn_comprar_mat.grid(row=2, column=0, padx=0, pady=30)
+
+        self.btn_desechar_mat = Button(self.options_frame, text="Desechar\n Materiales", font=('Bold', 15), fg='#158aff', bd = 0, bg ='#c3c3c3',command = lambda : self.indicador(self.function_frame_desechar_mat, self.indicate_desechar_mat))
+        self.btn_desechar_mat.grid(row=3, column=0, padx=0, pady=30)
+
+        #Indicadores de los botones
+        self.home_indicate = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.home_indicate.place(x=5, y=30, width=5, height=40, )
+
+        self.indicate_consultar_inventario = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_consultar_inventario.place(x=5, y=135, width=5, height=40, )
+
+        self.indicate_comprar_mat = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_comprar_mat.place(x=5, y=255, width=5, height=40, )
+
+        self.indicate_desechar_mat = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_desechar_mat.place(x=5, y=375, width=5, height=40, )
+
+
+        self.main_frame.grid(row=0, column=1, sticky="nsew")
+        self.main_frame.pack_propagate(False)
+        self.framePadre.grid_rowconfigure(0, weight=1)
+        self.framePadre.grid_columnconfigure(0, weight=1)
+        self.framePadre.grid_columnconfigure(1, weight=1)
+
+    def function_home_page(self):
+        self.frame_home = Frame(self.main_frame, width=500, height=400)
+        Label(self.frame_home, text="Bienvenido a la gestion de Inventario", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_home.grid(pady=5, padx=5)
+        self.frame_home.pack_propagate(False)
+
+    def function_frame_consultar_inventario(self):
+        self.frame_inventario = Frame(self.main_frame, width=500, height=400)
+        Label(self.frame_inventario, text="Inventario", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_inventario.grid(pady=5, padx=5)
+        self.frame_inventario.pack_propagate(False)
+
+    def function_frame_comprar_mat(self):
+        self.frame_comprar = Frame(self.main_frame, width=500, height=400)
+        Label(self.frame_comprar, text="Comprar materiales", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_comprar.grid(pady=5, padx=5)
+        self.frame_comprar.pack_propagate(False)
+
+    def function_frame_desechar_mat(self):
+        # Definir frame pedidos
+        self.frame_desechar_mat = Frame(self.main_frame, width=500, height=400)
+        # Título de frame pedidos
+        # self.titulo_pedidos = Label(self.frame_pedidos, text="Pedidos", font=("Bold", 15)).place(x=150, y=30)
+
+        # Frame de interacción
+        self.frameSeleccionPlatos = Frame(self.frame_pedidos, width=500, height=400)
+        self.busquedadPlatos = FieldFrame(self.frameSeleccionPlatos, "platos deseados y tipo de pedido", ["platos", "tipo pedido"], "Ingresa lo platos deseados y tipo de pedido", ["presiona los platos que desees"], [False, True], self.seleccionarCocinero)
+        self.busquedadPlatos.grid(row = 0, column=0, padx=10, pady=10)
+
+        # Crear un Canvas para la cuadrícula dentro del Frame principal
+        self.canvas = Canvas(self.frameSeleccionPlatos)
+        self.canvas.grid(row = 1, column=0, padx=10, pady=10)
+
+        self.frames_temporales.append(self.canvas)
+
+        # Ubicación del frame seleccionPlatos dentro de frame_pedidos mediante grid
+        self.frameSeleccionPlatos.grid(row=0, column=0)
+
+        # Configurar la cuadrícula
+        cols=2
+        rows = len(self.platos) // cols+1
+
+        # Dentro del bucle para mostrar platos en la cuadrícula
+        for i, plato in enumerate(self.platos):
+            row = i // cols
+            col = i % cols
+
+            # Crear un Frame para cada plato dentro del Canvas
+            frame = Frame(self.canvas, width=self.col_width, height=self.row_height, bd=2, relief=RIDGE)
+            frame.grid(row=row, column=col, padx=5, pady=5)
+
+            # Cargar la imagen (reemplaza 'ruta_a_tu_imagen' con la ruta real de tus imágenes)
+            # imagen_path = "ruta_a_tu_imagen"  # Reemplazar con la ruta correcta
+            imagen = plato["imagen"]
+
+            # Mostrar imagen del plato (esto podría ser un botón en lugar de una etiqueta)
+            boton_plato = Button(frame, image=imagen, command=lambda i=i: self.toggle_seleccion(i))
+            boton_plato.grid(row=0, column=0, padx=5, pady=5, sticky="w")  # sticky="w" alinea a la izquierda
+
+            # Mostrar nombre del plato
+            nombre_label = Label(frame, text=plato["nombre"])
+            nombre_label.grid(row=0, column=1, padx=5, pady=1)
+
+            # Mostrar precio del plato
+            precio_label = Label(frame, text=f"Precio: {plato['precio']}")
+            precio_label.grid(row=1, column=1, padx=5, pady=1)
+
+
+        # Ubicación frame pedidos
+        self.frame_pedidos.grid(pady=5, padx=5)
+        self.frame_pedidos.pack_propagate(False)
+
+    def delete_pages(self):
+        """
+        Esta se hace para borrar los frames actuales
+        y evitar que se superpongan los frames,
+        para que solo se muestre el frame indicado
+        dentro de la funcionalidad
+        """
+        for widget in self.main_frame.winfo_children():
+            widget.destroy()
+
+    def hide_indicators(self):
+        self.home_indicate.config(bg='#c3c3c3')
+        self.indicate_consultar_inventario.config(bg='#c3c3c3')
+        self.indicate_comprar_mat.config(bg='#c3c3c3')
+        self.indicate_desechar_mat.config(bg='#c3c3c3')
+
+    def indicador(self, pagina, lb):
+        """
+        hide_indicatros para ocultar indicadores,
+        se configura para que se muestre el de la que
+        se selecciona, se elimina las paginas y se
+        muestra la pagina seleccionada
+        """
+        self.hide_indicators()
+        lb.config(bg='#158aff')
+        self.delete_pages()
+        pagina()
+
+class GestionFinancieraApp:
+    """
+    Aqui se plantea toda la funcionalidad de gestion Financiera
+    """
+    def __init__(self, framePadre, restaurante):
+        self.row_height = 200
+        self.col_width = 200
+        self.restaurante = restaurante
+    
+        self.frames_temporales = []
+        self.framePadre = framePadre
+        self.funcionalidad_gestionFinanciera = Frame(self.framePadre, bg='#c3c3c3', width=100, height=500)
+        self.funcionalidad_gestionFinanciera.grid(row=0, column=0, sticky="nsew")
+        self.options_frame = Frame(self.funcionalidad_gestionFinanciera, bg='#c3c3c3', width=100, height=500)
+        self.options_frame.grid(row=0, column=0, sticky="nsew")
+        self.options_frame.pack_propagate(False)
+        self.main_frame = Frame(self.funcionalidad_gestionFinanciera, highlightbackground='black', highlightthickness=2, width=500, height=400)
+
+        # Crear botones de selección de opción
+        self.btn_home_page = Button(self.options_frame, text="Inicio", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_home_inicio, self.home_indicate))
+        self.btn_home_page.grid(row=0, column=0, padx=0, pady=30)
+
+        self.btn_consultar_presupuesto = Button(self.options_frame, text="Presupuesto", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_frame_presupuesto, self.indicate_consultarPresupuesto))
+        self.btn_consultar_presupuesto.grid(row=1, column=0, padx=0, pady=30)
+
+        self.btn_consultar_ganancias = Button(self.options_frame, text="Ganancias", font=('Bold', 15), bd = 0, bg ='#c3c3c3',fg='#158aff', command = lambda : self.indicador(self.function_frame_gananciasBrutas, self.indicate_consultarGB))
+        self.btn_consultar_ganancias.grid(row=2, column=0, padx=0, pady=30)
+
+        self.btn_consultar_gastos = Button(self.options_frame, text="Gastos", font=('Bold', 15), bd = 0, bg ='#c3c3c3',fg='#158aff', command = lambda : self.indicador(self.function_frame_gastosMateriales, self.indicate_consultarGastosMateriales))
+        self.btn_consultar_gastos.grid(row=3, column=0, padx=0, pady=30)
+
+        # Crear indicadores de opción seleccionada
+        self.home_indicate = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.home_indicate.place(x=0, y=30, width=5, height=40, )
+
+        self.indicate_consultarPresupuesto = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_consultarPresupuesto.place(x=0, y=135, width=5, height=40, )
+        
+        self.indicate_consultarGanancias = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_consultarGanancias.place(x=0, y=255, width=5, height=40, )
+
+        self.indicate_consultarGastos = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_consultarGastos.place(x=0, y=375, width=5, height=40, )
+
+
+        self.main_frame.grid(row=0, column=1, sticky="nsew")
+        self.main_frame.pack_propagate(False)
+        self.framePadre.grid_rowconfigure(0, weight=1)
+        self.framePadre.grid_columnconfigure(0, weight=1)
+        self.framePadre.grid_columnconfigure(1, weight=1)
+
+    def function_home_inicio(self):
+        self.frame_home = Frame(self.main_frame, width=500, height=400)
+        Label(self.frame_home, text="Bienvenido a la Gestion de Financiera", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_home.grid(pady=5, padx=5)
+        self.frame_home.pack_propagate(False)
+
+    def function_frame_presupuesto(self):
+        self.frame_presupuesto = Frame(self.main_frame, width=500, height=400)
+        Label(self.frame_presupuesto, text="Presupuesto", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_presupuesto.grid(pady=5, padx=5)
+        self.frame_presupuesto.pack_propagate(False)
+
+    def function_frame_ganancias(self):
+        self.frame_ganancias = Frame(self.main_frame, width=500, height=400)
+        Label(self.frame_ganancias, text="Ganancias", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_ganancias.grid(pady=5, padx=5)
+        self.frame_ganancias.pack_propagate(False)
+
+    def function_frame_gastos(self):
+        self.frame_gastos = Frame(self.main_frame, width=500, height=400)
+        Label(self.frame_gastos, text="Gastos", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_gastos.grid(pady=5, padx=5)
+        self.frame_gastos.pack_propagate(False)
+
+    def function_frame_pagosEmpleados(self):
+        self.frame_pagosEmpleados = Frame(self.main_frame, width=500, height=400)
+        Label(self.frame_pagosEmpleados, text="Pagos Empleados", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_pagosEmpleados.grid(pady=5, padx=5)
+        self.frame_pagosEmpleados.pack_propagate(False)
+
+
+    def indicador(self, pagina, lb):
+        """
+        hide_indicatros para ocultar indicadores,
+        se configura para que se muestre el de la que
+        se selecciona, se elimina las paginas y se
+        muestra la pagina seleccionada
+        """
+        self.hide_indicators()
+        lb.config(bg='#158aff')
+        self.delete_pages()
+        pagina()
+
+    def delete_pages(self):
+        """
+        Esta se hace para borrar los frames actuales 
+        y evitar que se superpongan los frames,
+        para que solo se muestre el frame indicado
+        dentro de la funcionalidad
+        """
+        for widget in self.main_frame.winfo_children():
+            widget.destroy()
+
+    def hide_indicators(self):
+        self.home_indicate.config(bg='#c3c3c3')
+        self.indicate_consultarPresupuesto.config(bg='#c3c3c3')
+        self.indicate_consultarGanancias.config(bg='#c3c3c3')
+        self.indicate_consultarGastos.config(bg='#c3c3c3')
+
+
+class GestionReservasApp:
+    """
+    Aqui se plantea toda la funcionalidad de gestion de reservas
+    """
+    def __init__(self, framePadre, restaurante):
+        self.row_height = 200
+        self.col_width = 200
+        self.frames_temporales = []
+        self.framePadre = framePadre
+        self.restaurante = restaurante
+        self.funcionalidad_gestionReservas = Frame(self.framePadre, bg='#c3c3c3', width=100, height=500)
+        self.funcionalidad_gestionReservas.grid(row=0, column=0, sticky="nsew")
+        self.options_frame = Frame(self.funcionalidad_gestionReservas, bg='#c3c3c3', width=100, height=500)
+        self.options_frame.grid(row=0, column=0, sticky="nsew")
+        self.options_frame.pack_propagate(False)
+        self.main_frame = Frame(self.funcionalidad_gestionReservas, highlightbackground='black', highlightthickness=2, width=500, height=400)
+
+        # Crear botones de selección de opción
+        self.btn_home_page = Button(self.options_frame, text="Inicio", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_home_page, self.home_indicate))
+        self.btn_home_page.grid(row=0, column=0, padx=0, pady=30)
+
+        self.btn_consultar_reservas_NC = Button(self.options_frame, text="reservas sin\nconfirmar", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_frame_RNC, self.indicate_reservas_NC))
+        self.btn_consultar_reservas_NC.grid(row=1, column=0, padx=0, pady=30)
+
+        self.btn_consultar_reservas_C = Button(self.options_frame, text="reservas\nconfirmadas", font=('Bold', 15), bd = 0, bg ='#c3c3c3',fg='#158aff', command = lambda : self.indicador(self.function_frame_RC, self.indicate_RESERVAS_C))
+        self.btn_consultar_reservas_C.grid(row=2, column=0, padx=0, pady=30)
+
+        btn_anadir_reservas = Button(self.options_frame, text="añadir\n  reservas", font=('Bold', 15), fg='#158aff', bd = 0, bg ='#c3c3c3',command = lambda : self.indicador(self.function_frame_ANADIR_R, self.indicate_anadir_reservas))
+        btn_anadir_reservas.grid(row=3, column=0, padx=0, pady=30)
+
+        btn_cancelar_reservas = Button(self.options_frame, text="cancelar\n  reservas", font=('Bold', 15), fg='#158aff', bd = 0, bg ='#c3c3c3',command = lambda : self.indicador(self.function_frame_cancelar_R, self.indicate_cancelar_reservas))
+        btn_cancelar_reservas.grid(row=3, column=0, padx=0, pady=30)
+
+        btn_asignar_mesas = Button(self.options_frame, text="añadir\nreservas", font=('Bold', 15), fg='#158aff', bd = 0, bg ='#c3c3c3',command = lambda : self.indicador(self.function_frame_confirmar_R, self.indicate_confirmar))
+        btn_asignar_mesas.grid(row=3, column=0, padx=0, pady=30)
+
+        # Crear indicadores de opción seleccionada
+        self.home_indicate = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.home_indicate.place(x=0, y=30, width=5, height=40, )
+
+        self.indicate_reservas_NC = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_reservas_NC.place(x=0, y=135, width=5, height=40, )
+        
+        self.indicate_RESERVAS_C = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_RESERVAS_C.place(x=0, y=255, width=5, height=40, )
+        
+        self.indicate_anadir_reservas = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_anadir_reservas.place(x=0, y=375, width=5, height=40, )
+
+        self.indicate_cancelar_reservas = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_cancelar_reservas.place(x=0, y=375, width=5, height=40, )
+
+        self.indicate_confirmar = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_confirmar.place(x=0, y=375, width=5, height=40, )
+
+        self.main_frame.grid(row=0, column=1, sticky="nsew")
+        self.main_frame.pack_propagate(False)
+        self.framePadre.grid_rowconfigure(0, weight=1)
+        self.framePadre.grid_columnconfigure(0, weight=1)
+        self.framePadre.grid_columnconfigure(1, weight=1)
+
+    def function_home_page(self):
+        self.frame_home = Frame(self.main_frame, width=500, height=400)
+        Label(self.frame_home, text="Bienvenido a la gestion de reservas", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_home.grid(pady=5, padx=5)
+        self.frame_home.pack_propagate(False)
+
+    def function_frame_RNC(self):
+        self.frame_RNC = Frame(self.main_frame, width=500, height=400)
+        Label(self.frame_RNC, text="Reservas sin\nmesa asignada", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_RNC.grid(pady=5, padx=5)
+        self.frame_RNC.pack_propagate(False)
+
+    def function_frame_RC(self):
+        self.frame_RC = Frame(self.main_frame, width=500, height=400)
+        Label(self.frame_RC, text="Reservas", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_RC.grid(pady=5, padx=5)
+        self.frame_RC.pack_propagate(False)
+
+    def function_frame_ANADIR_R(self):
+        # Definir frame reservas
+        self.frame_ANADIR_R = Frame(self.main_frame, width=500, height=400)
+        # Frame de interacción
+        self.frame_AR = Frame(self.frame_ANADIR_R, width=500, height=400)
+        self.V_AR = FieldFrame(self.frame_AR, "información del reservista", ["cedula", "nombre", "numero de asistentes", "dia de la reserva"], "Ingresa la información", ["Ej: 1022142545", "Solo si reservista no está registrado", "", "En formato dia-mes-año"], [True, True, True, True], self.anadirR)
+        self.V_AR.grid(row = 0, column=0, padx=10, pady=10)
+        self.frame_ANADIR_R.grid(pady=5, padx=5)
+        self.frame_ANADIR_R.pack_propagate(False)
+
+    def function_frame_cancelar_R(self):
+        self.frame_ANADIR_R = Frame(self.main_frame, width=500, height=400)
+        # Frame de interacción
+        self.frame_AR = Frame(self.frame_ANADIR_R, width=500, height=400)
+        self.V_AR = FieldFrame(self.frame_AR, "información del reservista", ["cedula"], "Ingresa la información", ["Ej: 1022142545"], [True], self.cancelarR)
+        self.V_AR.grid(row = 0, column=0, padx=10, pady=10)
+        self.frame_ANADIR_R.grid(pady=5, padx=5)
+        self.frame_ANADIR_R.pack_propagate(False)
+
+    def function_frame_confirmar_R(self):
+        self.confirmar_R = Frame(self.main_frame, width=500, height=400)
+        # Frame de interacción
+        self.frame_re = Frame(self.confirmar_R, width=500, height=400)
+        self.conf_R = FieldFrame(self.frame_re, "Información del reservista", ["cedula", "numero de mesa"], "Ingresa la información", [], [True, True], self.confirmarR)
+        self.conf_R.grid(row = 0, column=0, padx=10, pady=10)
+        self.confirmar_R.grid(pady=5, padx=5)
+        self.confirmar_R.pack_propagate(False)
+        
+    def anadirR(self, valores):
+         self.anadirRFrame.destroy()
+
+    def cancelarR(self, valores):
+        self.anadirRFrame.destroy()
+        
+    def confirmarR(self, valores):
+        self.anadirRFrame.destroy()
+
+    def delete_pages(self):
+        """
+        Esta se hace para borrar los frames actuales 
+        y evitar que se superpongan los frames,
+        para que solo se muestre el frame indicado
+        dentro de la funcionalidad
+        """
+        for widget in self.main_frame.winfo_children():
+            widget.destroy()
+
+    def hide_indicators(self):
+        self.home_indicate.config(bg='#c3c3c3')
+        self.indicate_reservas_NC.config(bg='#c3c3c3')
+        self.indicate_RESERVAS_C.config(bg='#c3c3c3')
+        self.indicate_anadir_reservas.config(bg='#c3c3c3')
+        self.indicate_cancelar_reservas.config(bg='#c3c3c3')
+        self.indicate_confirmar.config(bg='#c3c3c3')
+
+    def indicador(self, pagina, lb):
+        """
+        hide_indicatros para ocultar indicadores,
+        se configura para que se muestre el de la que
+        se selecciona, se elimina las paginas y se
+        muestra la pagina seleccionada
+        """
+        self.hide_indicators()
+        lb.config(bg='#158aff')
+        self.delete_pages()
+        pagina()
 
 # Creacion de ventana principal
 ventanaPrincipal = Toplevel()
@@ -1351,24 +1903,6 @@ menu2.add_command(label="Gestión Financiera",command=gFinanciera)
 
 menu3.add_command(label="Acerca de",command=ayuda)
 
-# Frame de gestion de inventario
-v4 = Frame(ventanaPrincipal,padx=20,pady=20,bg="gray77")
-
-v4.grid(row=0, column=0, sticky="nsew")
-
-gestionInv=Label(v4,text="Gestión de Inventario", font=("arial",30),fg="blue",bg="gray77")
-
-revisarInv=Button(v4,text="Consultar Inventario",width=30,height=10)
-comprarMat=Button(v4,text="Comprar Materiales",width=30,height=10)
-botarMat=Button(v4,text="Desechar Materiales",width=30,height=10)
-
-gestionInv.grid(row=0,column=1,padx=10,pady=10)
-revisarInv.grid(row=1,column=1,padx=20,pady=10)
-comprarMat.grid(row=2,column=0,padx=10,pady=10)
-botarMat.grid(row=2,column=2,padx=10,pady=10)
-
-for i in range(3):
-    v4.grid_columnconfigure(i,weight=1)
 
 
 # Ocultar ventana principal
