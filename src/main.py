@@ -288,7 +288,7 @@ def gInventario():
 def gFinanciera():
     delete_frames_ventana_principal()
     gFinanciera = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
-    gFinanciera = GestionFinancieraApp(gFinanciera, menu, imagenes_materiales, restaurante)
+    gFinanciera = GestionFinancieraApp(gFinanciera, restaurante)
     gFinanciera.grid(row=1, column=0, sticky="nsew")
     gFinanciera.pack_propagate(False)
 
