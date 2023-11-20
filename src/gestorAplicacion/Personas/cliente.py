@@ -29,3 +29,6 @@ class Cliente(Persona):
     #Metodo abstracto definido
     def puntuacion(self):
         return "El cliente "+self.getNombre()+" no tiene puntuación"
+    
+    def __str__(self):
+        return f"Cliente: {self.getNombre()}"
