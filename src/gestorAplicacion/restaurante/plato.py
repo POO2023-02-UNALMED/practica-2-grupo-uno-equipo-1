@@ -69,4 +69,4 @@ class Plato:
         return tipos
 
     def detallesPlato(self):
-        print(f"\nNombre: {self.getNombre()}\nPrecio: {self.getPrecio()}\nDescripcion: {self.getDescripcion()}\nTiempo de preparacion: {self.getTiempoPreparacion()}\nIngredientes: {self.mostrarIngredientes().__str__()}")
+        print(f"\nNombre: {self.getNombre()}\nPrecio: {self.getPrecio()}\nDescripcion: {self.getDescripcion()}\nTiempo de preparacion: {self.getTiempoPreparacion()}\nIngredientes: {self.mostrarIngredientes()}")
