@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import messagebox, font
-import keyboard
+#import keyboard
 from PIL import Image, ImageTk
 from gestorAplicacion.Personas.empleado import Empleado
 from gestorAplicacion.Personas.persona import Persona
@@ -221,23 +221,12 @@ def volverAInicio():
     ventanaPrincipal.withdraw()
 
 def gReserva():
-    v1 = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
-    v1.grid(row=0, column=0, sticky="nsew")
-    label1 = Label(v1, text="Gestión de reservas", font=("arial", 30), fg="blue", bg="gray77")
-    botonConsultarRSV = Button(v1, text="Reservas sin verificar", width=30, height=10)
-    botonConsultarRV = Button(v1, text="Reservas verificadas", width=30, height=10)
-    botonCrearR = Button(v1, text="Crear reserva", width=30, height=10)
-    botonCancelarR = Button(v1, text="Cancelar reservas", width=30, height=10)
-    botonAsignarM= Button(v1, text="Asignar mesas a las reservas", width=30, height=10)
-    label1.grid(row=0, column=1, padx=10, pady=10)
-    botonConsultarRSV.grid(row=1, column=0, padx=20, pady=10)
-    botonConsultarRV.grid(row=1, column=2, padx=10, pady=10)
-    botonCrearR.grid(row=2, column=1, padx=10, pady=10)
-    botonCancelarR.grid(row=3, column=0, padx=20, pady=10)
-    botonAsignarM.grid(row=3, column=2, padx=10, pady=10)
-    for i in range(5):
-        v1.grid_columnconfigure(i, weight=1)
-    pass
+    delete_frames_ventana_principal()
+    gestion_reservas = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
+    gestion_reservas_app = GestionReservasApp(gestion_reservas)
+    gestion_reservas.grid(row=1, column=0, sticky="nsew")
+    gestion_reservas.pack_propagate(False)
+
 def delete_frames_ventana_principal():
     for widget in ventanaPrincipal.winfo_children():
         if(isinstance(widget,Frame)):
@@ -545,139 +534,6 @@ menuPrincipal.add_cascade(label="Inicio", menu=menuInicio)
 menuInicio.add_command(label="Salir", command=salir)
 menuInicio.add_command(label="Descripcion", command=ver_descripcion)
 
-# Fieldframe para consultas
-class FieldFrame(Frame):
-    """
-    hay dos formularios para que data se van guardando la inforfmacion de los widgets
-    para poder deshabilitarlos luego de haber respondido el formulario, en dataform
-    puedes visualizar los datos de los criterios que has mandado, como un diccionario
-    con el titulo de el criterio 
-    """
-    def __init__(self, master, tituloCriterios, criterios, tituloValores, valores, habilitado, consulta):
-
-        super().__init__(master)
-
-        self.data = {}
-        self.dataform = {}
-
-        self.tituloValores = tituloValores
-        self.tituloCriterios = tituloCriterios
-        self.criterios = criterios
-        self.valores = valores
-        self.habilitado = habilitado
-        self.consulta = consulta
-
-        # Contenedor que tiene todo el formulario de la consulta
-        frameForm = Frame(self, bg="blue", borderwidth=1, relief="solid")
-        frameForm.grid(padx=5, pady=5)
-        frameForm.grid_rowconfigure(0, weight=1)
-        frameForm.grid_columnconfigure(0, weight=1)
-
-        # Contenedor que tiene el titulo de la consulta
-        tituloCriterios = Label(frameForm, text=f"{tituloCriterios}")
-        tituloCriterios.grid(row=0, column=0, padx=5, pady =10)
-        frameForm.grid_rowconfigure(0, weight=1)
-        frameForm.grid_columnconfigure(0, weight=1)
-
-        # Contenedor que contiene el titulo de valores
-        tituloValores = Label(frameForm, text=f"{tituloValores}")
-        tituloValores.grid(row=0, column=1, pady =10)
-        frameForm.grid_rowconfigure(0, weight=1)
-        frameForm.grid_columnconfigure(1, weight=1)
-
-        # Etiqueta para mostrar el titulo de la consulta
-        for index, criterio in enumerate(criterios):
-            criterio_label = Label(frameForm, text=f"{criterio}")
-            criterio_label.grid(row=index+1, column=0, padx=5, pady=10)
-            frameForm.grid_rowconfigure(index+1, weight=1)
-            frameForm.grid_columnconfigure(0, weight=1)
-            
-            input_widget = Entry(frameForm)
-            input_widget.grid(row=index+1, column=1, padx=5, pady=10)
-            frameForm.grid_rowconfigure(index+1, weight=1)
-            frameForm.grid_columnconfigure(0, weight=1)
-            
-            if valores and index < len(valores):
-                input_widget.insert(0, valores[index])
-            
-            if not habilitado[index]:
-                input_widget.config(state="disabled")
-            # Esta parte es necesaria para deshabilitarlos luego de haber 
-            # Mnadado el trabajo
-            self.data[criterio] = {
-                "widget": input_widget,
-                "value": None
-            }
-
-        # Botón para enviar el formulario
-        self.buttonSubmmit = Button(frameForm, text="enviar", command=self.enviar, height=1, width=7)
-        self.buttonSubmmit.grid(row=index+2, column=0, pady=20)
-        frameForm.grid_rowconfigure(index+2, weight=1)
-        frameForm.grid_columnconfigure(0, weight=1)
-
-        # Crear boton de eliminar campos
-        self.buttonClear = Button(frameForm, text="clear", bg="white", command=self.clear, height=1, width=6)
-        self.buttonClear.grid(row=index + 2, column=1)
-        frameForm.grid_rowconfigure(index+2, weight=1)
-        frameForm.grid_columnconfigure(1, weight=1)
-    
-    # Obtener valores por titulo de criterio
-    def getValue(self, criterio):
-        return self.dataform[criterio]["value"]
-    
-    # Obtener todos los valores
-    def getValues(self):
-        return self.dataform
-    
-    # Limpiar los campos
-    def clear(self):
-        for criterio, info in self.data.items():
-            info["widget"].delete(0, END)
-            info["value"] = None
-
-    def enviar(self):
-        """
-        Al momento de enviar el formulario, se selecciona los
-        valores de los campos y se deshabilitan los botones de clear
-        y submit, se manda la consulta de el usuario con los valores,
-        para que se vayan haciendo consultas en cadena, en caso de
-        que una consulta dependa de la otr
-        """
-        print("entra")
-        if GestionPedidosApp.plato_seleccionado == False:
-            print("captura la funcion")
-            messagebox.showinfo("Alerta", "Debes seleccionar al menos un plato antes de continuar.")
-        else:
-            self.submitForm()
-            valores = self.getValues()
-            self.consulta(valores)
-            self.buttonClear.destroy()
-            self.buttonSubmmit.destroy()
-
-    def submitForm(self):
-        """
-        Aqui se envia el formulario, se verifica que todos los campos
-        esten llenos, en caso de que no, se muestra una alerta, y se
-        retorna, en caso de que si, se deshabilitan los campos y se
-        guardan los valores en dataform
-        """
-        for criterio, info in self.data.items():
-            valor = info["widget"].get()
-            if valor is None or valor == "":
-                messagebox.showinfo("Alerta", f"Campo '{criterio}' no puede estar vacío.")
-                return
-            self.data[criterio]["widget"].config(state="disabled")
-            self.data[criterio]["widget"].config(state="disabled")
-
-            # Obtener el valor de el widget
-            self.data[criterio]["value"] = valor
-
-            # Guardar el valor en el formulario de dataform
-            self.dataform[criterio] = valor
-            # self.data["submit"].destroy()
-            # self.data["clear"].destroy()
-
-
 ancho_receta, alto_receta = 30, 30
 
 # Rutas de las imágenes
@@ -822,8 +678,7 @@ imagenes_materiales = [
     vasos_imagen
 ]
 
-
-
+# Fieldframe para consultas
 class FieldFrame(Frame):
     """
     hay dos formularios para que data se van guardando la inforfmacion de los widgets
@@ -1397,8 +1252,10 @@ class GestionPedidosApp:
             
             if reserva == None:
                 pedido1 = Pedido(self.platos_temp, mesaTemporal, self.pedido["tipo pedido"], self.pedido["cocinero"], self.pedido["mesero"], restaurante, None, None)
-                if(not Pedido.verificarPedido(restaurante, pedido1) == None):
-                      Pedido.verificarPedido(restaurante, pedido1)
+                try:
+                    pedido1.verificarPedido(restaurante, pedido1)
+                except:
+                    pass
 
             if reserva != None:
                   nombre1 = reserva.getDuenoReserva().getNombre()
@@ -1839,12 +1696,11 @@ class GestionReservasApp:
     """
     Aqui se plantea toda la funcionalidad de gestion de reservas
     """
-    def __init__(self, framePadre, restaurante):
+    def __init__(self, framePadre):
         self.row_height = 200
         self.col_width = 200
         self.frames_temporales = []
         self.framePadre = framePadre
-        self.restaurante = restaurante
         self.funcionalidad_gestionReservas = Frame(self.framePadre, bg='#c3c3c3', width=100, height=500)
         self.funcionalidad_gestionReservas.grid(row=0, column=0, sticky="nsew")
         self.options_frame = Frame(self.funcionalidad_gestionReservas, bg='#c3c3c3', width=100, height=500)
@@ -1904,13 +1760,13 @@ class GestionReservasApp:
 
     def function_frame_RNC(self):
         self.frame_RNC = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_RNC, text="Reservas sin\nmesa asignada", font=("Bold", 15)).place(x=150, y=30)
+        Label(self.frame_RNC, text="Reservas sin mesa asignada", font=("Bold", 15)).place(x=150, y=30)
         self.frame_RNC.grid(pady=5, padx=5)
         self.frame_RNC.pack_propagate(False)
 
     def function_frame_RC(self):
         self.frame_RC = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_RC, text="Reservas", font=("Bold", 15)).place(x=150, y=30)
+        Label(self.frame_RC, text="Reservas con mesa asignada", font=("Bold", 15)).place(x=150, y=30)
         self.frame_RC.grid(pady=5, padx=5)
         self.frame_RC.pack_propagate(False)
 

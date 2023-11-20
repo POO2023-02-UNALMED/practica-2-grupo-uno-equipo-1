@@ -371,7 +371,7 @@ class Restaurante():
 	def encontrarMesa(self, numMesa):
 		for mesa1 in self.getMesas():
 			a = mesa1.getNumeroMesa()
-			if (numMesa == a):
+			if (int(numMesa) == a):
 				return mesa1
 		return None
 
