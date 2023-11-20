@@ -6,8 +6,8 @@ class Mesa:
 
     def __init__(self, capacidad, numeroMesa):
         self.capacidad = capacidad
-        if Mesa.verificarNumero(numeroMesa):
-            self.numeroMesa = Mesa.generarNumeroMesa()
+        if Mesa.verificarNumero(Mesa, numeroMesa):
+            self.numeroMesa = Mesa.generarNumeroMesa(Mesa)
         else:
             self.numeroMesa = numeroMesa
         self.ocupada = False
@@ -40,20 +40,20 @@ class Mesa:
         self.ocupada = ocupacion
 
     def setNumeroMesa(self, numeroMesa):
-        if not Mesa.verificarNumero(numeroMesa):
+        if not Mesa.verificarNumero(Mesa, numeroMesa):
             self.numeroMesa = numeroMesa
 
     # Metodos estaticos
 
     @staticmethod
-    def generarNumeroMesa():
+    def generarNumeroMesa(cls):
         while True:
             numeroAleatorio = random.randint(1, 1000)
-            if not Mesa.verificarNumero(numeroAleatorio):
+            if not Mesa.verificarNumero(cls, numeroAleatorio):
                 return numeroAleatorio
 
     @staticmethod
-    def verificarNumero(numero):
+    def verificarNumero(cls, numero):
         return numero in Mesa.numeroMesas
 
     # Metodos de clase

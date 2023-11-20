@@ -840,7 +840,7 @@ class GestionPedidosApp:
         self.platos = []
 
         # Menu verificado
-        menu_verificado = restaurante.veirificarMenu(menu)
+        menu_verificado = restaurante.verificarMenu(menu)
 
         for i, plato in enumerate(menu_verificado):
             plato_dict = {

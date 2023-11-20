@@ -1,5 +1,4 @@
 from datetime import datetime
-#from baseDatos.deserializador import Deserializador
 from gestorAplicacion.Restaurante.reserva import Reserva
 from gestorAplicacion.Restaurante.pedido import Pedido
 from gestorAplicacion.Restaurante.material import Material
@@ -131,7 +130,7 @@ class Restaurante():
 
 
 	#Se verifica el menu si es apto para ofrecerlo
-	def veirificarMenu(self, menu):
+	def verificarMenu(self, menu):
 		menuVerificado = []
 		for plato in menu:
 			# Se verifica si cada plato cumple

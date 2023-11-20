@@ -1,10 +1,9 @@
 from datetime import datetime
-from gestorAplicacion.Personas.empleado import *
+from gestorAplicacion.Personas.empleado import Empleado, datetime, Material, Turno, Restaurante, Pedido
 
 class Domiciliario(Empleado):
 
     #Constructor de la clase Domiciliario que hereda de Empleado
-
     def __init__(self,nombre="",cedula=000000,puesto=None,restaurante=None,turno=None):
         super().__init__(nombre,cedula,puesto,restaurante,turno)
         self.tunros=[]
@@ -12,7 +11,7 @@ class Domiciliario(Empleado):
         self.setFechaContratacion(datetime.now().day)
 
     #Sobreescritura de metodos
-    def puntuacion(self):
+    def Puntuacion(self):
         return "La puntuación del Domiciliario es: "+ self.getPuntuacion()
 
     def trabajo(self):

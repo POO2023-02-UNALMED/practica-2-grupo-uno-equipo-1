@@ -14,7 +14,6 @@ class Empleado(Persona):
         super().__init__(nombre,cedula)
         self.puesto=puesto
         self.restaurante=restaurante
-        self.cedula = cedula
         self.turnos=[]
         self.turnos.append(turno)
         self.turno=turno
@@ -153,7 +152,7 @@ class Empleado(Persona):
     def agregarTurno(self, turno):
         self.turnos.append(turno)
 
-    def puntuacion(self):
+    def Puntuacion(self):
         return "La puntacion del Empleado es: "+ self.getPuntuacion()
 
     def trabajo(self):
