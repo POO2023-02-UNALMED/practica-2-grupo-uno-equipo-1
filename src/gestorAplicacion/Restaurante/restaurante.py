@@ -172,18 +172,12 @@ class Restaurante():
 
 	#Verificar los cocineros aptos para la cantidad de platos
 	def verificarCocineros(self, empleados, platos):
-		print("entraaaaaaaaaa")
 		cocinerosVerificados = []
 
 		cocineros = self.clasificarEmpleados(empleados, "cocinero")
-		print("cocinerosclasificados")
-		print(cocineros)
-		print("---------------------")
 		tiempoPreparacion = platos[0].getTiempoTotal(platos)
 
 		for empleado in cocineros:
-			print("---mirar si hay cocineros verificados---")
-			print(empleado.getNombre())
 			if (empleado.verificarTiempoCocinero(empleado, tiempoPreparacion)):
 				cocinerosVerificados.append(empleado)
 		
