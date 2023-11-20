@@ -287,10 +287,10 @@ def gInventario():
 
 def gFinanciera():
     delete_frames_ventana_principal()
-    gFinanciera = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
-    gFinanciera = GestionFinancieraApp(gFinanciera, restaurante)
-    gFinanciera.grid(row=1, column=0, sticky="nsew")
-    gFinanciera.pack_propagate(False)
+    gestion_financiera = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
+    gestion_financiera_app = GestionFinancieraApp(gestion_financiera, restaurante)
+    gestion_financiera.grid(row=1, column=0, sticky="nsew")
+    gestion_financiera.pack_propagate(False)
 
 def ayuda():
     opcion=messagebox.showinfo("Autores la aplicación","Daniel Garzón\n Samuel Ortiz\n Jhogert Bita\n Sebastian Hoyos\n Nicole Guaranguay")
