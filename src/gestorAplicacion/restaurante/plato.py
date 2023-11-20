@@ -56,9 +56,9 @@ class Plato:
         self.verificadoInsumos = verificadoInsumos
 
     # Metodo para verificar los insumos de un plato
-    def verificar_insumos(self, plato):
-        for ingrediente, cantidad_plato in plato.get_ingredientes().items():
-            if ingrediente.get_cantidad() >= cantidad_plato:
+    def verificarInsumos(self, plato):
+        for ingrediente, cantidad_plato in plato.getIngredientes().items():
+            if ingrediente.getCantidad() >= cantidad_plato:
                 self.setVerificadoInsumos(True)
         return self.isVerificadoInsumos()
 

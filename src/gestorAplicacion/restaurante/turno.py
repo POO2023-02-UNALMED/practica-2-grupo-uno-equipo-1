@@ -1,9 +1,10 @@
 from enum import Enum
 
 class TipoTurno(Enum):
-    SEMANA = 1
-    SABADO = 2
-    DOMINGO = 3
+    SEMANA = "SEMANA"
+    SABADO = "SABADO"
+    DOMINGO = "DOMINGO"
+
 class Turno:
 
     #Constructor de la clase Turno

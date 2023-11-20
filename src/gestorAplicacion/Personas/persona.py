@@ -22,8 +22,5 @@ class Persona(ABC):
         self.cedula = cedula
 
     @abstractmethod
-    def Puntuacion(self):
+    def puntuacion(self):
         pass
-
-    def __str__(self):
-        return f"Persona: {self.getNombre()}"

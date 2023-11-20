@@ -46,14 +46,14 @@ class Mesa:
     # Metodos estaticos
 
     @staticmethod
-    def generarNumeroMesa(cls):
+    def generarNumeroMesa():
         while True:
             numeroAleatorio = random.randint(1, 1000)
-            if not Mesa.verificarNumero(cls, numeroAleatorio):
+            if not Mesa.verificarNumero(numeroAleatorio):
                 return numeroAleatorio
 
     @staticmethod
-    def verificarNumero(cls, numero):
+    def verificarNumero(numero):
         return numero in Mesa.numeroMesas
 
     # Metodos de clase
