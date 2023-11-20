@@ -111,14 +111,14 @@ class Empleado(Persona):
                     if (turno.getTipo().value == dia):
                         if not (turno.isCobrado()):
                             tiempoDisponible = turno.getHoras()* 60
-                            if (tiempoDisponible > Pedido.tiempoDomicilio):
+                            if (tiempoDisponible > Pedido.TIEMPO_DOMICILIO):
                                 return True
         if (empleado.getPuesto() == "mesero"):
                 for turno in empleado.getTurnos():
                     if (turno.getTipo().value == dia):
                         if not(turno.isCobrado()):
                             tiempoDisponible = turno.getHoras()* 60
-                            if(tiempoDisponible > Pedido.tiempoMesero):
+                            if(tiempoDisponible > Pedido.TIEMPO_MESERO):
                                 return True
         else:
             return False

@@ -72,53 +72,53 @@ menu = [
     Plato("Tartiflette", 40000, 20, "Gratinado de Papa y Cerdo", tartiflette)
     ]
 
-#Crear turnos
-turno1 = Turno(TipoTurno.SEMANA, 5.0, 50000)
-turno2 = Turno(TipoTurno.SEMANA, 8.0, 60000)
-turno3 = Turno(TipoTurno.SEMANA, 2.0, 70000)
-turno4 = Turno(TipoTurno.SEMANA, 8.0, 55000)
-turno5 = Turno(TipoTurno.SEMANA, 2.0, 65000)
-turno6 = Turno(TipoTurno.SEMANA, 8.0, 75000)
-turno7 = Turno(TipoTurno.SEMANA, 2.0, 60000)
-turno8 = Turno(TipoTurno.SEMANA, 8.0, 70000)
-turno9 = Turno(TipoTurno.SEMANA, 2.0, 80000)
+# #Crear turnos
+# turno1 = Turno(TipoTurno.SEMANA, 5.0, 50000)
+# turno2 = Turno(TipoTurno.SEMANA, 8.0, 60000)
+# turno3 = Turno(TipoTurno.SEMANA, 2.0, 70000)
+# turno4 = Turno(TipoTurno.SEMANA, 8.0, 55000)
+# turno5 = Turno(TipoTurno.SEMANA, 2.0, 65000)
+# turno6 = Turno(TipoTurno.SEMANA, 8.0, 75000)
+# turno7 = Turno(TipoTurno.SEMANA, 2.0, 60000)
+# turno8 = Turno(TipoTurno.SEMANA, 8.0, 70000)
+# turno9 = Turno(TipoTurno.SEMANA, 2.0, 80000)
 turno10 = Turno(TipoTurno.SEMANA, 8.0, 65000)
 turno11 = Turno(TipoTurno.SEMANA, 3.0, 80000)
-turno12 = Turno(TipoTurno.SABADO, 7.0, 50000)
-turno13 = Turno(TipoTurno.SABADO, 3.0, 60000)
-turno14 = Turno(TipoTurno.SEMANA, 7.0, 70000)
-turno15 = Turno(TipoTurno.SEMANA, 2.0, 55000)
-turno16 = Turno(TipoTurno.SEMANA, 3.0, 55000)
-turno17 = Turno(TipoTurno.SABADO, 2.0, 55000)
+# turno12 = Turno(TipoTurno.SABADO, 7.0, 50000)
+# turno13 = Turno(TipoTurno.SABADO, 3.0, 60000)
+# turno14 = Turno(TipoTurno.SEMANA, 7.0, 70000)
+# turno15 = Turno(TipoTurno.SEMANA, 2.0, 55000)
+# turno16 = Turno(TipoTurno.SEMANA, 3.0, 55000)
+# turno17 = Turno(TipoTurno.SABADO, 2.0, 55000)
 
-#Crear empleados
-empleado1 = Mesero("Juan", 123456789, "mesero", restaurante, turno1)
-empleado1.agregarTurno(turno2)
-restaurante.contratarEmpleado(empleado1)
-empleado2 = Cocinero("Fernando", 234567891, "cocinero", restaurante, turno2)
-empleado2.agregarTurno(turno3)
-restaurante.contratarEmpleado(empleado2)
-empleado3 = Domiciliario("Santiago", 345678912, "domiciliario", restaurante, turno4)
-empleado1.agregarTurno(turno5)
-restaurante.contratarEmpleado(empleado3)
-empleado4 = Mesero("Jhon", 123456789, "mesero", restaurante, turno6)
-empleado1.agregarTurno(turno7)
-restaurante.contratarEmpleado(empleado4)
-empleado5 = Cocinero("Moises", 234567891, "cocinero", restaurante, turno8)
-empleado2.agregarTurno(turno9)
-restaurante.contratarEmpleado(empleado5)
+# #Crear empleados
+# empleado1 = Mesero("Juan", 123456789, "mesero", restaurante, turno1)
+# empleado1.agregarTurno(turno2)
+# restaurante.contratarEmpleado(empleado1)
+# empleado2 = Cocinero("Fernando", 234567891, "cocinero", restaurante, turno2)
+# empleado2.agregarTurno(turno3)
+# restaurante.contratarEmpleado(empleado2)
+# empleado3 = Domiciliario("Santiago", 345678912, "domiciliario", restaurante, turno4)
+# empleado1.agregarTurno(turno5)
+# restaurante.contratarEmpleado(empleado3)
+# empleado4 = Mesero("Jhon", 123456789, "mesero", restaurante, turno6)
+# empleado1.agregarTurno(turno7)
+# restaurante.contratarEmpleado(empleado4)
+# empleado5 = Cocinero("Moises", 234567891, "cocinero", restaurante, turno8)
+# empleado2.agregarTurno(turno9)
+# restaurante.contratarEmpleado(empleado5)
 empleado6 = Domiciliario("Rigo", 345678912, "domiciliario", restaurante, turno10)
-empleado1.agregarTurno(turno11)
+empleado6.agregarTurno(turno11)
 restaurante.contratarEmpleado(empleado6)
-empleado7 = Mesero("Brayan", 123456789, "mesero", restaurante, turno12)
-empleado1.agregarTurno(turno13)
-restaurante.contratarEmpleado(empleado7)
-empleado8 = Cocinero("Felipe", 234567891, "cocinero", restaurante, turno14)
-empleado2.agregarTurno(turno15)
-restaurante.contratarEmpleado(empleado8)
-empleado9 = Domiciliario("Martin", 345678912, "domiciliario", restaurante, turno16)
-empleado1.agregarTurno(turno17)
-restaurante.contratarEmpleado(empleado9)
+# empleado7 = Mesero("Brayan", 123456789, "mesero", restaurante, turno12)
+# empleado1.agregarTurno(turno13)
+# restaurante.contratarEmpleado(empleado7)
+# empleado8 = Cocinero("Felipe", 234567891, "cocinero", restaurante, turno14)
+# empleado2.agregarTurno(turno15)
+# restaurante.contratarEmpleado(empleado8)
+# empleado9 = Domiciliario("Martin", 345678912, "domiciliario", restaurante, turno16)
+# empleado1.agregarTurno(turno17)
+# restaurante.contratarEmpleado(empleado9)
 
 
 #for mesa1 in restaurante.getMesas():
@@ -775,9 +775,7 @@ class FieldFrame(Frame):
         para que se vayan haciendo consultas en cadena, en caso de
         que una consulta dependa de la otr
         """
-        print("entra")
         if GestionPedidosApp.plato_seleccionado == False:
-            print("captura la funcion")
             messagebox.showinfo("Alerta", "Debes seleccionar al menos un plato antes de continuar.")
         else:
             self.submitForm()
@@ -1063,7 +1061,6 @@ class GestionPedidosApp:
     
     
     def toggle_seleccion(self, indice):
-        print(indice)
         if self.platos_seleccionados.count(indice) == 0:
             # Si no está seleccionado, agregarlo a la lista
             self.platos_seleccionados.append(indice)
@@ -1089,9 +1086,6 @@ class GestionPedidosApp:
         self.pedido["tipo pedido"] = tipo_pedido
 
         # Se guardan los platos
-        print("PLATOS TEMPP")
-        print(self.platos_temp)
-        print("--------------")
         # no se esta usando 
         # # Obtener los platos seleccionados
         # index_platos_escogidos = valores["platos"].split()
@@ -1140,7 +1134,6 @@ class GestionPedidosApp:
 
             # Colocar el Frame de selección del cocinero en el grid
             self.seleccionarCocineroFrame.grid(row=0, column=0)
-            print("valores", valores)
 
             cols=2
             rows = len(self.platos) // cols+1
@@ -1181,7 +1174,6 @@ class GestionPedidosApp:
 
             # Colocar el Frame de selección del cocinero en el grid
             self.seleccionarCocineroFrame.grid(row=0, column=0)
-            print("valores", valores)
 
             # Configurar la cuadrícula
             cols=2
@@ -1211,12 +1203,9 @@ class GestionPedidosApp:
         domiciliarios_sin_filtrar = restaurante.clasificarEmpleados(restaurante.getEmpleados(), "domiciliario")
         domiciliarios = restaurante.verificarDomiciliarios(restaurante.getEmpleados())
 
-        print("DOMICILIARIOS")
-        print(domiciliarios)
-        print("DOMICILIARIOS SIN FILTRAR")
-        print(domiciliarios_sin_filtrar)
-        print("AAAAAAAAAAAAAAAAAAAAAAA")
-        name = (valores["cocinero"]).lower()
+        name = (valores["cocinero"])
+        for empleado in restaurante.listadoEmpleados:
+            print(empleado.getNombre())
         cocinero = restaurante.buscarEmpleado(name , "cocinero")
         self.pedido["cocinero"] = cocinero
 
@@ -1278,7 +1267,7 @@ class GestionPedidosApp:
             }
             self.meseros.append(mesero_dict)
             
-        cocinero = restaurante.buscarEmpleado(((valores["cocinero"]).lower()), "cocinero")
+        cocinero = restaurante.buscarEmpleado((valores["cocinero"]), "cocinero")
         self.pedido["cocinero"] = cocinero
 
         self.frameSeleccionarMesero = Frame(self.frame_pedidos, width=500, height=400)
@@ -1313,9 +1302,8 @@ class GestionPedidosApp:
                 identificacion_label.pack(pady=5)
                 
     def detectarReserva(self, valores):
-        print("ENTRA A RESERVA")
 
-        mesero = restaurante.buscarEmpleado(((valores["mesero"]).lower()), "mesero")
+        mesero = restaurante.buscarEmpleado(((valores["mesero"])), "mesero")
         self.pedido["mesero"] = mesero
         self.frameSeleccionarMesero.destroy()
 
@@ -1326,13 +1314,10 @@ class GestionPedidosApp:
     
     def crearPedido(self, valores):
         self.frameSeleccionPlatos.destroy()
-        print("PLATOS TEMPPP2")
-        print(self.platos_temp)
-        print("---------------")
         if self.pedido["tipo pedido"] == "domicilio":
 
             self.frameSeleccionarDomiciliario.destroy()
-            domiciliario = restaurante.buscarEmpleado(valores["domiciliario"].lower(), "domiciliario")
+            domiciliario = restaurante.buscarEmpleado(valores["domiciliario"], "domiciliario")
             self.pedido["domiciliario"] = domiciliario
 
             pedido2 = Pedido(self.platos_temp, None, self.pedido["tipo pedido"], self.pedido["cocinero"], None, restaurante, None, self.pedido["domiciliario"])
