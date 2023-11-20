@@ -18,3 +18,6 @@ class Mesero (Empleado):
 
     def trabajo(self):
         return "Mesero, es quien se encarga de atender y servir a la clientela."
+    
+    def __str__(self):
+        return f"Mesero: {self.getNombre()}"

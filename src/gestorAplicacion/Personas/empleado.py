@@ -148,3 +148,6 @@ class Empleado(Persona):
 
     def detallesEmpleado(self):
         return "Nombre: " + self.getNombre()+"\nCedula: " + self.getCedula()+"\nPuesto: " + self.getPuesto()+"\nTurno: " + self.getTurnos().get(0).getTipo()+"\nSalario: " + self.getTurnos().get(0).getSalario()+"\n"+self.puntuacion()+"\n"+self.trabajo()+"\n"
+    
+    def __str__(self):
+        return f"Empleado: {self.getNombre()}"

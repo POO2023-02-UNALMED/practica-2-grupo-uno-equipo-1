@@ -24,3 +24,6 @@ class Persona(ABC):
     @abstractmethod
     def Puntuacion(self):
         pass
+
+    def __str__(self):
+        return f"Persona: {self.getNombre()}"

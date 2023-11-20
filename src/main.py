@@ -120,7 +120,7 @@ restaurante.contratarEmpleado(empleado8)
 empleado9 = Domiciliario("Martin", 345678912, "domiciliario", restaurante, turno16)
 empleado1.agregarTurno(turno17)
 restaurante.contratarEmpleado(empleado9)
-print(restaurante.getEmpleados())
+
 
 #for mesa1 in restaurante.getMesas():
 #    mesa1.anadirNumero(mesa1.getNumeroMesa())

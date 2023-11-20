@@ -18,3 +18,6 @@ class Domiciliario(Empleado):
 
     def trabajo(self):
         return "Domiciliario, es la persona encargada de entregar los pedidos a domicilio."
+    
+    def __str__(self):
+        return f"Domiciliario: {self.getNombre()}"
