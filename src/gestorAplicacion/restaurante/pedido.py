@@ -1,9 +1,9 @@
 #from uiMain.menu import Menu
 
+from gestorAplicacion.Restaurante.plato import Plato
 class Pedido():
     tiempoDomicilio = 45
     tiempoMesero = 30
-    pedidos=[]
     def __init__(self, platos = [], mesa=None, tipoPedido='', cocinero=None, mesero=None, restaurante=None, reserva=None, domiciliario=None):
         # from gestorAplicacion.Personas.empleado import Empleado
         self.mesa = mesa

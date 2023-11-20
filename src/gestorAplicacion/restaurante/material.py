@@ -33,6 +33,9 @@ class Material:
 
     def getFechaVencimiento(self):
         return self.fechavencimiento
+    
+    def getNombre(self):
+        return self.tipo.name
 
     # Métodos setters
 

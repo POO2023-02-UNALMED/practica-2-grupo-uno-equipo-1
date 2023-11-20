@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox, font
+import keyboard
 from PIL import Image, ImageTk
 from gestorAplicacion.Personas.empleado import Empleado
 from gestorAplicacion.Personas.persona import Persona
@@ -72,22 +73,22 @@ menu = [
     ]
 
 #Crear turnos
-turno1 = Turno(TipoTurno.DOMINGO, 5.0, 50000)
+turno1 = Turno(TipoTurno.SEMANA, 5.0, 50000)
 turno2 = Turno(TipoTurno.SEMANA, 8.0, 60000)
 turno3 = Turno(TipoTurno.SEMANA, 2.0, 70000)
-turno4 = Turno(TipoTurno.DOMINGO, 8.0, 55000)
+turno4 = Turno(TipoTurno.SEMANA, 8.0, 55000)
 turno5 = Turno(TipoTurno.SEMANA, 2.0, 65000)
 turno6 = Turno(TipoTurno.SEMANA, 8.0, 75000)
 turno7 = Turno(TipoTurno.SEMANA, 2.0, 60000)
 turno8 = Turno(TipoTurno.SEMANA, 8.0, 70000)
 turno9 = Turno(TipoTurno.SEMANA, 2.0, 80000)
-turno10 = Turno(TipoTurno.DOMINGO, 8.0, 65000)
+turno10 = Turno(TipoTurno.SEMANA, 8.0, 65000)
 turno11 = Turno(TipoTurno.SEMANA, 3.0, 80000)
 turno12 = Turno(TipoTurno.SABADO, 7.0, 50000)
 turno13 = Turno(TipoTurno.SABADO, 3.0, 60000)
-turno14 = Turno(TipoTurno.DOMINGO, 7.0, 70000)
+turno14 = Turno(TipoTurno.SEMANA, 7.0, 70000)
 turno15 = Turno(TipoTurno.SEMANA, 2.0, 55000)
-turno16 = Turno(TipoTurno.DOMINGO, 3.0, 55000)
+turno16 = Turno(TipoTurno.SEMANA, 3.0, 55000)
 turno17 = Turno(TipoTurno.SABADO, 2.0, 55000)
 
 #Crear empleados
@@ -379,7 +380,7 @@ botonCambio.grid(row=1, column=0, padx=5, pady=5)
 # Organizacion frameDerecho
 # Hojas de vida
 hojasDeVida = [
-    "hojaVida1",
+    "Nombre: Daniel Felipe Garzon Acosta\nFecha de Nacimiento: 25 de Septiembre de 2005\nPasatiempos: Videojuegos y ver series",
     "Nombre: Samuel Ortiz Toro\nFecha de Nacimiento: 6 de Mayo de 2004\nPasatiempos: Política y Religión",
     "hojaVida3",
     "Nombre: Juan Sebastian Hoyos Castillo\nFecha de Nacimiento: 7 de Febrero de 2002\nPasatiempos: Jugar videojuegos y ver anime",
@@ -904,7 +905,6 @@ class FieldFrame(Frame):
         que una consulta dependa de la otr
         """
         print("entra")
-        from diseñoGráfico.GestionPedidosApp import GestionPedidosApp
         if GestionPedidosApp.plato_seleccionado == False:
             print("captura la funcion")
             messagebox.showinfo("Alerta", "Debes seleccionar al menos un plato antes de continuar.")
@@ -1245,6 +1245,11 @@ class GestionPedidosApp:
         domiciliarios_sin_filtrar = restaurante.clasificarEmpleados(restaurante.getEmpleados(), "domiciliario")
         domiciliarios = restaurante.verificarDomiciliarios(restaurante.getEmpleados())
 
+        print("DOMICILIARIOS")
+        print(domiciliarios)
+        print("DOMICILIARIOS SIN FILTRAR")
+        print(domiciliarios_sin_filtrar)
+        print("AAAAAAAAAAAAAAAAAAAAAAA")
         name = (valores["cocinero"]).lower()
         cocinero = restaurante.buscarEmpleado(name , "cocinero")
         self.pedido["cocinero"] = cocinero
@@ -1385,7 +1390,7 @@ class GestionPedidosApp:
                   pedido1.setVerificado(True)
                   Pedido.actualizarInventario(restaurante, pedido1)
 
-        print(Pedido.pedidos[0])
+        print(restaurante.pedidos[0])
         # print(Pedido.pedidos[0].getPlatos())
     #     self.delete_frames()
 
@@ -1508,12 +1513,12 @@ class GestionInventarioApp:
         # self.titulo_pedidos = Label(self.frame_pedidos, text="Pedidos", font=("Bold", 15)).place(x=150, y=30)
 
         # Frame de interacción
-        self.frameSeleccionPlatos = Frame(self.frame_inventario, width=500, height=400)
-        self.busquedadPlatos = FieldFrame(self.frameSeleccionPlatos, "platos deseados y tipo de pedido", ["platos", "tipo pedido"], "Ingresa lo platos deseados y tipo de pedido", ["presiona los platos que desees"], [False, True], self.seleccionarCocinero)
+        self.frameSeleccionPlatos = Frame(self.frame_desechar_mat, width=500, height=400)
+        self.busquedadPlatos = FieldFrame(self.frame_desechar_mat, "platos deseados y tipo de pedido", ["platos", "tipo pedido"], "Ingresa lo platos deseados y tipo de pedido", ["presiona los platos que desees"], [False, True], None)
         self.busquedadPlatos.grid(row = 0, column=0, padx=10, pady=10)
 
         # Crear un Canvas para la cuadrícula dentro del Frame principal
-        self.canvas = Canvas(self.frameSeleccionPlatos)
+        self.canvas = Canvas(self.frame_desechar_mat)
         self.canvas.grid(row = 1, column=0, padx=10, pady=10)
 
         self.frames_temporales.append(self.canvas)
@@ -1522,38 +1527,38 @@ class GestionInventarioApp:
         self.frameSeleccionPlatos.grid(row=0, column=0)
 
         # Configurar la cuadrícula
-        cols=2
-        rows = len(self.platos) // cols+1
+        # cols=2
+        # rows = len(self.platos) // cols+1
 
         # Dentro del bucle para mostrar platos en la cuadrícula
-        for i, plato in enumerate(self.platos):
-            row = i // cols
-            col = i % cols
+        # for i, plato in enumerate(self.platos):
+        #     row = i // cols
+        #     col = i % cols
 
-            # Crear un Frame para cada plato dentro del Canvas
-            frame = Frame(self.canvas, width=self.col_width, height=self.row_height, bd=2, relief=RIDGE)
-            frame.grid(row=row, column=col, padx=5, pady=5)
+        #     # Crear un Frame para cada plato dentro del Canvas
+        #     frame = Frame(self.canvas, width=self.col_width, height=self.row_height, bd=2, relief=RIDGE)
+        #     frame.grid(row=row, column=col, padx=5, pady=5)
 
-            # Cargar la imagen (reemplaza 'ruta_a_tu_imagen' con la ruta real de tus imágenes)
-            # imagen_path = "ruta_a_tu_imagen"  # Reemplazar con la ruta correcta
-            imagen = plato["imagen"]
+        #     # Cargar la imagen (reemplaza 'ruta_a_tu_imagen' con la ruta real de tus imágenes)
+        #     # imagen_path = "ruta_a_tu_imagen"  # Reemplazar con la ruta correcta
+        #     imagen = plato["imagen"]
 
-            # Mostrar imagen del plato (esto podría ser un botón en lugar de una etiqueta)
-            boton_plato = Button(frame, image=imagen, command=lambda i=i: self.toggle_seleccion(i))
-            boton_plato.grid(row=0, column=0, padx=5, pady=5, sticky="w")  # sticky="w" alinea a la izquierda
+        #     # Mostrar imagen del plato (esto podría ser un botón en lugar de una etiqueta)
+        #     boton_plato = Button(frame, image=imagen, command=lambda i=i: self.toggle_seleccion(i))
+        #     boton_plato.grid(row=0, column=0, padx=5, pady=5, sticky="w")  # sticky="w" alinea a la izquierda
 
-            # Mostrar nombre del plato
-            nombre_label = Label(frame, text=plato["nombre"])
-            nombre_label.grid(row=0, column=1, padx=5, pady=1)
+        #     # Mostrar nombre del plato
+        #     nombre_label = Label(frame, text=plato["nombre"])
+        #     nombre_label.grid(row=0, column=1, padx=5, pady=1)
 
-            # Mostrar precio del plato
-            precio_label = Label(frame, text=f"Precio: {plato['precio']}")
-            precio_label.grid(row=1, column=1, padx=5, pady=1)
+        #     # Mostrar precio del plato
+        #     precio_label = Label(frame, text=f"Precio: {plato['precio']}")
+        #     precio_label.grid(row=1, column=1, padx=5, pady=1)
 
 
         # Ubicación frame pedidos
-        self.frame_pedidos.grid(pady=5, padx=5)
-        self.frame_pedidos.pack_propagate(False)
+        self.frame_desechar_mat.grid(pady=5, padx=5)
+        self.frame_desechar_mat.pack_propagate(False)
 
     def delete_pages(self):
         """
