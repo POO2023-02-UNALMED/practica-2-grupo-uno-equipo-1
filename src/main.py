@@ -1461,7 +1461,8 @@ class GestionInventarioApp:
         self.delete_pages()
         pagina()
 
-import tkinter as tkk
+from tkinter import ttk
+
 class GestionFinancieraApp:
     """
     Aqui se plantea toda la funcionalidad de gestion Financiera
@@ -1662,31 +1663,30 @@ class GestionFinancieraApp:
 
 
     def function_frame_pago_empleado_especifico(self):
-        self.frame_gastos_material_especifico = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_gastos_material_especifico, text="Pago Empleado Especifico", font=("Bold", 15)).place(x=150, y=30)
-        
-        # Obtener la lista de empleados del restaurante
+        self.frame_pago_empleado_especifico = Frame(self.main_frame, width=500, height=400)
+        Label(self.frame_pago_empleado_especifico, text="Pago Empleado Especifico", font=("Bold", 15)).place(x=150, y=30)
+
+        Label(self.frame_pago_empleado_especifico, text="Nombre :", font=("Bold", 10)).place(x=80, y=90)
+        self.nombre_empleado = StringVar()
+        Entry(self.frame_pago_empleado_especifico, textvariable=self.nombre_empleado).place(x=200, y=90)
+
+        # Agregar Listbox para la lista de empleados
+        self.lista_empleados = Listbox(self.frame_pago_empleado_especifico)
+        self.lista_empleados.place(x=200, y=120)
+
         lista_empleados = [empleado.getNombre() for empleado in self.empleados]
+        for empleado in lista_empleados:
+            self.lista_empleados.insert(END, empleado)
+        self.lista_empleados.bind('<<ListboxSelect>>', self.actualizar_nombre_empleado)
 
-        # Crear una etiqueta para el texto
-        label = tk.Label(self.main_frame, text="Seleccione el empleado:")
-        label.grid(row=0, column=0)  # Ubicar la etiqueta en la fila 0, columna 0
+        self.frame_pago_empleado_especifico.grid(pady=5, padx=5)
+        self.frame_pago_empleado_especifico.pack_propagate(False)
 
-        # Crear el Combobox
-        combobox = ttk.Combobox(self.main_frame, values=lista_empleados)
-        combobox.grid(row=0, column=1)  # Ubicar el combobox en la fila 0, columna 1
+    def actualizar_nombre_empleado(self, event):
+        seleccionado = self.lista_empleados.get(self.lista_empleados.curselection())
+        # Actualizar el valor de self.nombre_empleado
+        self.nombre_empleado.set(seleccionado)
 
-        # Ubicación frame pago_empleado_especifico
-        self.main_frame.grid(pady=5, padx=5)
-        self.main_frame.pack_propagate(False)
-
-    def pagar_empleado_seleccionado(self):
-        empleado_seleccionado = self.combo_empleados.get()
-        if not empleado_seleccionado:
-            messagebox.showwarning("Error", "Por favor, selecciona un empleado.")
-        else:
-            # Realizar la lógica para el pago al empleado seleccionado
-            messagebox.showinfo("Pago Realizado", f"Se ha realizado el pago a: {empleado_seleccionado}")
 
 
     def indicador(self, pagina, lb):
