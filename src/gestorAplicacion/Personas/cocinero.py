@@ -19,3 +19,6 @@ class Cocinero(Empleado):
 
     def trabajo(self):
         return "Cocinero, es quien cocina y prepara alimentos en el restaurante."
+    
+    def __str__(self):
+        return f"Cocinero: {self.getNombre()}"
