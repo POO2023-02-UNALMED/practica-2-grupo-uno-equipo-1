@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import messagebox, font
+from tkinter import messagebox, ttk
 #import keyboard
 from PIL import Image, ImageTk
 from gestorAplicacion.Personas.empleado import Empleado
@@ -809,6 +809,101 @@ class FieldFrame(Frame):
             # self.data["submit"].destroy()
             # self.data["clear"].destroy()
 
+class FieldFrame2(Frame):
+    def __init__(self, master, tituloCriterios, criterios, tituloValores, valores=None, habilitado=None):
+        super().__init__(master)
+        self.nombre=""
+        self.labels = {}
+        self.entries = {}
+        self.dataform = {}
+        # Títulos
+        label_criterios = Label(self, text=tituloCriterios)
+        label_criterios.grid(row=0, column=0, padx=5, pady=5)
+
+        label_valores = Label(self, text=tituloValores)
+        label_valores.grid(row=0, column=1, padx=5, pady=5)
+
+        # Crear etiquetas y entradas dinámicamente
+        for i, criterio in enumerate(criterios, start=1):
+            label = Label(self, text=criterio)
+            label.grid(row=i, column=0, padx=5, pady=5, sticky=E)
+            self.labels[criterio] = label
+
+            entry = Entry(self)
+            entry.grid(row=i, column=1, padx=5, pady=5, sticky=W)
+            self.entries[criterio] = entry
+
+            if habilitado and habilitado[i - 1] is None:
+                entry.configure(state=DISABLED)
+
+            if valores and valores[i - 1] is not None:
+                entry.insert(0, valores[i - 1])
+
+        # Botones
+        self.boton_aceptar = Button(self, text="Aceptar", command=self.guardar_datos)
+        self.boton_aceptar.grid(row=len(criterios) + 1, column=0, columnspan=2, pady=10)
+
+        self.boton_borrar = Button(self, text="Borrar", command=self.borrar_campos)
+        self.boton_borrar.grid(row=len(criterios) + 2, column=0, columnspan=2, pady=10)
+
+    def guardar_datos(self):
+        def get_valor_by_criterio(criterio):
+            return self.dataform.get(criterio)
+        for criterio, entry in self.entries.items():
+            valor=entry.get()
+            if not entry.get():
+                messagebox.showwarning("Advertencia", f"Campo '{criterio}' no puede estar vacío.")
+                return  # Si un campo está vacío, mostrar advertencia y salir
+            self.dataform[criterio] = valor
+        mensaje=""
+        for criterio, entry in self.entries.items():
+            mensaje+=f"{criterio}: {entry.get()}\n"
+        messagebox.showinfo("Operación exitosa",mensaje)
+        if self.nombre=="mesa":
+            numeroMesa=get_valor_by_criterio("Mesa")
+            capacidadMesa=get_valor_by_criterio("Capacidad")
+            restaurante.listadoMesas.append(Mesa(capacidadMesa,numeroMesa))
+
+    def borrar_campos(self):
+        for entry in self.entries.values():
+            entry.delete(0, END)
+    def insertar_valor(self, criterio, valor):
+        entry = self.entries.get(criterio)
+        if entry:
+            entry.delete(0, END)
+            entry.insert(0, valor)
+    def get_valor_by_criterio(self, criterio):
+            return self.dataform.get(criterio)
+
+class ImageFrame(Frame):
+    def __init__(self, master, image_paths):
+        super().__init__(master)
+        self.image_paths = image_paths
+        self.current_index = 0
+
+        self.label = Label(self)
+        self.label.pack(padx=10, pady=10)
+
+        # Cargar la primera imagen al inicio
+        self.load_image()
+
+        # Asociar la función al evento de clic
+        self.label.bind("<Button-1>", self.next_image)
+
+    def load_image(self):
+        image_path = self.image_paths[self.current_index]
+        img = Image.open(image_path)
+        img = img.resize((300, 300), Image.ANTIALIAS)  # Ajustar el tamaño según sea necesario
+        photo = ImageTk.PhotoImage(img)
+
+        # Actualizar la imagen en el Label
+        self.label.config(image=photo)
+        self.label.image = photo
+
+    def next_image(self, event):
+        # Cambiar a la siguiente imagen al hacer clic
+        self.current_index = (self.current_index + 1) % len(self.image_paths)
+        self.load_image()
 
 
 class GestionPedidosApp:
@@ -1314,7 +1409,7 @@ class GestionInventarioApp:
         self.col_width = 300
         self.restaurante=restaurante
         self.imagenes_ingredientes=imagenes_ingredientes
-
+        self.materiales=[]
         self.frames_temporales=[]
         self.framePadre=framePadre
         self.funcionalidad_gestionInv = Frame(self.framePadre, bg='#c3c3c3', width=100, height=500)
@@ -1341,6 +1436,9 @@ class GestionInventarioApp:
         self.btn_desechar_mat = Button(self.options_frame, text="Desechar\n Materiales", font=('Bold', 15), fg='#158aff', bd = 0, bg ='#c3c3c3',command = lambda : self.indicador(self.function_frame_desechar_mat, self.indicate_desechar_mat))
         self.btn_desechar_mat.grid(row=3, column=0, padx=0, pady=30)
 
+        self.btn_comprar_mesa=Button(self.options_frame,text="Comprar\n Mesas",font=('Bold', 15), fg='#158aff', bd = 0, bg ='#c3c3c3',command= lambda :self.indicador(self.function_frame_comprar_mesa,self.indicate_comprar_mesa))
+        self.btn_comprar_mesa.grid(row=4,column=0,padx=0,pady=30)
+
         #Indicadores de los botones
         self.home_indicate = Label(self.options_frame, text="", bg='#c3c3c3')
         self.home_indicate.place(x=5, y=30, width=5, height=40, )
@@ -1354,12 +1452,17 @@ class GestionInventarioApp:
         self.indicate_desechar_mat = Label(self.options_frame, text="", bg='#c3c3c3')
         self.indicate_desechar_mat.place(x=5, y=375, width=5, height=40, )
 
+        self.indicate_comprar_mesa=Label(self.options_frame,text="",bg='#c3c3c3')
+        self.indicate_comprar_mesa.place(x=5,y=495,width=5,height=40,)
+
 
         self.main_frame.grid(row=0, column=1, sticky="nsew")
         self.main_frame.pack_propagate(False)
         self.framePadre.grid_rowconfigure(0, weight=1)
         self.framePadre.grid_columnconfigure(0, weight=1)
         self.framePadre.grid_columnconfigure(1, weight=1)
+
+    
 
     def function_home_page(self):
         self.frame_home = Frame(self.main_frame, width=500, height=400)
@@ -1373,23 +1476,62 @@ class GestionInventarioApp:
         self.frame_inventario.grid(pady=5, padx=5)
         self.frame_inventario.pack_propagate(False)
 
-    def function_frame_comprar_mat(self):
-        self.frame_comprar = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_comprar, text="Comprar materiales", font=("Bold", 15)).place(x=150, y=30)
-        self.frame_comprar.grid(pady=5, padx=5)
-        self.frame_comprar.pack_propagate(False)
+    def insertar_opcion(self,event):
+            opcion_seleccionada = self.combo.get()
+            self.ff_desechar.insertar_valor("Material", opcion_seleccionada)
 
-    def function_frame_desechar_mat(self):
+    def insertar_opcion2(self,event):
+            opcion_seleccionada = self.combo.get()
+            self.ff_comprar.insertar_valor("Material", opcion_seleccionada)
+
+    def function_frame_comprar_mat(self):
         # Definir frame pedidos
-        self.frame_desechar_mat = Frame(self.main_frame, width=500, height=400)
-        # Título de frame pedidos
-        # self.titulo_pedidos = Label(self.frame_pedidos, text="Pedidos", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_comprar_mat = Frame(self.main_frame, width=500, height=400)
+        self.frame_comprar_mat.grid(pady=10,padx=10)
 
         # Frame de interacción
-        self.frameSeleccionPlatos = Frame(self.frame_desechar_mat, width=500, height=400)
-        self.busquedadPlatos = FieldFrame(self.frame_desechar_mat, "platos deseados y tipo de pedido", ["platos", "tipo pedido"], "Ingresa lo platos deseados y tipo de pedido", ["presiona los platos que desees"], [False, True], None)
-        self.busquedadPlatos.grid(row = 0, column=0, padx=10, pady=10)
+        self.frameFFcomprar = Frame(self.frame_comprar_mat, width=500, height=400)
+        self.ff_comprar = FieldFrame2(self.frameFFcomprar, "Criterio", ["Material", "Cantidad","Precio"], "Valor", [], [True, True,True])
+        self.ff_comprar.grid(row = 0, column=0, padx=10, pady=10)
+        #Combobox
+        materiales=["TOMATES", "CEBOLLAS", "PAPAS", "ACEITES", "VINOS","QUESOS",
+        "CHAMPINONES", "RES", "PESCADOS", "CERDOS","POLLOS", "PANES", "AJOS", "ESPECIAS", "HUEVOS",
+        "ATUN", "CUCHARAS", "TENEDORES", "PLATOS", "VASOS"]
+        valorDefecto=StringVar(value="Seleccione Material")
 
+        self.combo=ttk.Combobox(self.frameFFcomprar,values=materiales,textvariable=valorDefecto)
+
+        self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion2)
+        self.combo.grid(row=0,column=1,pady=20,sticky="new")
+        # Crear un Canvas para la cuadrícula dentro del Frame principal
+        self.canvas = Canvas(self.frame_comprar_mat)
+        self.canvas.grid(row = 1, column=0, padx=10, pady=10)
+
+        self.frames_temporales.append(self.canvas)
+
+        # Ubicación del frame seleccionPlatos dentro de frame_pedidos mediante grid
+        self.frameFFcomprar.grid(row=0, column=0)
+
+    def function_frame_desechar_mat(self):
+
+        # Definir frame pedidos
+        self.frame_desechar_mat = Frame(self.main_frame, width=500, height=400)
+        self.frame_desechar_mat.grid(pady=10,padx=10)
+
+        # Frame de interacción
+        self.frameFFdesdechar = Frame(self.frame_desechar_mat, width=500, height=400)
+        self.ff_desechar = FieldFrame2(self.frameFFdesdechar, "Criterio", ["Material", "Cantidad"], "Valor", [], [True, True])
+        self.ff_desechar.grid(row = 0, column=0, padx=10, pady=10)
+        #Combobox
+        materiales=["TOMATES", "CEBOLLAS", "PAPAS", "ACEITES", "VINOS","QUESOS",
+        "CHAMPINONES", "RES", "PESCADOS", "CERDOS","POLLOS", "PANES", "AJOS", "ESPECIAS", "HUEVOS",
+        "ATUN", "CUCHARAS", "TENEDORES", "PLATOS", "VASOS"]
+        valorDefecto=StringVar(value="Seleccione Material")
+
+        self.combo=ttk.Combobox(self.frameFFdesdechar,values=materiales,textvariable=valorDefecto)
+
+        self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion)
+        self.combo.grid(row=0,column=1,pady=20,sticky="new")
         # Crear un Canvas para la cuadrícula dentro del Frame principal
         self.canvas = Canvas(self.frame_desechar_mat)
         self.canvas.grid(row = 1, column=0, padx=10, pady=10)
@@ -1397,45 +1539,25 @@ class GestionInventarioApp:
         self.frames_temporales.append(self.canvas)
 
         # Ubicación del frame seleccionPlatos dentro de frame_pedidos mediante grid
-        self.frameSeleccionPlatos.grid(row=0, column=0)
+        self.frameFFdesdechar.grid(row=0, column=0)
+    def function_frame_comprar_mesa(self):
 
-        # Configurar la cuadrícula
-        # cols=2
-        # rows = len(self.platos) // cols+1
+        self.frame_comprar_mesa=Frame(self.main_frame,width=500,height=400)
+        self.frame_comprar_mesa.grid(pady=10,padx=10)
 
-        # Dentro del bucle para mostrar platos en la cuadrícula
-        # for i, plato in enumerate(self.platos):
-        #     row = i // cols
-        #     col = i % cols
+        self.frameFFmesa=Frame(self.frame_comprar_mesa,width=500,height=400)
+        self.ff_mesa=FieldFrame2(self.frameFFmesa,"Criterio",["Mesa","Capacidad"],"Valor",[],[True,True])
+        self.ff_mesa.grid(row=0,column=0,padx=10,pady=10)
+        self.ff_mesa.nombre="mesa"
 
-        #     # Crear un Frame para cada plato dentro del Canvas
-        #     frame = Frame(self.canvas, width=self.col_width, height=self.row_height, bd=2, relief=RIDGE)
-        #     frame.grid(row=row, column=col, padx=5, pady=5)
+        self.canvas=Canvas(self.frame_comprar_mesa)
+        self.canvas.grid(row=1,column=0,padx=10,pady=10)
+        self.frames_temporales.append(self.canvas)
 
-        #     # Cargar la imagen (reemplaza 'ruta_a_tu_imagen' con la ruta real de tus imágenes)
-        #     # imagen_path = "ruta_a_tu_imagen"  # Reemplazar con la ruta correcta
-        #     imagen = plato["imagen"]
-
-        #     # Mostrar imagen del plato (esto podría ser un botón en lugar de una etiqueta)
-        #     boton_plato = Button(frame, image=imagen, command=lambda i=i: self.toggle_seleccion(i))
-        #     boton_plato.grid(row=0, column=0, padx=5, pady=5, sticky="w")  # sticky="w" alinea a la izquierda
-
-        #     # Mostrar nombre del plato
-        #     nombre_label = Label(frame, text=plato["nombre"])
-        #     nombre_label.grid(row=0, column=1, padx=5, pady=1)
-
-        #     # Mostrar precio del plato
-        #     precio_label = Label(frame, text=f"Precio: {plato['precio']}")
-        #     precio_label.grid(row=1, column=1, padx=5, pady=1)
-
-
-        # Ubicación frame pedidos
-        self.frame_desechar_mat.grid(pady=5, padx=5)
-        self.frame_desechar_mat.pack_propagate(False)
-
+        self.frameFFmesa.grid(row=0,column=0)
     def delete_pages(self):
         """
-        Esta se hace para borrar los frames actuales
+        Esta se hace para borrar los frames actuales 
         y evitar que se superpongan los frames,
         para que solo se muestre el frame indicado
         dentro de la funcionalidad
@@ -1448,6 +1570,7 @@ class GestionInventarioApp:
         self.indicate_consultar_inventario.config(bg='#c3c3c3')
         self.indicate_comprar_mat.config(bg='#c3c3c3')
         self.indicate_desechar_mat.config(bg='#c3c3c3')
+        self.indicate_comprar_mesa.config(bg='#c3c3c3')
 
     def indicador(self, pagina, lb):
         """
@@ -1669,7 +1792,7 @@ class GestionFinancieraApp:
         lista_empleados = [empleado.getNombre() for empleado in self.empleados]
 
         # Crear una etiqueta para el texto
-        label = tk.Label(self.main_frame, text="Seleccione el empleado:")
+        label = Label(self.main_frame, text="Seleccione el empleado:")
         label.grid(row=0, column=0)  # Ubicar la etiqueta en la fila 0, columna 0
 
         # Crear el Combobox
