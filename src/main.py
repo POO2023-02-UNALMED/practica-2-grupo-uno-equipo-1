@@ -746,6 +746,10 @@ ajos = Image.open("src\\imagenes\\ajos.jpg")
 especies = Image.open("src\\imagenes\\especies.jpg")
 huevos = Image.open("src\\imagenes\\huevo.jpg")
 atun = Image.open("src\\imagenes\\atun.jpg")
+cuchara = Image.open("src\\imagenes\\cuchara.jpg")
+tenedores = Image.open("src\\imagenes\\tenedores.jpg")
+plato = Image.open("src\\imagenes\\plato.jpg")
+vasos = Image.open("src\\imagenes\\vasos.jpg")
 
 # Redimensionamiento de las imágenes  FINANCIA
 
@@ -765,6 +769,10 @@ ajos = ajos.resize((ancho_receta, alto_receta))
 especies = especies.resize((ancho_receta, alto_receta))
 huevos = huevos.resize((ancho_receta, alto_receta))
 atun = atun.resize((ancho_receta, alto_receta))
+cuchara = cuchara.resize((ancho_receta, alto_receta))
+tenedores = tenedores.resize((ancho_receta, alto_receta))
+plato = plato.resize((ancho_receta, alto_receta))
+vasos = vasos.resize((ancho_receta, alto_receta))
 
 # Leer imagenes de FINANCIA
 
@@ -784,6 +792,10 @@ ajos_imagen = ImageTk.PhotoImage(ajos)
 especies_imagen = ImageTk.PhotoImage(especies)
 huevos_imagen = ImageTk.PhotoImage(huevos)
 atun_imagen = ImageTk.PhotoImage(atun)
+cuchara_imagen = ImageTk.PhotoImage(cuchara)
+tenedores_imagen = ImageTk.PhotoImage(tenedores)
+plato_imagen = ImageTk.PhotoImage(plato)
+vasos_imagen = ImageTk.PhotoImage(vasos)
 
 # Crear lista de imagenes de FINANCIAS
 imagenes_materiales = [
@@ -802,7 +814,11 @@ imagenes_materiales = [
     ajos_imagen, 
     especies_imagen, 
     huevos_imagen, 
-    atun_imagen
+    atun_imagen,
+    cuchara_imagen,
+    tenedores_imagen,
+    plato_imagen,
+    vasos_imagen
 ]
 
 
@@ -1587,7 +1603,7 @@ class GestionFinancieraApp:
     """
     Aqui se plantea toda la funcionalidad de gestion Financiera
     """
-    def __init__(self, framePadre, restaurante):
+    def __init__(self, framePadre,restaurante):
         self.row_height = 200
         self.col_width = 200
         self.restaurante = restaurante
@@ -1601,6 +1617,22 @@ class GestionFinancieraApp:
         self.options_frame.pack_propagate(False)
         self.main_frame = Frame(self.funcionalidad_gestionFinanciera, highlightbackground='black', highlightthickness=2, width=500, height=400)
 
+        # Crear una lista de materiales (nombre, imagen)
+        self.materiales = []
+
+        # Inventario verificado
+        inventario_verificado = self.restaurante.inventario
+
+        for i, (key, material) in enumerate(inventario_verificado.items()):
+            material_dict = {
+                "nombre": material.getTipo().value,  
+                "precio": material.getPrecioUnitario(),
+                "cantidad": material.getCantidad(),
+                "imagen": imagenes_materiales[i]
+            }
+            self.materiales.append(material_dict)
+
+    
         # Crear botones de selección de opción
         self.btn_home_page = Button(self.options_frame, text="Inicio", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_home_inicio, self.home_indicate))
         self.btn_home_page.grid(row=0, column=0, padx=0, pady=30)
@@ -1676,13 +1708,14 @@ class GestionFinancieraApp:
 
 
     def function_ganancias_netas(self):
-            ganancias_netas = self.financia.gananciasNetas()  # Obtener el valor de las ganancias netas
-            self.label_ganancias_netas.config(text=f"Ganancias Netas: {gananciasNetas}")  # Actualizar el texto del Label
-            self.label_ganancias_netas.place(x=50, y=200)  # Mostrar el Label al presionar el botón
+        ganancias_netas = self.financia.GananciasNetas()  # Obtener el valor de las ganancias netas
+        self.label_ganancias_netas.config(text=f"Ganancias Netas: {ganancias_netas}")  # Actualizar el texto del Label
+        self.label_ganancias_netas.place(x=50, y=200)
 
     def function_ganancias_brutas(self):
-        # Lógica para mostrar las Ganancias Brutas
-        pass
+        ganancias_brutas = self.financia.GananciasBrutas()  # Obtener el valor de las ganancias brutas
+        self.label_ganancias_brutas.config(text=f"Ganancias Brutas: {ganancias_brutas}")  # Actualizar el texto del Label
+        self.label_ganancias_brutas.place(x=300, y=200)
 
     def function_frame_gastos(self):
         self.frame_gastos = Frame(self.main_frame, width=500, height=400)
@@ -1700,14 +1733,65 @@ class GestionFinancieraApp:
         btn_pagos_empleados.place(x=300, y=100)
 
     def function_gastos_materiales(self):
-        # Lógica para mostrar las Ganancias Netas
-        pass
+
+        gastos_materiales = self.financia.GastosMateriales()  # Obtener el valor de los gastos de materiales
+        self.label_gastos_materiales.config(text=f"Gastos Materiales: {gastos_materiales}")  
+        self.label_gastos_materiales.place(x=50, y=200)  # Mostrar el Label al presionar el botón
+
     def function_pagos_empleados(self):
-        # Lógica para mostrar las Ganancias Brutas
-        pass
+
+        pagos_empleados = self.financia.PagosEmpleados(self.restaurante)  # Obtener el valor de los pagos a empleados
+        self.label_pagos_empleados.config(text=f"Pagos Empleados: {pagos_empleados}")  
+        self.label_pagos_empleados.place(x=300, y=200)  # Mostrar el Label al presionar el botón
+
     def function_frame_gastos_material_especifico(self):
         self.frame_gastos_material_especifico = Frame(self.main_frame, width=500, height=400)
         Label(self.frame_gastos_material_especifico, text="Gastos Material Especifico", font=("Bold", 15)).place(x=150, y=30)
+        
+        # Frame de interacción
+        self.frameSeleccionMateriales = Frame(self.frame_gastos_material_especifico, width=500, height=400)
+        self.busquedaMateriales = FieldFrame(self.frameSeleccionMateriales, "materiales deseados", ["materiales"], "Ingresa los materiales deseados", ["presiona los materiales que desees"], [False], self.seleccionarMaterial)
+        self.busquedaMateriales.grid(row = 0, column=0, padx=10, pady=10)
+
+        # Crear un Canvas para la cuadrícula dentro del Frame principal
+        self.canvas = Canvas(self.frameSeleccionMateriales)
+        self.canvas.grid(row = 1, column=0, padx=10, pady=10)
+
+        self.frames_temporales.append(self.canvas)
+
+        # Ubicación del frame seleccionMateriales dentro de frame_gastos_material_especifico mediante grid
+        self.frameSeleccionMateriales.grid(row=0, column=0)
+
+        # Configurar la cuadrícula
+        cols=2
+        rows = len(self.materiales) // cols+1
+
+        # Dentro del bucle para mostrar materiales en la cuadrícula
+        for i, material in enumerate(self.materiales):
+            row = i // cols
+            col = i % cols
+
+            # Crear un Frame para cada material dentro del Canvas
+            frame = Frame(self.canvas, width=self.col_width, height=self.row_height, bd=2, relief=RIDGE)
+            frame.grid(row=row, column=col, padx=5, pady=5)
+
+            # Cargar la imagen 
+            imagen = material["imagen"]
+
+            # Mostrar imagen del material (esto podría ser un botón en lugar de una etiqueta)
+            boton_material = Button(frame, image=imagen, command=lambda i=i: self.toggle_seleccion(i))
+            boton_material.grid(row=0, column=0, padx=5, pady=5, sticky="w")  # sticky="w" alinea a la izquierda
+
+            # Mostrar nombre del material
+            nombre_label = Label(frame, text=material["nombre"])
+            nombre_label.grid(row=0, column=1, padx=5, pady=1)
+
+            # Mostrar precio del material
+            precio_label = Label(frame, text=f"Precio: {material['precio']}")
+            precio_label.grid(row=1, column=1, padx=5, pady=1)
+
+
+        # Ubicación frame gastos_material_especifico
         self.frame_gastos_material_especifico.grid(pady=5, padx=5)
         self.frame_gastos_material_especifico.pack_propagate(False)
 

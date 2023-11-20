@@ -43,13 +43,14 @@ class Financia():
 		return self.costoPromedioPorPlato
 
 	def GastosMateriales(self):
-
-		total_gastos_materiales= 0
+		total_gastos_materiales = 0
+		#Recorre cada pedido del restaurante
 		for pedido in self.restaurante.getPedidos():
+			#Recorre cada plato de los pedidos
 			for plato in pedido.getPlatos():
+				#Recorre los ingredientes de cada plato con su cantidad usada y luego multiplica el precio unitario de material por su cantidad
 				for material, cantidad_utilizada in plato.getIngredientes().items():
 					total_gastos_materiales += material.getPrecioUnitario() * cantidad_utilizada
-		
 		return total_gastos_materiales
 
 	def GastoMaterialEspecifico(self, nombre_material):
@@ -136,8 +137,8 @@ class Financia():
 
     #Calcula las ganancias netas del restaurante
 	def GananciasNetas(self):
-		totalGastos = self.gastosMateriales() + self.pagosEmpleados(self.restaurante)
-		totalIngresos = self.gananciasBrutas()
+		totalGastos = self.gastosMateriales + self.pagosEmpleados  # Acceder a los valores directamente
+		totalIngresos = self.GananciasBrutas()
 		self.gananciasNetas = totalIngresos - totalGastos
 		return self.gananciasNetas
 
