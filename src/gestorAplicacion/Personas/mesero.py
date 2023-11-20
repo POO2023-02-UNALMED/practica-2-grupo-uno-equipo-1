@@ -6,7 +6,7 @@ class Mesero (Empleado):
     #Constructor de la clase Mesero que hereda de Empleado
 
     def __init__(self, nombre="", cedula=000000, puesto=None, restaurante=None, turno=None):
-        from gestorAplicacion.Personas.empleado import *
+        #from gestorAplicacion.Personas.empleado import *
         super().__init__(nombre, cedula, puesto, restaurante, turno)
         self.turnos = []
         self.turnos.append(turno)
