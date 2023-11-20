@@ -22,5 +22,5 @@ class Persona(ABC):
         self.cedula = cedula
 
     @abstractmethod
-    def puntuacion(self):
+    def Puntuacion(self):
         pass

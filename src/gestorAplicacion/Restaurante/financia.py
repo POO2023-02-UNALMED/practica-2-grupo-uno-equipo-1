@@ -42,7 +42,7 @@ class Financia():
 	def getCostoPromedioPorPlato(self):
 		return self.costoPromedioPorPlato
 
-	def gastosMateriales(self):
+	def GastosMateriales(self):
 
 		total_gastos_materiales= 0
 		for pedido in self.restaurante.getPedidos():
@@ -52,7 +52,7 @@ class Financia():
 		
 		return total_gastos_materiales
 
-	def gastoMaterialEspecifico(self, nombre_material):
+	def GastoMaterialEspecifico(self, nombre_material):
 		total_gasto_material = 0
 		for pedido in self.restaurante.getPedidos():
 			for plato in pedido.getPlatos():
@@ -99,7 +99,7 @@ class Financia():
 		return totalPago
 
     #Calcula el Pago total de todos los Empleados
-	def pagosEmpleados(self,restaurante):
+	def PagosEmpleados(self,restaurante):
 		totalPago = 0
 		for empleado in restaurante.getEmpleados():
 			totalPago += empleado.getSalario()
@@ -114,7 +114,7 @@ class Financia():
 		return self.pagosEmpleados
 
     #Calcula el costo promedio de los ingredientes por plato.
-	def costoPromedioPorPlato(self):
+	def CostoPromedioPorPlato(self):
 		totalCosto = 0
 		totalPlatos = 0
 		for pedido in self.restaurante.getPedidos():
@@ -127,7 +127,7 @@ class Financia():
 		return totalCosto / totalPlatos
 
     #Calcula las ganancias Brutas del restaurante
-	def gananciasBrutas(self):
+	def GananciasBrutas(self):
 		totalGananciasBrutas = 0
 		for pedido in self.restaurante.getPedidos():
 			totalGananciasBrutas += pedido.getPrecioTotal()
@@ -135,15 +135,15 @@ class Financia():
 		return self.gananciasBrutas
 
     #Calcula las ganancias netas del restaurante
-	def gananciasNetas(self):
+	def GananciasNetas(self):
 		totalGastos = self.gastosMateriales() + self.pagosEmpleados(self.restaurante)
 		totalIngresos = self.gananciasBrutas()
 		self.gananciasNetas = totalIngresos - totalGastos
 		return self.gananciasNetas
 
     #Calcula el presupuesto considerando las ganancias del restaurante
-	def presupuesto(self):
-		totalGastos = self.MetodoGastosMateriales() + self.pagosEmpleados(self.restaurante)
+	def Presupuesto(self):
+		totalGastos = self.GastosMateriales() + self.pagosEmpleados(self.restaurante)
 		gananciasNetas = self.gananciasNetas()
 		self.presupuesto = self.presupuesto - totalGastos + gananciasNetas
 		return self.presupuesto

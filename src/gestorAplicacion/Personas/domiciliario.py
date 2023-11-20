@@ -1,11 +1,12 @@
 from datetime import datetime
-from gestorAplicacion.Personas.empleado import *
+from gestorAplicacion.Personas.empleado import Empleado
 
 class Domiciliario(Empleado):
 
     #Constructor de la clase Domiciliario que hereda de Empleado
 
     def __init__(self,nombre="",cedula=000000,puesto=None,restaurante=None,turno=None):
+        from gestorAplicacion.Personas.empleado import *
         super().__init__(nombre,cedula,puesto,restaurante,turno)
         self.tunros=[]
         self.turnos.append(turno)
