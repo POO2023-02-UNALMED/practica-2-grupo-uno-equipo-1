@@ -16,6 +16,7 @@ from gestorAplicacion.Restaurante.reserva import Reserva
 from gestorAplicacion.Restaurante.restaurante import Restaurante
 from gestorAplicacion.Restaurante.turno import Turno, TipoTurno
 from diseñoGráfico.GestionPedidosApp import GestionPedidosApp
+from diseñoGráfico.GestionFinancieraApp import GestionFinancieraApp
 from diseñoGráfico.GestionReservasApp import GestionReservasApp
 from baseDatos.Serializacion import serializar,deserializar
 
@@ -280,7 +281,11 @@ def gInventario():
     v4.tkraise()
 
 def gFinanciera():
-    pass
+    delete_frames_ventana_principal()
+    gFinanciera = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
+    gFinanciera = GestionFinancieraApp(gFinanciera, menu, imagenes_materiales, restaurante)
+    gFinanciera.grid(row=1, column=0, sticky="nsew")
+    gFinanciera.pack_propagate(False)
 
 def ayuda():
     opcion=messagebox.showinfo("Autores la aplicación","Daniel Garzón\n Samuel Ortiz\n Jhogert Bita\n Sebastian Hoyos\n Nicole Guaranguay")

@@ -1,12 +1,14 @@
 from tkinter import *
 from diseñoGráfico.FieldFrame import FieldFrame
-from gestorAplicacion.Restaurante.financia import financia
+from gestorAplicacion.Restaurante.financia import Financia
+from gestorAplicacion.Restaurante.material import Material
+
 
 class GestionFinancieraApp:
     """
     Aqui se plantea toda la funcionalidad de gestion Financiera
     """
-    def __init__(self, framePadre, menu, imagenes_materiales):
+    def __init__(self, framePadre, menu, imagenes_materiales, restaurante):
         self.row_height = 200
         self.col_width = 200
         self.restaurante = restaurante
@@ -21,16 +23,16 @@ class GestionFinancieraApp:
         self.options_frame.grid(row=0, column=0, sticky="nsew")
         self.options_frame.pack_propagate(False)
 
-         # Crear una lista de platos (nombre, imagen)
-        self.material = []
+         # Crear una lista de Materiales (nombre, imagen)
+        self.materiales = []
 
-        for i, material in enumerate(menu):
+        for i, materiales in enumerate(menu):
             material_dict = {
                 "nombre": material.getTipo(),
                 "precio": material.getPrecioUnitario(),
-                "imagen": imagenes_recetas[i]
+                "imagen": imagenes_materiales[i]
             }
-            self.material.append(material_dict)
+            self.materiales.append(material_dict)
 
         self.main_frame = Frame(self.funcionalidad_gestionFinanciera,
                                 highlightbackground='black',
@@ -150,13 +152,13 @@ class GestionFinancieraApp:
 
         # Configurar la cuadrícula
         cols=2
-        rows = len(self.material) // cols+1
+        rows = len(self.materiales) // cols+1
 
 
         from tkinter import Label, PhotoImage
 
         # Dentro del bucle para mostrar Materiales en la cuadrícula
-        for i, material in enumerate(self.material):
+        for i, material in enumerate(self.materiales):
             row = i // cols
             col = i % cols
 
@@ -165,14 +167,14 @@ class GestionFinancieraApp:
             frame = Frame(self.canvas, width=self.col_width, height=self.row_height, bd=2, relief=RIDGE)
             frame.grid(row=row, column=col, padx=5, pady=5)
 
-            imagen = material["imagen"]
+            imagen = materiales["imagen"]
 
             # Mostrar imagen del material (esto podría ser un botón en lugar de una etiqueta)
             boton_material = Button(frame, image=imagen, command=lambda i=i: self.toggle_seleccion(i))
             boton_material.grid(row=0, column=0, padx=5, pady=5, sticky="w")  # sticky="w" alinea a la izquierda
 
             # Mostrar nombre del Material
-            nombreMaterial_label = Label(frame, text=material["nombre"])
+            nombreMaterial_label = Label(frame, text=materiales["nombre"])
             nombreMaterial_label.grid(row=0, column=1, padx=5, pady=1)
 
             # Mostrar precio del plato
@@ -185,7 +187,7 @@ class GestionFinancieraApp:
         self.frame_gastosMaterialesEspecificos.pack_propagate(False)
         
     def toggle_seleccion(self, indice):
-        material_seleccionado = self.material[indice]
+        material_seleccionado = self.materiales[indice]
     
         # Obtener el nombre y el precio del material seleccionado
         nombre = material_seleccionado["Nombre"]
