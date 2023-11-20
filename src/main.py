@@ -18,6 +18,7 @@ from gestorAplicacion.Restaurante.turno import Turno, TipoTurno
 from diseñoGráfico.GestionPedidosApp import GestionPedidosApp
 from diseñoGráfico.GestionFinancieraApp import GestionFinancieraApp
 from diseñoGráfico.GestionReservasApp import GestionReservasApp
+from diseñoGráfico.GestionInventarioApp import GestionInventarioApp
 from baseDatos.Serializacion import serializar,deserializar
 
 
@@ -278,7 +279,11 @@ def gEmpleado():
     pass
 
 def gInventario():
-    v4.tkraise()
+    delete_frames_ventana_principal()
+    gestion_inv = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
+    gestion_inventario_app = GestionInventarioApp(gestion_inv, imagenes_materiales, restaurante)
+    gestion_inv.grid(row=1, column=0, sticky="nsew")
+    gestion_inv.pack_propagate(False)
 
 def gFinanciera():
     delete_frames_ventana_principal()
@@ -720,26 +725,6 @@ menu2.add_command(label="Gestión de Inventario",command=gInventario)
 menu2.add_command(label="Gestión Financiera",command=gFinanciera)
 
 menu3.add_command(label="Acerca de",command=ayuda)
-
-# Frame de gestion de inventario
-v4 = Frame(ventanaPrincipal,padx=20,pady=20,bg="gray77")
-
-v4.grid(row=0, column=0, sticky="nsew")
-
-gestionInv=Label(v4,text="Gestión de Inventario", font=("arial",30),fg="blue",bg="gray77")
-
-revisarInv=Button(v4,text="Consultar Inventario",width=30,height=10)
-comprarMat=Button(v4,text="Comprar Materiales",width=30,height=10)
-botarMat=Button(v4,text="Desechar Materiales",width=30,height=10)
-
-gestionInv.grid(row=0,column=1,padx=10,pady=10)
-revisarInv.grid(row=1,column=1,padx=20,pady=10)
-comprarMat.grid(row=2,column=0,padx=10,pady=10)
-botarMat.grid(row=2,column=2,padx=10,pady=10)
-
-for i in range(3):
-    v4.grid_columnconfigure(i,weight=1)
-ancho_receta, alto_receta = 30, 30
 
 # Ocultar ventana principal
 ventanaPrincipal.withdraw()

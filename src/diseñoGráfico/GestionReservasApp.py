@@ -40,22 +40,22 @@ class GestionReservasApp:
 
         # Crear indicadores de opción seleccionada
         self.home_indicate = Label(self.options_frame, text="", bg='#c3c3c3')
-        self.home_indicate.place(x=20, y=30, width=5, height=40, )
+        self.home_indicate.place(x=0, y=30, width=5, height=40, )
 
         self.indicate_reservas_NC = Label(self.options_frame, text="", bg='#c3c3c3')
-        self.indicate_reservas_NC.place(x=20, y=135, width=5, height=40, )
+        self.indicate_reservas_NC.place(x=0, y=135, width=5, height=40, )
         
         self.indicate_RESERVAS_C = Label(self.options_frame, text="", bg='#c3c3c3')
-        self.indicate_RESERVAS_C.place(x=20, y=255, width=5, height=40, )
+        self.indicate_RESERVAS_C.place(x=0, y=255, width=5, height=40, )
         
         self.indicate_anadir_reservas = Label(self.options_frame, text="", bg='#c3c3c3')
-        self.indicate_anadir_reservas.place(x=20, y=375, width=5, height=40, )
+        self.indicate_anadir_reservas.place(x=0, y=375, width=5, height=40, )
 
         self.indicate_cancelar_reservas = Label(self.options_frame, text="", bg='#c3c3c3')
-        self.indicate_cancelar_reservas.place(x=20, y=375, width=5, height=40, )
+        self.indicate_cancelar_reservas.place(x=0, y=375, width=5, height=40, )
 
         self.indicate_confirmar = Label(self.options_frame, text="", bg='#c3c3c3')
-        self.indicate_confirmar.place(x=20, y=375, width=5, height=40, )
+        self.indicate_confirmar.place(x=0, y=375, width=5, height=40, )
 
         self.main_frame.grid(row=0, column=1, sticky="nsew")
         self.main_frame.pack_propagate(False)
