@@ -291,7 +291,7 @@ def gEmpleado():
 def gInventario():
     delete_frames_ventana_principal()
     gestion_inv = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
-    gestion_inv_app = GestionInventarioApp(gestion_inv)
+    gestion_inv_app = GestionInventarioApp(gestion_inv,imagenes_materiales,restaurante)
     gestion_inv.grid(row=1, column=0, sticky="nsew")
     gestion_inv.pack_propagate(False)
 
@@ -1508,7 +1508,7 @@ class GestionInventarioApp:
         # self.titulo_pedidos = Label(self.frame_pedidos, text="Pedidos", font=("Bold", 15)).place(x=150, y=30)
 
         # Frame de interacción
-        self.frameSeleccionPlatos = Frame(self.frame_pedidos, width=500, height=400)
+        self.frameSeleccionPlatos = Frame(self.frame_inventario, width=500, height=400)
         self.busquedadPlatos = FieldFrame(self.frameSeleccionPlatos, "platos deseados y tipo de pedido", ["platos", "tipo pedido"], "Ingresa lo platos deseados y tipo de pedido", ["presiona los platos que desees"], [False, True], self.seleccionarCocinero)
         self.busquedadPlatos.grid(row = 0, column=0, padx=10, pady=10)
 
