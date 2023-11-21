@@ -832,13 +832,15 @@ class FieldFrame(Frame):
 
 
         if self.consulta is not None:
+            print("gestionPedidosApp estado")
+            print(GestionPedidosApp.plato_seleccionado)
+            print("----------------------------")
             if GestionPedidosApp.plato_seleccionado == False:
                 messagebox.showinfo("Alerta", "Debes seleccionar al menos un plato antes de continuar.")
             else:
                 print("ESTOY VIENDO VALORES")
                 print(self.dataform)
                 valores = self.dataform
-
                 self.consulta(valores)
         else:
             mensaje = ""
@@ -1066,6 +1068,10 @@ class GestionPedidosApp:
         titulo_restaurante = Label(self.frame_restaurante, text="Restaurante", font=("Bold", 15)).place(x=150, y=30)
         self.frame_restaurante.grid(pady=5, padx=5)
         self.frame_restaurante.pack_propagate(False)
+    
+    def insertar_opcion_tipo_pedido(self,event):
+        opcion_seleccionada = self.combo.get()
+        self.busquedadPlatos.insertar_valor("tipo pedido", opcion_seleccionada)
 
     def function_frame_pedidos(self):
         # Definir frame pedidos
@@ -1077,6 +1083,14 @@ class GestionPedidosApp:
         self.frameSeleccionPlatos = Frame(self.frame_pedidos, width=500, height=400)
         self.busquedadPlatos = FieldFrame(self.frameSeleccionPlatos, "platos y tipo pedido", ["platos", "tipo pedido"], "presione los paltos y ingrese tipo pedido", [], [False, True], self.seleccionarCocinero)
         self.busquedadPlatos.grid(row = 0, column=0, padx=10, pady=10)
+
+        tipoConsumo = ["restaurante","domicilio"]
+        valorDefecto=StringVar(value="Seleccione tipo consumo")
+
+        self.combo=ttk.Combobox(self.frameSeleccionPlatos,values=tipoConsumo,textvariable=valorDefecto)
+
+        self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion_tipo_pedido)
+        self.combo.grid(row=0,column=1,pady=20,sticky="new")
 
         # Crear un Canvas para la cuadrícula dentro del Frame principal
         self.canvas = Canvas(self.frameSeleccionPlatos)
@@ -1133,6 +1147,10 @@ class GestionPedidosApp:
             # Si ya está seleccionado, quitarlo de la lista
             self.platos_seleccionados.remove(indice)
         
+    def insertar_opcion_cocinero(self,event):
+        opcion_seleccionada = self.combo.get()
+        self.frameResultadosCocinero.insertar_valor("cocinero", opcion_seleccionada)
+
     def seleccionarCocinero(self, valores):
         print(valores)
         # Obtener el tipo de pedido
@@ -1166,6 +1184,7 @@ class GestionPedidosApp:
 
         # Lista de cocineros (corregir la clave 'idenrificacion' a 'identificacion')
         self.cocineros = []
+        print(cocineros)
 
         for i, cocinero in enumerate(cocineros):
             cocinero_dict= {
@@ -1174,7 +1193,12 @@ class GestionPedidosApp:
                 "puesto": cocinero.getPuesto(),
             }
             self.cocineros.append(cocinero_dict)
-        
+
+        self.cocineros_names=[]
+
+        for cocinero in cocineros:
+            self.cocineros_names.append(cocinero.getNombre())
+
         # Según el tipo de pedido, mostrar diferentes frames y resultados
         if tipo_pedido == "restaurante":
             # Crear un nuevo Frame para la selección del cocinero
@@ -1188,6 +1212,14 @@ class GestionPedidosApp:
             
             # Colocar el Frame de resultados en el grid
             self.frameResultadosCocinero.grid(padx=10, pady=10)
+
+            cocineroSelec = self.cocineros_names
+            valorDefecto=StringVar(value="Seleccione su cocinero")
+
+            self.combo=ttk.Combobox(self.seleccionarCocineroFrame,values=cocineroSelec,textvariable=valorDefecto)
+
+            self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion_cocinero)
+            self.combo.grid(row=0,column=1,pady=20,sticky="new")
 
             # Crear un Canvas para mostrar los cocineros
             self.canvascocineros = Canvas( self.seleccionarCocineroFrame)
@@ -1229,6 +1261,14 @@ class GestionPedidosApp:
             
             # Colocar el Frame de resultados en el grid
             self.frameResultadosCocinero.grid(padx=10, pady=10)
+            
+            cocineroSelec = self.cocineros_names
+            valorDefecto=StringVar(value="Seleccione su cocinero")
+
+            self.combo=ttk.Combobox(self.seleccionarCocineroFrame,values=cocineroSelec,textvariable=valorDefecto)
+
+            self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion_cocinero)
+            self.combo.grid(row=0,column=1,pady=20,sticky="new")
 
             # Crear un Canvas para mostrar los cocineros
             self.canvascocineros = Canvas( self.seleccionarCocineroFrame)
@@ -1258,8 +1298,14 @@ class GestionPedidosApp:
                 # Mostrar identificación del cocinero
                 identificacion_label = Label(frame, text=f"Identificación: {cocinero['identificacion']}")
                 identificacion_label.pack(pady=5)
+    
+    def insertar_opcion_cocinero(self,event):
+        opcion_seleccionada = self.combo.get()
+        self.frameResultadosCocinero.insertar_valor("cocinero", opcion_seleccionada)
 
-
+    def insertar_opcion_domiciliario(self,event):
+        opcion_seleccionada = self.combo.get()
+        self.frameResultadosDomiciliario.insertar_valor("domiciliario", opcion_seleccionada)
     
     def seleccionarDomiciliario(self, valores):
         self.seleccionarCocineroFrame.destroy()
@@ -1283,11 +1329,21 @@ class GestionPedidosApp:
                 "puesto": domiciliario.getPuesto(),
             }
             self.domiciliarios.append(domiciliario_dict)
+        
+        self.domiciliarios_names = [ domiciliario.getNombre() for domiciliario in domiciliarios]
 
         self.frameSeleccionarDomiciliario = Frame(self.frame_pedidos, width=500, height=400)
 
         self.frameResultadosDomiciliario = FieldFrame( self.frameSeleccionarDomiciliario, "Domiciliario", ["domiciliario"], "ingrese el nombre del domiciliario", [], [True], self.crearPedido)
         self.frameResultadosDomiciliario.grid(padx=10, pady=10)
+
+        domiciliarioSelec = self.domiciliarios_names
+        valorDefecto = StringVar(value="Seleccione su cocinero")
+
+        self.combo = ttk.Combobox(self.frameSeleccionarDomiciliario,values=domiciliarioSelec,textvariable=valorDefecto)
+
+        self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion_domiciliario)
+        self.combo.grid(row=0,column=1,pady=20,sticky="new")
 
         self.canvasdomiciliarios = Canvas(self.frameSeleccionarDomiciliario)
         self.canvasdomiciliarios.grid(row=1, column=0, padx=10, pady=10)
@@ -1313,7 +1369,10 @@ class GestionPedidosApp:
                 # Mostrar identificación del cocinero
                 identificacion_label = Label(frame, text=f"Identificación: {domiciliario['identificacion']}")
                 identificacion_label.pack(pady=5)
-
+    
+    def insertar_opcion_mesero(self):
+        opcion_seleccionada = self.combo.get()
+        self.frameResultadosMesero.insertar_valor("mesero", opcion_seleccionada)
 
     def seleccionarMesero(self, valores):
         self.seleccionarCocineroFrame.destroy()
@@ -1330,6 +1389,8 @@ class GestionPedidosApp:
                 "puesto": mesero.getPuesto(),
             }
             self.meseros.append(mesero_dict)
+        
+        self.meseros_names = [ mesero.getNombre() for mesero in meseros]
             
         cocinero = restaurante.buscarEmpleado((valores["cocinero"]), "cocinero")
         self.pedido["cocinero"] = cocinero
@@ -1338,6 +1399,14 @@ class GestionPedidosApp:
 
         self.frameResultadosMesero = FieldFrame(self.frameSeleccionarMesero, "Mesero", ["mesero"], "ingrese el nombre del mesero", [], [True], self.detectarReserva)
         self.frameResultadosMesero.grid(padx=10, pady=10)
+
+        meseroSelec = self.meseros_names
+        valorDefecto=StringVar(value="Seleccione su mesero")
+
+        self.combo=ttk.Combobox(self.frameSeleccionarMesero, values=meseroSelec, textvariable=valorDefecto)
+
+        self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion_mesero)
+        self.combo.grid(row=0,column=1,pady=20,sticky="new")
 
         self.canvasmeseros = Canvas(self.frameSeleccionarMesero)
         self.canvasmeseros.grid(row=1, column=0, padx=10, pady=10)
