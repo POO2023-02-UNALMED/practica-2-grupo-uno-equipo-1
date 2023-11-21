@@ -19,7 +19,7 @@ from gestorAplicacion.Restaurante.turno import Turno, TipoTurno
 from baseDatos.Serializacion import serializar,deserializar
 
 
-restaurante=deserializar()
+restaurante=Restaurante()
 """for material in restaurante.getInventario():
     print(material)
     print(restaurante.inventario[material].getCantidad())
@@ -104,7 +104,7 @@ menu = [
     Plato("Tartiflette", 40000, 20, "Gratinado de Papa y Cerdo", tartiflette)
     ]
 
-# #Crear turnos
+#Crear turnos
 turno1 = Turno(TipoTurno.SEMANA, 5.0, 50000)
 turno2 = Turno(TipoTurno.SEMANA, 8.0, 60000)
 turno3 = Turno(TipoTurno.SEMANA, 2.0, 70000)
@@ -121,9 +121,9 @@ turno13 = Turno(TipoTurno.SABADO, 3.0, 60000)
 turno14 = Turno(TipoTurno.SEMANA, 7.0, 70000)
 turno15 = Turno(TipoTurno.SEMANA, 2.0, 55000)
 turno16 = Turno(TipoTurno.SEMANA, 3.0, 55000)
-turno17 = Turno(TipoTurno.SABADO, 2.0, 55000)
+turno17 = Turno(TipoTurno.SEMANA, 2.0, 55000)
 
-# #Crear empleados
+#Crear empleados
 empleado1 = Mesero("Juan", 123456789, "mesero", restaurante, turno1)
 empleado1.agregarTurno(turno2)
 restaurante.contratarEmpleado(empleado1)
@@ -156,7 +156,6 @@ restaurante.contratarEmpleado(empleado9)
 #for mesa1 in restaurante.getMesas():
 #    mesa1.anadirNumero(mesa1.getNumeroMesa())
 #restaurante.borrarReservasViejas()
-
 
 
 
@@ -729,28 +728,28 @@ imagenes_materiales = [
     vasos_imagen
 ]
 
-imagen_mat={
-    Tipo.TOMATES:{"imagen": tomates_imagen, "cantidad": restaurante.inventario[Tipo.TOMATES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.TOMATES].getPrecioUnitario()},
-    Tipo.CEBOLLAS:{"imagen": cebollas_imagen, "cantidad": restaurante.inventario[Tipo.CEBOLLAS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.CEBOLLAS].getPrecioUnitario()},
-    Tipo.PAPAS:{"imagen": papas_imagen, "cantidad": restaurante.inventario[Tipo.PAPAS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.PAPAS].getPrecioUnitario()},
-    Tipo.ACEITES:{"imagen": aceites_imagen, "cantidad": restaurante.inventario[Tipo.ACEITES].getCantidad(),"precio unitario": restaurante.inventario[Tipo.ACEITES].getPrecioUnitario()},
-    Tipo.VINOS:{"imagen": vinos_imagen, "cantidad": restaurante.inventario[Tipo.VINOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.VINOS].getPrecioUnitario()},
-    Tipo.QUESOS:{"imagen": quesos_imagen, "cantidad": restaurante.inventario[Tipo.QUESOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.QUESOS].getPrecioUnitario()},
-    Tipo.CHAMPINONES:{"imagen":champiñones_imagen, "cantidad": restaurante.inventario[Tipo.CHAMPINONES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.CHAMPINONES].getPrecioUnitario()},
-    Tipo.RES:{"imagen": res_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.RES].getPrecioUnitario()},
-    Tipo.PESCADOS:{"imagen": pescados_imagen, "cantidad": restaurante.inventario[Tipo.PESCADOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.PESCADOS].getPrecioUnitario()},
-    Tipo.CERDOS:{"imagen": cerdos_imagen, "cantidad": restaurante.inventario[Tipo.CERDOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.CERDOS].getPrecioUnitario()},
-    Tipo.POLLOS:{"imagen": pollos_imagen, "cantidad": restaurante.inventario[Tipo.POLLOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.POLLOS].getPrecioUnitario()},
-    Tipo.PANES:{"imagen": panes_imagen, "cantidad": restaurante.inventario[Tipo.PANES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.PANES].getPrecioUnitario()},
-    Tipo.AJOS:{"imagen":ajos_imagen, "cantidad": restaurante.inventario[Tipo.AJOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.AJOS].getPrecioUnitario()},
-    Tipo.ESPECIAS:{"imagen": especies_imagen, "cantidad": restaurante.inventario[Tipo.ESPECIAS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.ESPECIAS].getPrecioUnitario()},
-    Tipo.HUEVOS:{"imagen": huevos_imagen, "cantidad": restaurante.inventario[Tipo.HUEVOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.HUEVOS].getPrecioUnitario()},
-    Tipo.ATUN:{"imagen": atun_imagen, "cantidad": restaurante.inventario[Tipo.ATUN].getCantidad(),"precio unitario": restaurante.inventario[Tipo.ATUN].getPrecioUnitario()},
-    Tipo.CUCHARAS:{"imagen": cuchara_imagen, "cantidad": restaurante.inventario[Tipo.CUCHARAS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.CUCHARAS].getPrecioUnitario()},
-    Tipo.TENEDORES:{"imagen": tenedores_imagen, "cantidad": restaurante.inventario[Tipo.TENEDORES].getCantidad(),"precio unitario": restaurante.inventario[Tipo.TENEDORES].getPrecioUnitario()},
-    Tipo.PLATOS:{"imagen": plato_imagen, "cantidad": restaurante.inventario[Tipo.PLATOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.PLATOS].getPrecioUnitario()},
-    Tipo.VASOS:{"imagen": vasos_imagen, "cantidad": restaurante.inventario[Tipo.VASOS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.VASOS].getPrecioUnitario()}
-    }
+# imagen_mat={
+#     Tipo.TOMATES:{"imagen": tomates_imagen, "cantidad": restaurante.inventario[Tipo.TOMATES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.TOMATES].getPrecioUnitario()},
+#     Tipo.CEBOLLAS:{"imagen": cebollas_imagen, "cantidad": restaurante.inventario[Tipo.CEBOLLAS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.CEBOLLAS].getPrecioUnitario()},
+#     Tipo.PAPAS:{"imagen": papas_imagen, "cantidad": restaurante.inventario[Tipo.PAPAS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.PAPAS].getPrecioUnitario()},
+#     Tipo.ACEITES:{"imagen": aceites_imagen, "cantidad": restaurante.inventario[Tipo.ACEITES].getCantidad(),"precio unitario": restaurante.inventario[Tipo.ACEITES].getPrecioUnitario()},
+#     Tipo.VINOS:{"imagen": vinos_imagen, "cantidad": restaurante.inventario[Tipo.VINOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.VINOS].getPrecioUnitario()},
+#     Tipo.QUESOS:{"imagen": quesos_imagen, "cantidad": restaurante.inventario[Tipo.QUESOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.QUESOS].getPrecioUnitario()},
+#     Tipo.CHAMPINONES:{"imagen":champiñones_imagen, "cantidad": restaurante.inventario[Tipo.CHAMPINONES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.CHAMPINONES].getPrecioUnitario()},
+#     Tipo.RES:{"imagen": res_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.RES].getPrecioUnitario()},
+#     Tipo.PESCADOS:{"imagen": pescados_imagen, "cantidad": restaurante.inventario[Tipo.PESCADOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.PESCADOS].getPrecioUnitario()},
+#     Tipo.CERDOS:{"imagen": cerdos_imagen, "cantidad": restaurante.inventario[Tipo.CERDOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.CERDOS].getPrecioUnitario()},
+#     Tipo.POLLOS:{"imagen": pollos_imagen, "cantidad": restaurante.inventario[Tipo.POLLOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.POLLOS].getPrecioUnitario()},
+#     Tipo.PANES:{"imagen": panes_imagen, "cantidad": restaurante.inventario[Tipo.PANES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.PANES].getPrecioUnitario()},
+#     Tipo.AJOS:{"imagen":ajos_imagen, "cantidad": restaurante.inventario[Tipo.AJOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.AJOS].getPrecioUnitario()},
+#     Tipo.ESPECIAS:{"imagen": especies_imagen, "cantidad": restaurante.inventario[Tipo.ESPECIAS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.ESPECIAS].getPrecioUnitario()},
+#     Tipo.HUEVOS:{"imagen": huevos_imagen, "cantidad": restaurante.inventario[Tipo.HUEVOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.HUEVOS].getPrecioUnitario()},
+#     Tipo.ATUN:{"imagen": atun_imagen, "cantidad": restaurante.inventario[Tipo.ATUN].getCantidad(),"precio unitario": restaurante.inventario[Tipo.ATUN].getPrecioUnitario()},
+#     Tipo.CUCHARAS:{"imagen": cuchara_imagen, "cantidad": restaurante.inventario[Tipo.CUCHARAS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.CUCHARAS].getPrecioUnitario()},
+#     Tipo.TENEDORES:{"imagen": tenedores_imagen, "cantidad": restaurante.inventario[Tipo.TENEDORES].getCantidad(),"precio unitario": restaurante.inventario[Tipo.TENEDORES].getPrecioUnitario()},
+#     Tipo.PLATOS:{"imagen": plato_imagen, "cantidad": restaurante.inventario[Tipo.PLATOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.PLATOS].getPrecioUnitario()},
+#     Tipo.VASOS:{"imagen": vasos_imagen, "cantidad": restaurante.inventario[Tipo.VASOS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.VASOS].getPrecioUnitario()}
+#     }
 
 # Fieldframe para consultas
 
@@ -1506,8 +1505,8 @@ class GestionPedidosApp:
             self.frameSeleccionarDomiciliario.destroy()
             domiciliario = restaurante.buscarEmpleado(valores["domiciliario"], "domiciliario")
             self.pedido["domiciliario"] = domiciliario
-
             pedido2 = Pedido(self.platos_temp, None, self.pedido["tipo pedido"], self.pedido["cocinero"], None, restaurante, None, self.pedido["domiciliario"])
+            pedido2.actualizarInventario(restaurante, pedido2)
             messagebox.showinfo("Operación exitosa", "Pedido creado")
 
         if self.pedido["tipo pedido"] == 'restaurante':
@@ -1519,6 +1518,7 @@ class GestionPedidosApp:
             if reserva == None:
                 messagebox.showinfo("Operación exitosa", "Pedido creado")
                 pedido1 = Pedido(self.platos_temp, mesaTemporal, self.pedido["tipo pedido"], self.pedido["cocinero"], self.pedido["mesero"], restaurante, None, None)
+                pedido1.actualizarInventario(restaurante, pedido2)
                 try:
                     pedido1.verificarPedido(restaurante, pedido1)
                 except:
@@ -1529,7 +1529,7 @@ class GestionPedidosApp:
                   nombre1 = reserva.getDuenoReserva().getNombre()
                   pedido1 = Pedido(self.platos_temp, reserva.getMesa(), self.pedido["tipo pedido"], self.pedido["cocinero"], self.pedido["mesero"], restaurante, reserva, None)				      
                   pedido1.setVerificado(True)
-                  Pedido.actualizarInventario(restaurante, pedido1)
+                  pedido1.actualizarInventario(restaurante, pedido1)
 
 
     def delete_pages(self):
@@ -2028,14 +2028,13 @@ class GestionFinancieraApp:
         # Ubicación frame pago_empleado_especifico
         self.main_frame.grid(pady=5, padx=5)
         self.main_frame.pack_propagate(False)
-
     def pagar_empleado_seleccionado(self):
-        empleado_seleccionado = self.combo_empleados.get()
-        if not empleado_seleccionado:
-            messagebox.showwarning("Error", "Por favor, selecciona un empleado.")
+        empleado_seleccionado = combobox.get()
+        if empleado_seleccionado:
+            pago = self.financia.pagoempleadoespecifico(específico)
+            messagebox.showinfo( f"Pagar a el empleado {empleado_seleccionado}: {pago}")
         else:
-            # Realizar la lógica para el pago al empleado seleccionado
-            messagebox.showinfo("Pago Realizado", f"Se ha realizado el pago a: {empleado_seleccionado}")
+            messagebox.showwarning("Error", "Por favor, selecciona un empleado.")
 
 
     def indicador(self, pagina, lb):

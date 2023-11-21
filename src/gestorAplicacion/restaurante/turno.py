@@ -54,7 +54,7 @@ class Turno:
     def actualizarTiempo(self, turno, tiempo):
         if(self.horas*60)-tiempo>=20:
             self.horas = (self.horas*60-tiempo)/60
-            if turno.getHoras*60-tiempo<=20:
+            if turno.getHoras()*60-tiempo<=20:
                 turno.setCompletado(True)
 
     # Metodo para calcualr las horas extra
