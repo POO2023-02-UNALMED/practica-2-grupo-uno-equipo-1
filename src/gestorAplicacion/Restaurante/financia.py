@@ -16,6 +16,7 @@ class Financia():
 			self.gastosMateriales = 0
 			self.gastoMaterialEspecifico = 0
 			self.pagosEmpleados = 0
+			self.pagoempleadoespecifico = 0
 			self.gananciasBrutas = 0
 			self.gananciasNetas = 0
 			self.restaurante = restaurante
@@ -31,13 +32,16 @@ class Financia():
 	
 	def getPagosEmpleados(self):
 		return self.pagosEmpleados
+	def getPagoempleadoespecifico(self):
+		return self.pagoempleadoespecifico
 
 	def getGananciasBrutas(self):
 		return self.gananciasBrutas
 
 	def getGananciasNetas(self):
 		return self.gananciasNetas
-
+	
+	#Calcula el pago total de los gastos de materiales
 	def gastosMateriales(self):
 		total_gastos_materiales = 0
 		for pedido in self.restaurante.getPedidos():
@@ -46,7 +50,7 @@ class Financia():
 					total_gastos_materiales += material.getPrecioUnitario() * cantidad_utilizada
 		self.gastosMateriales = total_gastos_materiales
 		return total_gastos_materiales
-
+	#calcula el gasto de un material en especifico
 	def gastoMaterialEspecifico(self, material_seleccionado):
 		total_gasto_material = 0
 		for pedido in self.restaurante.getPedidos():
@@ -57,6 +61,7 @@ class Financia():
 		self.gastoMaterialEspecifico = total_gasto_material
 		return total_gasto_material
 
+	#Calcula le pago total  de los empleados
 	def pagosEmpleados(self):
 		totalPagos = 0
 		for empleado in self.restaurante.getEmpleados():
@@ -64,7 +69,14 @@ class Financia():
 			self.pagosEmpleados = totalPagos
 		return totalPagos
 
-
+	#Calcula le pago  de un empleado 
+	def pagoempleadoespecifico(self, nombre_empleado):
+			total_pago = 0
+			for empleado in self.restaurante.getEmpleados():
+				if empleado.getNombre() == nombre_empleado:
+					total_pago = self.pagoEmpleado(empleado)
+			self.getPagoempleadoespecifico= total_pago
+			return total_pago
     #Calcula las ganancias Brutas del restaurante
 	def gananciasBrutas(self):
 		totalGananciasBrutas = 0
