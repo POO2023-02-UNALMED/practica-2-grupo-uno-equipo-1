@@ -862,6 +862,31 @@ class FieldFrame(Frame):
                 tipos = getattr(Tipo, tipo.upper(), None)
                 cantidad = int(self.get_valor_by_criterio("Cantidad"))
                 restaurante.botarMaterial(tipos, cantidad)
+            elif self.nombre == "crear-reserva":
+                cedula = self.get_valor_by_criterio("cedula")
+                nombre = self.get_valor_by_criterio("nombre")
+                numAsistentes = self.get_valor_by_criterio("numero de asistentes")
+                diaReserva = self.get_valor_by_criterio("dia de la reserva")
+                try:
+                    Reserva.revisarFecha(diaReserva)
+                    restaurante.asignarReservaCliente(cedula, nombre, numAsistentes, diaReserva)
+                except ValueError:
+                    messagebox.showinfo("Alerta", "formato de fecha ingresado no válido")
+            elif self.nombre == "cancelar-reserva":
+                cedula = self.get_valor_by_criterio("cedula")
+                if (restaurante.verificarCliente(cedula)):
+                    messagebox.showinfo("Alerta", "El cliente no se encuentra afiliado al restaurante")
+                else:
+                    restaurante.obtenerCliente(cedula).setReserva(None)
+                    messagebox.showinfo("éxito", "Reserva cancelada")
+            elif self.nombre == "confirmar-reserva":
+                cedula = self.get_valor_by_criterio("cedula")
+                numMesa = self.get_valor_by_criterio("numero de mesa")
+                if (restaurante.verificarCliente(cedula)):
+                    messagebox.showinfo("Alerta", "El cliente no se encuentra afiliado al restaurante, por lo que no tiene una reserva")
+                else:
+                    if not (restaurante.mesasQueCumplen(cedula) == "No hay mesas válidas para esa reserva"):
+                        messagebox.showinfo("Alerta", restaurante.confirmarReserva(numMesa, cedula))
 
         for criterio, entry in self.entries.items():
             if entry.winfo_exists():
@@ -2073,7 +2098,7 @@ class GestionFinancieraApp:
         self.indicate_consultarGanancias.config(bg='#c3c3c3')
         self.indicate_consultarGastos.config(bg='#c3c3c3')
 
-
+from tkinter import scrolledtext
 class GestionReservasApp:
     """
     Aqui se plantea toda la funcionalidad de gestion de reservas
@@ -2105,10 +2130,10 @@ class GestionReservasApp:
         btn_anadir_reservas.grid(row=3, column=0, padx=0, pady=30)
 
         btn_cancelar_reservas = Button(self.options_frame, text="cancelar\n  reservas", font=('Bold', 15), fg='#158aff', bd = 0, bg ='#c3c3c3',command = lambda : self.indicador(self.function_frame_cancelar_R, self.indicate_cancelar_reservas))
-        btn_cancelar_reservas.grid(row=3, column=0, padx=0, pady=30)
+        btn_cancelar_reservas.grid(row=4, column=0, padx=0, pady=30)
 
-        btn_asignar_mesas = Button(self.options_frame, text="añadir\nreservas", font=('Bold', 15), fg='#158aff', bd = 0, bg ='#c3c3c3',command = lambda : self.indicador(self.function_frame_confirmar_R, self.indicate_confirmar))
-        btn_asignar_mesas.grid(row=3, column=0, padx=0, pady=30)
+        btn_asignar_mesas = Button(self.options_frame, text="confirmar\nreservas", font=('Bold', 15), fg='#158aff', bd = 0, bg ='#c3c3c3',command = lambda : self.indicador(self.function_frame_confirmar_R, self.indicate_confirmar))
+        btn_asignar_mesas.grid(row=5, column=0, padx=0, pady=30)
 
         # Crear indicadores de opción seleccionada
         self.home_indicate = Label(self.options_frame, text="", bg='#c3c3c3')
@@ -2147,62 +2172,55 @@ class GestionReservasApp:
         self.frame_RNC = Frame(self.main_frame, width=500, height=400)
         self.frame_RNC.grid(row=1, column=1, pady=5, padx=5, sticky="nsew")
         Label(self.frame_RNC, text="Reservas sin mesa asignada", font=("Bold", 15)).grid(row=0, column=0, padx=10, pady=10)
-        self.texto = Listbox(self.frame_RNC)
-        scrollbar = Scrollbar(self.frame_RNC, orient="vertical", command=self.texto.yview)
-        self.texto.configure(yscrollcommand=scrollbar.set)
-        self.texto.config(width=100, height=30)
-        self.texto.grid(row=1, column=0, padx=10, pady=10, sticky="nswe")
-        scrollbar.grid(row=1, column=1, padx=0, pady=0, sticky="ns")
+        self.texto = scrolledtext.ScrolledText(self.frame_RNC, wrap="word", width=100, height=30)
+        self.texto.grid(row=1, column=0, padx=10, pady=10, sticky="nswe")     
         self.texto.insert(END, self.restaurante.imprimirReservas())
 
     def function_frame_RC(self):
         self.frame_RC = Frame(self.main_frame, width=500, height=400)
         self.frame_RC.grid(row=1, column=1, pady=5, padx=5, sticky="nsew")
         Label(self.frame_RC, text="Reservas con mesa asignada", font=("Bold", 15)).grid(row=0, column=0, padx=10, pady=10)
-        self.texto2 = Listbox(self.frame_RC)
-        scrollbar = Scrollbar(self.frame_RC, orient="vertical", command=self.texto2.yview)
-        self.texto2.configure(yscrollcommand=scrollbar.set)
-        self.texto2.config(width=100, height=30)
+        self.texto2 = scrolledtext.ScrolledText(self.frame_RC, wrap="word", width=100, height=30)
         self.texto2.grid(row=1, column=0, padx=10, pady=10, sticky="nswe")
-        scrollbar.grid(row=1, column=1, padx=0, pady=0, sticky="ns")
         self.texto2.insert(END, self.restaurante.imprimirReservas2())
 
     def function_frame_ANADIR_R(self):
         # Definir frame reservas
         self.frame_ANADIR_R = Frame(self.main_frame, width=500, height=400)
+        self.frame_ANADIR_R.grid(pady=10,padx=10)
         # Frame de interacción
         self.frame_AR = Frame(self.frame_ANADIR_R, width=500, height=400)
-        self.V_AR = FieldFrame(self.frame_AR, "información del reservista", ["cedula", "nombre", "numero de asistentes", "dia de la reserva"], "Ingresa la información", ["Ej: 1022142545", "Solo si reservista no está registrado", "", "En formato dia-mes-año"], [True, True, True, True], self.anadirR)
+        self.V_AR = FieldFrame(self.frame_AR, "información del reservista", ["cedula", "nombre", "numero de asistentes", "dia de la reserva"], "Ingresa la información", ["Ej: 1022142545", "", "", "En formato dia-mes-año"], [True, True, True, True])
+        self.V_AR.nombre = "crear-reserva"
         self.V_AR.grid(row = 0, column=0, padx=10, pady=10)
         self.frame_ANADIR_R.grid(pady=5, padx=5)
-        self.frame_ANADIR_R.pack_propagate(False)
+        self.canvas = Canvas(self.frame_AR, width=500, height=400)
+        self.canvas.grid(row = 1, column=0, padx=10, pady=10, sticky="nsew")
+        self.frame_AR.grid(row=0, column=0, sticky="nsew")
 
     def function_frame_cancelar_R(self):
-        self.frame_ANADIR_R = Frame(self.main_frame, width=500, height=400)
+        self.frame_CANCELAR_R = Frame(self.main_frame, width=500, height=400)
         # Frame de interacción
-        self.frame_AR = Frame(self.frame_ANADIR_R, width=500, height=400)
-        self.V_AR = FieldFrame(self.frame_AR, "información del reservista", ["cedula"], "Ingresa la información", ["Ej: 1022142545"], [True], self.cancelarR)
-        self.V_AR.grid(row = 0, column=0, padx=10, pady=10)
-        self.frame_ANADIR_R.grid(pady=5, padx=5)
-        self.frame_ANADIR_R.pack_propagate(False)
+        self.frame_CR = Frame(self.frame_CANCELAR_R, width=500, height=400)
+        self.V_CR = FieldFrame(self.frame_CR, "información del reservista", ["cedula"], "Ingresa la información", ["Ej: 1022142545"], [True])
+        self.V_CR.nombre = "cancelar-reserva"
+        self.V_CR.grid(row = 0, column=0, padx=10, pady=10)
+        self.frame_CANCELAR_R.grid(pady=5, padx=5)
+        self.canvas2 = Canvas(self.frame_CR, width=500, height=400)
+        self.canvas2.grid(row = 1, column=0, padx=10, pady=10, sticky="nsew")
+        self.frame_CR.grid(row=0, column=0, sticky="nsew")
 
     def function_frame_confirmar_R(self):
         self.confirmar_R = Frame(self.main_frame, width=500, height=400)
         # Frame de interacción
         self.frame_re = Frame(self.confirmar_R, width=500, height=400)
-        self.conf_R = FieldFrame(self.frame_re, "Información del reservista", ["cedula", "numero de mesa"], "Ingresa la información", [], [True, True], self.confirmarR)
+        self.conf_R = FieldFrame(self.frame_re, "Información del reservista", ["cedula", "numero de mesa"], "Ingresa la información", [], [True, True])
+        self.conf_R.nombre = "confirmar-reserva"
         self.conf_R.grid(row = 0, column=0, padx=10, pady=10)
         self.confirmar_R.grid(pady=5, padx=5)
-        self.confirmar_R.pack_propagate(False)
-        
-    def anadirR(self, valores):
-         self.anadirRFrame.destroy()
-
-    def cancelarR(self, valores):
-        self.anadirRFrame.destroy()
-        
-    def confirmarR(self, valores):
-        self.anadirRFrame.destroy()
+        self.canvas3 = Canvas(self.frame_re, width=500, height=400)
+        self.canvas3.grid(row = 1, column=0, padx=10, pady=10, sticky="nsew")
+        self.frame_re.grid(row=0, column=0, sticky="nsew")
 
     def delete_pages(self):
         """
