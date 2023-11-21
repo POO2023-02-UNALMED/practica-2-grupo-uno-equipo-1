@@ -1370,7 +1370,7 @@ class GestionPedidosApp:
                 identificacion_label = Label(frame, text=f"Identificación: {domiciliario['identificacion']}")
                 identificacion_label.pack(pady=5)
     
-    def insertar_opcion_mesero(self):
+    def insertar_opcion_mesero(self, event):
         opcion_seleccionada = self.combo.get()
         self.frameResultadosMesero.insertar_valor("mesero", opcion_seleccionada)
 
@@ -1401,11 +1401,11 @@ class GestionPedidosApp:
         self.frameResultadosMesero.grid(padx=10, pady=10)
 
         meseroSelec = self.meseros_names
-        valorDefecto=StringVar(value="Seleccione su mesero")
+        valorDefecto = StringVar(value="Seleccione su mesero")
 
         self.combo=ttk.Combobox(self.frameSeleccionarMesero, values=meseroSelec, textvariable=valorDefecto)
 
-        self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion_mesero)
+        self.combo.bind("<<ComboboxSelected>>", self.insertar_opcion_mesero)
         self.combo.grid(row=0,column=1,pady=20,sticky="new")
 
         self.canvasmeseros = Canvas(self.frameSeleccionarMesero)
@@ -1476,8 +1476,8 @@ class GestionPedidosApp:
                   pedido1.setVerificado(True)
                   Pedido.actualizarInventario(restaurante, pedido1)
 
-        for plato in restaurante.pedidos[0].getPlatos():
-            print(plato.detallesPlato())
+    for plato in restaurante.pedidos:
+        print(plato)
 
         """print("PEDIDO")
         print(restaurante.pedidos[0])"""
