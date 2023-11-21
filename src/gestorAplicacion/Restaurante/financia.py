@@ -1,7 +1,7 @@
 from datetime import datetime
 
 class Financia():
-	def __init__(self, restaurante=None, presupuesto=1000000, gastosMateriales=0, gastoMaterialEspecifico=0, pagosEmpleados=0, gananciasBrutas=0, gananciasNetas=0, liquidacion=0, costoPromedioPorPlato=0):
+	def __init__(self, restaurante=None, presupuesto=1000000, gastosMateriales=0, gastoMaterialEspecifico=0, pagosEmpleados=0, gananciasBrutas=0, gananciasNetas=0):
 		from gestorAplicacion.Restaurante.restaurante import Restaurante
 		from gestorAplicacion.Restaurante.material import Material
 		from gestorAplicacion.Restaurante.pedido import Pedido
@@ -17,9 +17,8 @@ class Financia():
 		self.pagosEmpleados = pagosEmpleados
 		self.gananciasBrutas = gananciasBrutas
 		self.gananciasNetas = gananciasNetas
-		self.costoPromedioPorPlato = costoPromedioPorPlato
 		self.restaurante = restaurante
-		self.liquidacion = liquidacion
+
 
 	def getPresupuesto(self):
 		return self.presupuesto
@@ -39,19 +38,16 @@ class Financia():
 	def getGananciasNetas(self):
 		return self.gananciasNetas
 
-	def getCostoPromedioPorPlato(self):
-		return self.costoPromedioPorPlato
-
 	def GastosMateriales(self):
 		total_gastos_materiales = 0
-		#Recorre cada pedido del restaurante
+		# Recorre cada pedido del restaurante
 		for pedido in self.restaurante.getPedidos():
-			#Recorre cada plato de los pedidos
+			# Recorre cada plato de los pedidos
 			for plato in pedido.getPlatos():
-				#Recorre los ingredientes de cada plato con su cantidad usada y luego multiplica el precio unitario de material por su cantidad
+				# Recorre los ingredientes de cada plato con su cantidad usada y luego multiplica el precio unitario de material por su cantidad
 				for material, cantidad_utilizada in plato.getIngredientes().items():
 					total_gastos_materiales += material.getPrecioUnitario() * cantidad_utilizada
-		return total_gastos_materiales
+		self.gastosMateriales = total_gastos_materiales
 
 	def GastoMaterialEspecifico(self, nombre_material):
 		total_gasto_material = 0
@@ -62,30 +58,6 @@ class Financia():
 						total_gasto_material += material.getPrecioUnitario() * cantidad_utilizada
 						
 		return total_gasto_material
-
-	# Calcula el pago de la liquidacion de un empleado del restaurante
-	def liquidacionEmpleado(self, nombreEmpleado):
-		empleado = None
-		totalPago = 0
-		horasTrabajadas = 0
-		for e in self.restaurante.getEmpleados(self):
-			if (e.getNombre() == nombreEmpleado):
-				empleado = e
-				break
-		if (empleado == None):
-			return -1
-		for turno in empleado.getTurnos():
-			if (turno.isCompletado() and not turno.isCobrado()):
-				totalPago += turno.getSalario()
-				horasTrabajadas += turno.getHoras()
-				turno.setCobrado(True)
-		totalPago += empleado.getSalario()
-		# Convertir las horas trabajadas en días trabajados
-		diasTrabajados = horasTrabajadas / 8  # Suponiendo que una jornada laboral es de 8 horas
-		cesantias = (empleado.getSalario() * diasTrabajados) / 360
-		interesesCesantias = (cesantias * diasTrabajados * 0.12) / 360
-		totalPago += cesantias + interesesCesantias
-		return totalPago
 
     #Calcula el pago de un solo empleado
 	def pagoEmpleado(self, empleado):
@@ -113,19 +85,6 @@ class Financia():
 						totalPago += horasExtras * (empleado.getSalario() / turno.getHoras()) * pagoHoraExtra
 		self.pagosEmpleados = totalPago
 		return self.pagosEmpleados
-
-    #Calcula el costo promedio de los ingredientes por plato.
-	def CostoPromedioPorPlato(self):
-		totalCosto = 0
-		totalPlatos = 0
-		for pedido in self.restaurante.getPedidos():
-			for plato in pedido.getPlatos():
-				totalPlatos +=1
-				for entrada in plato.getIngredientes().entrySet():
-					material = entrada.getKey()
-					cantidadUtilizada = entrada.getValue()
-					totalCosto += material.getPrecioUnitario() * cantidadUtilizada
-		return totalCosto / totalPlatos
 
     #Calcula las ganancias Brutas del restaurante
 	def GananciasBrutas(self):
