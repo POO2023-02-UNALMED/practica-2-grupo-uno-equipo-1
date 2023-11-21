@@ -322,7 +322,7 @@ def gInventario():
 def gFinanciera():
     delete_frames_ventana_principal()
     gestion_financiera = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
-    gestion_financiera_app = GestionFinancieraApp(gestion_financiera, restaurante)
+    gestion_financiera_app = GestionFinancieraApp(gestion_financiera,imagen_mat, restaurante)
     gestion_financiera.grid(row=1, column=0, sticky="nsew")
     gestion_financiera.pack_propagate(False)
 
@@ -713,26 +713,26 @@ imagenes_materiales = [
 ]
 
 imagen_mat={
-    Tipo.TOMATES:{"imagen": tomates_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.CEBOLLAS:{"imagen": cebollas_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.PAPAS:{"imagen": papas_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.ACEITES:{"imagen": aceites_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.VINOS:{"imagen": vinos_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.QUESOS:{"imagen": quesos_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.CHAMPINONES:{"imagen":champiñones_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.RES:{"imagen": res_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.PESCADOS:{"imagen": pescados_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.CERDOS:{"imagen": cerdos_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.POLLOS:{"imagen": pollos_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.PANES:{"imagen": panes_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.AJOS:{"imagen":ajos_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.ESPECIAS:{"imagen": especies_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.HUEVOS:{"imagen": huevos_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.ATUN:{"imagen": atun_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.CUCHARAS:{"imagen": cuchara_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.TENEDORES:{"imagen": tenedores_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.PLATOS:{"imagen": plato_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
-    Tipo.VASOS:{"imagen": vasos_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()}
+    Tipo.TOMATES:{"imagen": tomates_imagen, "cantidad": restaurante.inventario[Tipo.TOMATES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.TOMATES].getPrecioUnitario()},
+    Tipo.CEBOLLAS:{"imagen": cebollas_imagen, "cantidad": restaurante.inventario[Tipo.CEBOLLAS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.CEBOLLAS].getPrecioUnitario()},
+    Tipo.PAPAS:{"imagen": papas_imagen, "cantidad": restaurante.inventario[Tipo.PAPAS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.PAPAS].getPrecioUnitario()},
+    Tipo.ACEITES:{"imagen": aceites_imagen, "cantidad": restaurante.inventario[Tipo.ACEITES].getCantidad(),"precio unitario": restaurante.inventario[Tipo.ACEITES].getPrecioUnitario()},
+    Tipo.VINOS:{"imagen": vinos_imagen, "cantidad": restaurante.inventario[Tipo.VINOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.VINOS].getPrecioUnitario()},
+    Tipo.QUESOS:{"imagen": quesos_imagen, "cantidad": restaurante.inventario[Tipo.QUESOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.QUESOS].getPrecioUnitario()},
+    Tipo.CHAMPINONES:{"imagen":champiñones_imagen, "cantidad": restaurante.inventario[Tipo.CHAMPINONES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.CHAMPINONES].getPrecioUnitario()},
+    Tipo.RES:{"imagen": res_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.RES].getPrecioUnitario()},
+    Tipo.PESCADOS:{"imagen": pescados_imagen, "cantidad": restaurante.inventario[Tipo.PESCADOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.PESCADOS].getPrecioUnitario()},
+    Tipo.CERDOS:{"imagen": cerdos_imagen, "cantidad": restaurante.inventario[Tipo.CERDOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.CERDOS].getPrecioUnitario()},
+    Tipo.POLLOS:{"imagen": pollos_imagen, "cantidad": restaurante.inventario[Tipo.POLLOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.POLLOS].getPrecioUnitario()},
+    Tipo.PANES:{"imagen": panes_imagen, "cantidad": restaurante.inventario[Tipo.PANES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.PANES].getPrecioUnitario()},
+    Tipo.AJOS:{"imagen":ajos_imagen, "cantidad": restaurante.inventario[Tipo.AJOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.AJOS].getPrecioUnitario()},
+    Tipo.ESPECIAS:{"imagen": especies_imagen, "cantidad": restaurante.inventario[Tipo.ESPECIAS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.ESPECIAS].getPrecioUnitario()},
+    Tipo.HUEVOS:{"imagen": huevos_imagen, "cantidad": restaurante.inventario[Tipo.HUEVOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.HUEVOS].getPrecioUnitario()},
+    Tipo.ATUN:{"imagen": atun_imagen, "cantidad": restaurante.inventario[Tipo.ATUN].getCantidad(),"precio unitario": restaurante.inventario[Tipo.ATUN].getPrecioUnitario()},
+    Tipo.CUCHARAS:{"imagen": cuchara_imagen, "cantidad": restaurante.inventario[Tipo.CUCHARAS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.CUCHARAS].getPrecioUnitario()},
+    Tipo.TENEDORES:{"imagen": tenedores_imagen, "cantidad": restaurante.inventario[Tipo.TENEDORES].getCantidad(),"precio unitario": restaurante.inventario[Tipo.TENEDORES].getPrecioUnitario()},
+    Tipo.PLATOS:{"imagen": plato_imagen, "cantidad": restaurante.inventario[Tipo.PLATOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.PLATOS].getPrecioUnitario()},
+    Tipo.VASOS:{"imagen": vasos_imagen, "cantidad": restaurante.inventario[Tipo.VASOS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.VASOS].getPrecioUnitario()}
     }
 
 # Fieldframe para consultas
@@ -1729,9 +1729,10 @@ class GestionFinancieraApp:
     """
     Aqui se plantea toda la funcionalidad de gestion Financiera
     """
-    def __init__(self, framePadre,restaurante):
+    def __init__(self, framePadre,imagen_mat, restaurante):
         self.row_height = 200
         self.col_width = 200
+        self.imagen_mat=imagen_mat
         self.restaurante = restaurante
         self.financia = Financia()
         self.empleados = self.restaurante.listadoEmpleados  
@@ -1745,21 +1746,6 @@ class GestionFinancieraApp:
         self.options_frame.pack_propagate(False)
         self.main_frame = Frame(self.funcionalidad_gestionFinanciera, highlightbackground='black', highlightthickness=2, width=500, height=400)
         
-        # Crear una lista de materiales (nombre, imagen)
-        self.materiales = []
-
-        # Inventario verificado
-        inventario_verificado = self.restaurante.inventario
-
-        for i, (key, material) in enumerate(inventario_verificado.items()):
-            material_dict = {
-                "nombre": material.getTipo().value,  
-                "precio": material.getPrecioUnitario(),
-                "cantidad": material.getCantidad(),
-                "imagen": imagenes_materiales[i]
-            }
-            self.materiales.append(material_dict)
-
     
         # Crear botones de selección de opción
         self.btn_home_page = Button(self.options_frame, text="Inicio", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_home_inicio, self.home_indicate))
@@ -1874,71 +1860,46 @@ class GestionFinancieraApp:
 
     
     def function_frame_gastos_material_especifico(self):
-        self.frame_gastos_material_especifico = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_gastos_material_especifico, text="Gastos Material Especifico", font=("Bold", 15)).grid(row=0, column=0, columnspan=4)
-        
-        nombres_materiales = [
-            "Tomates", "Cebollas", "Papas", "Aceites", "Vinos", "Quesos", "Champiñones", "Res", 
-            "Pescados", "Cerdos", "Pollos", "Panes", "Ajos", "Especies", "Huevos", "Atun",
-            "Cuchara", "Tenedores", "Plato", "Vasos"
-        ]
-        
-        for i in range(len(imagenes_materiales)):
-            Button(self.frame_gastos_material_especifico, text=nombres_materiales[i], image=imagenes_materiales[i], compound='top', command=lambda i=i: self.toggle_seleccion(i)).grid(row=i//4 + 1, column=i%4, padx=10, pady=10)
-        
-        # Crear una etiqueta para mostrar el nombre del material seleccionado
-        Label(self.frame_gastos_material_especifico, text="Material :").grid(row=len(imagenes_materiales)//4 + 3, column=0)
-        self.material_seleccionado = StringVar()
-        Label(self.frame_gastos_material_especifico, textvariable=self.material_seleccionado).grid(row=len(imagenes_materiales)//4 + 3, column=1)
-        
-        # Frame de interacción
-        self.frameSeleccionMateriales = Frame(self.frame_gastos_material_especifico, width=500, height=400)
-        self.busquedaMateriales = FieldFrame(self.frameSeleccionMateriales, "materiales deseados", ["materiales"], "Ingresa los materiales deseados", ["presiona los materiales que desees"], [False], self.seleccionarMaterial)
-        self.busquedaMateriales.grid(row = 0, column=0, padx=10, pady=10)
-
-        # Crear un Canvas para la cuadrícula dentro del Frame principal
-        self.canvas = Canvas(self.frameSeleccionMateriales)
-        self.canvas.grid(row = 1, column=0, padx=10, pady=10)
-
+        self.frame_gastos_material= Frame(self.main_frame, width=800, height=500)
+        Label(self.frame_gastos_material, text="Gastos Material Especifico", font=("Bold", 15)).grid(row=0, column=0, padx=150, pady=30)
+        self.frame_gastos_material.grid(row=0,column=1,pady=5, padx=5)
+        self.frame_gastos_material.pack_propagate(False)
+        self.canvas = Canvas(self.frame_gastos_material)
+        self.canvas.grid(row = 1, column=0, padx=15, pady=15)
         self.frames_temporales.append(self.canvas)
+        #configurar lista
+        columnas=4
+        filas=len(self.imagen_mat)//columnas+1
+        fil=0
+        col=0
+        for tipo,dato in imagen_mat.items():
 
-        # Ubicación del frame seleccionMateriales dentro de frame_gastos_material_especifico mediante grid
-        self.frameSeleccionMateriales.grid(row=0, column=0)
+            fila=fil//columnas
+            columna=col%columnas
 
-        # Configurar la cuadrícula
-        cols=2
-        rows = len(self.materiales) // cols+1
-
-        # Dentro del bucle para mostrar materiales en la cuadrícula
-        for i, material in enumerate(self.materiales):
-            row = i // cols
-            col = i % cols
-
-            # Crear un Frame para cada material dentro del Canvas
-            frame = Frame(self.canvas, width=self.col_width, height=self.row_height, bd=2, relief=RIDGE)
-            frame.grid(row=row, column=col, padx=5, pady=5)
-
-            # Cargar la imagen 
-            imagen = material["imagen"]
-
-            # Mostrar imagen del material (esto podría ser un botón en lugar de una etiqueta)
-            boton_material = Button(frame, image=imagen, command=lambda i=i: self.toggle_seleccion(i))
-            boton_material.grid(row=0, column=0, padx=5, pady=5, sticky="w")  # sticky="w" alinea a la izquierda
-
-            # Mostrar nombre del material
-            nombre_label = Label(frame, text=material["nombre"])
-            nombre_label.grid(row=0, column=1, padx=5, pady=1)
-
-            # Mostrar precio del material
-            precio_label = Label(frame, text=f"Precio: {material['precio']}")
-            precio_label.grid(row=1, column=1, padx=5, pady=1)
+            imagen=dato["imagen"]
+            cantidad=dato["cantidad"]
+            preciounitario= dato["precio unitario"]
 
 
-        # Ubicación frame gastos_material_especifico
-        self.frame_gastos_material_especifico.grid(pady=5, padx=5)
-        self.frame_gastos_material_especifico.pack_propagate(False)
+            frame=Frame(self.canvas,width=self.col_width,height=self.row_height,bd=2,relief=RIDGE)
+            frame.grid(row=fila,column=columna,padx=5,pady=5)
 
+            boton=Button(frame,image=imagen)
+            boton.grid(row=1,column=0,padx=5,pady=5)
 
+            label=Label(frame,text=f"{tipo.value}")
+            label.grid(row=1,column=1,padx=5,pady=5)
+
+            label2=Label(frame,text=f"CantidadTotal{cantidad}")
+            label2.grid(row=2,column=1,padx=5,pady=5)
+
+            label3=Label(frame,text=f"PrecioUnitario{preciounitario}")
+            label3.grid(row=3,column=1,padx=5,pady=5)
+
+            fil+=1
+            col+=1
+        
     
     def function_frame_pago_empleado_especifico(self):
         self.frame_gastos_material_especifico = Frame(self.main_frame, width=500, height=400)
