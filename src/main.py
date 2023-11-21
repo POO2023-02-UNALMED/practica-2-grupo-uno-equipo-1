@@ -866,7 +866,7 @@ class FieldFrame(Frame):
         for criterio, entry in self.entries.items():
             if entry.winfo_exists():
                 entry.config(state="disabled")
-                
+
     #Funcion que se encarga de obtener el valor asociado al un criterio del FieldFrame
     def get_valor_by_criterio(self, criterio):
         return self.dataform.get(criterio)
@@ -1029,7 +1029,8 @@ class GestionPedidosApp:
     def function_frame_domicilio(self):
         # Definir frame domicilio
         self.frame_domicilio = Frame(self.main_frame, width=400, height=600)
-        titulo_domicilios = Label(self.frame_domicilio, text="Domicilios", font=("Bold", 15)).place(x=150, y=30)
+        titulo_domicilios = Label(self.frame_domicilio, text="Pedidos hechos para consumo domicilio", font=("Bold", 15))
+        titulo_domicilios.pack(pady=10)
 
         # Crear un Canvas y un Scrollbar dentro del frame_domicilio
         canvas = Canvas(self.frame_domicilio)
@@ -1041,14 +1042,19 @@ class GestionPedidosApp:
         # Añadir el Frame principal al Canvas
         canvas.create_window((0, 0), window=main_frame, anchor='nw')
 
-        # Añadir un Frame para cada objeto al Frame principal
         pedidos_domicilio = restaurante.getPedidosDomicilio()
-        for objeto in pedidos_domicilio:
-            frame = Frame(main_frame, height=250, width=300)  # Ajusta la altura y la anchura según tus necesidades
-            frame.pack_propagate(0)  # Evita que el tamaño del Frame cambie para adaptarse a sus widgets
-            label = Label(frame, text=objeto)
-            label.pack(fill=BOTH, expand=1)  # Hace que la etiqueta llene el Frame
-            frame.pack()
+
+        # Comprobar si la lista de pedidos_domicilio está vacía
+        if not pedidos_domicilio:
+            mensaje_vacio = Label(main_frame, text="Hola, aquí puedes visualizar los pedidos que se han hecho en Le Quasó. Agrega pedidos para poder visualizarlos", font=("Bold", 12), wraplength=400, justify="center")
+            mensaje_vacio.pack(pady=10)
+        else:
+            # Añadir un Frame para cada objeto al Frame principal
+            for i, objeto in enumerate(pedidos_domicilio):
+                frame = Frame(main_frame, bd=2, relief="solid")  # Añadir borde al Frame
+                frame.grid(row=i, column=0, pady=5, sticky="ew")  # Usar grid en lugar de pack
+                label = Label(frame, text=objeto)
+                label.pack(fill=BOTH, expand=1)
 
         # Configurar el Scrollbar para que se desplace con el Canvas
         canvas.configure(yscrollcommand=scrollbar.set)
@@ -1065,11 +1071,58 @@ class GestionPedidosApp:
         self.frame_domicilio.pack_propagate(False)
 
 
+        # Frame de interacción
+        self.frame_domicilio.grid(pady=5, padx=5)
+        self.frame_domicilio.pack_propagate(False)
+
+
+
     def function_frame_restaurante(self):
-        self.frame_restaurante = Frame(self.main_frame, width=500, height=400)
-        titulo_restaurante = Label(self.frame_restaurante, text="Restaurante", font=("Bold", 15)).place(x=150, y=30)
+        self.frame_restaurante = Frame(self.main_frame, width=400, height=600)
         self.frame_restaurante.grid(pady=5, padx=5)
         self.frame_restaurante.pack_propagate(False)
+
+        titulo_restaurante = Label(self.frame_restaurante, text="Pedidos hechos para consumo restaurante", font=("Bold", 15))
+        titulo_restaurante.pack(pady=10)
+
+        # Crear un Canvas y un Scrollbar dentro del frame_restaurante
+        canvas = Canvas(self.frame_restaurante)
+        scrollbar = Scrollbar(self.frame_restaurante, orient="vertical", command=canvas.yview)
+
+        # Crear un Frame principal dentro del Canvas
+        main_frame = Frame(canvas)
+
+        # Añadir el Frame principal al Canvas
+        canvas.create_window((0, 0), window=main_frame, anchor='nw')
+
+        # Añadir un Frame para cada objeto al Frame principal (cambia esto según tus necesidades)
+        pedidos_restaurante = restaurante.getPedidosRestaurante()
+        for i, objeto in enumerate(pedidos_restaurante):
+            frame = Frame(main_frame, bd=2, relief="solid")  # Añadir borde al Frame
+            frame.grid(row=i, column=0, pady=5, sticky="ew")  # Usar grid en lugar de pack
+            label = Label(frame, text=objeto)
+            label.pack(fill=BOTH, expand=1)
+
+        # Comprobar si la lista de pedidos_restaurante está vacía
+        if not pedidos_restaurante:
+            mensaje_vacio = Label(main_frame, text="Hola, aquí puedes visualizar los pedidos que se han hecho en Le Quasó. Agrega pedidos para poder visualizarlos", font=("Bold", 12), wraplength=400, justify="center")
+            mensaje_vacio.pack(pady=10)
+
+        # Configurar el Scrollbar para que se desplace con el Canvas
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        # Configurar el Canvas para que cambie de tamaño con el Frame principal
+        main_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+
+        # Empaquetar el Canvas y el Scrollbar
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+
+        # Frame de interacción
+        self.frame_restaurante.grid(pady=5, padx=5)
+        self.frame_restaurante.pack_propagate(False)
+
+
     
     def insertar_opcion_tipo_pedido(self,event):
         opcion_seleccionada = self.combo.get()
@@ -1083,7 +1136,7 @@ class GestionPedidosApp:
 
         # Frame de interacción
         self.frameSeleccionPlatos = Frame(self.frame_pedidos, width=500, height=400)
-        self.busquedadPlatos = FieldFrame(self.frameSeleccionPlatos, "platos y tipo pedido", ["platos", "tipo pedido"], "presione los paltos y ingrese tipo pedido", [], [False, True], self.seleccionarCocinero)
+        self.busquedadPlatos = FieldFrame(self.frameSeleccionPlatos, "platos y tipo pedido", ["platos", "tipo pedido"], "presione los platos y ingrese tipo pedido", [], [False, True], self.seleccionarCocinero)
         self.busquedadPlatos.grid(row = 0, column=0, padx=10, pady=10)
 
         tipoConsumo = ["restaurante","domicilio"]
@@ -1449,6 +1502,7 @@ class GestionPedidosApp:
     
     def crearPedido(self, valores):
         self.frameSeleccionPlatos.destroy()
+        GestionPedidosApp.plato_seleccionado=False
         if self.pedido["tipo pedido"] == "domicilio":
 
             self.frameSeleccionarDomiciliario.destroy()
@@ -1478,8 +1532,8 @@ class GestionPedidosApp:
                   pedido1.setVerificado(True)
                   Pedido.actualizarInventario(restaurante, pedido1)
 
-    for plato in restaurante.pedidos:
-        print(plato)
+        for plato in restaurante.pedidos:
+            print(plato)
 
         """print("PEDIDO")
         print(restaurante.pedidos[0])"""
