@@ -171,7 +171,10 @@ def salir():
     exit()
 
 def ver_descripcion():
-    opcion=messagebox.showinfo("Información sobre la aplicación","Esta aplicacion esta diseñada para que puedas llevar toda la gestion de tu restaurante como administrador, reservas, pedidos, empleados y materiales")
+    saludoBienvenida.config(state=NORMAL)
+    saludoBienvenida.delete(1.0,END)
+    saludoBienvenida.insert(END, "Esta aplicacion esta diseñada para que puedas llevar toda\nla gestion de tu restaurante como administrador\nreservas, pedidos, empleados y materiales")
+    saludoBienvenida.config(state=DISABLED)
 
 def cambiarHojaVida(hojaVida, widget):
     """
@@ -248,6 +251,7 @@ def nada():
     pass
 
 def infoApp():
+    
     opcion=messagebox.showinfo("Información sobre la aplicación","Esta aplicacion esta diseñada para que puedas llevar toda la gestion de tu restaurante como administrador, reservas, pedidos, empleados y materiales")
 
 def volverAInicio():
