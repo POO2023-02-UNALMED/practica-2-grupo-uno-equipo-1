@@ -315,7 +315,7 @@ def gEmpleado():
 def gInventario():
     delete_frames_ventana_principal()
     gestion_inv = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
-    gestion_inv_app = GestionInventarioApp(gestion_inv,imagenes_materiales,restaurante)
+    gestion_inv_app = GestionInventarioApp(gestion_inv,imagen_mat,restaurante)
     gestion_inv.grid(row=1, column=0, sticky="nsew")
     gestion_inv.pack_propagate(False)
 
@@ -711,6 +711,29 @@ imagenes_materiales = [
     plato_imagen,
     vasos_imagen
 ]
+
+imagen_mat={
+    Tipo.TOMATES:{"imagen": tomates_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.CEBOLLAS:{"imagen": cebollas_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.PAPAS:{"imagen": papas_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.ACEITES:{"imagen": aceites_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.VINOS:{"imagen": vinos_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.QUESOS:{"imagen": quesos_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.CHAMPINONES:{"imagen":champiñones_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.RES:{"imagen": res_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.PESCADOS:{"imagen": pescados_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.CERDOS:{"imagen": cerdos_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.POLLOS:{"imagen": pollos_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.PANES:{"imagen": panes_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.AJOS:{"imagen":ajos_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.ESPECIAS:{"imagen": especies_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.HUEVOS:{"imagen": huevos_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.ATUN:{"imagen": atun_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.CUCHARAS:{"imagen": cuchara_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.TENEDORES:{"imagen": tenedores_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.PLATOS:{"imagen": plato_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()},
+    Tipo.VASOS:{"imagen": vasos_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad()}
+    }
 
 # Fieldframe para consultas
 class FieldFrame(Frame):
@@ -1488,13 +1511,12 @@ class GestionInventarioApp:
     """
     Aqui se plantea la funcionalidad de gestion de inventario
     """
-    def __init__(self,framePadre,imagenes_ingredientes,restaurante):
+    def __init__(self,framePadre,imagen_mat,restaurante):
 
         self.row_height = 300
         self.col_width = 300
         self.restaurante=restaurante
-        self.imagenes_ingredientes=imagenes_ingredientes
-        self.materiales=[]
+        self.imagen_mat=imagen_mat
         self.frames_temporales=[]
         self.framePadre=framePadre
         self.funcionalidad_gestionInv = Frame(self.framePadre, bg='#c3c3c3', width=100, height=500)
@@ -1502,6 +1524,7 @@ class GestionInventarioApp:
         self.options_frame = Frame(self.funcionalidad_gestionInv, bg='#c3c3c3', width=120, height=500)
         self.options_frame.grid(row=0, column=0, sticky="nsew")
         self.options_frame.pack_propagate(False)
+
 
         self.main_frame = Frame(self.funcionalidad_gestionInv,
                                 highlightbackground='black',
@@ -1547,7 +1570,7 @@ class GestionInventarioApp:
         self.framePadre.grid_columnconfigure(0, weight=1)
         self.framePadre.grid_columnconfigure(1, weight=1)
 
-    
+
 
     def function_home_page(self):
         self.frame_home = Frame(self.main_frame, width=500, height=400)
@@ -1558,13 +1581,38 @@ class GestionInventarioApp:
     def function_frame_consultar_inventario(self):
         self.frame_inventario = Frame(self.main_frame, width=500, height=400)
         Label(self.frame_inventario, text="Inventario", font=("Bold", 15)).place(x=150, y=30)
-        self.frame_inventario.grid(pady=5, padx=5)
+        self.frame_inventario.grid(row=0,column=1,pady=5, padx=5)
         self.frame_inventario.pack_propagate(False)
-        self.canvas = Canvas(self.frame_comprar_mat)
+        self.canvas = Canvas(self.frame_inventario)
         self.canvas.grid(row = 1, column=0, padx=10, pady=10)
-
-        materiales=[]
         self.frames_temporales.append(self.canvas)
+        #configurar lista
+        columnas=4
+        filas=len(self.imagen_mat)//columnas+1
+        fil=0
+        col=0
+        for tipo,dato in imagen_mat.items():
+
+            fila=fil//columnas
+            columna=col%columnas
+
+            imagen=dato["imagen"]
+            cantidad=dato["cantidad"]
+
+            frame=Frame(self.canvas,width=self.col_width,height=self.row_height,bd=2,relief=RIDGE)
+            frame.grid(row=fila,column=columna,padx=5,pady=5)
+
+            boton=Button(frame,image=imagen)
+            boton.grid(row=0,column=0,padx=5,pady=5)
+
+            label=Label(frame,text=f"{tipo.value}")
+            label.grid(row=0,column=1,padx=5,pady=5)
+
+            label2=Label(frame,text=f"{cantidad}")
+            label2.grid(row=1,column=1,padx=5,pady=5)
+
+            fil+=1
+            col+=1
 
     def insertar_opcion(self,event):
             opcion_seleccionada = self.combo.get()
