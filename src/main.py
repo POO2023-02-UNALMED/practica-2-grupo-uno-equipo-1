@@ -20,7 +20,7 @@ from baseDatos.Serializacion import serializar,deserializar
 
 
 restaurante=deserializar()
-for material in restaurante.getInventario():
+"""for material in restaurante.getInventario():
     print(material)
     print(restaurante.inventario[material].getCantidad())
     print(restaurante.inventario[material].getPrecioUnitario())
@@ -29,7 +29,7 @@ print(restaurante.getNombre())
 for mesa in restaurante.getMesas():
     print(mesa)
 for empleado in restaurante.getEmpleados():
-    print(empleado)
+    print(empleado)"""
 #Crear un objeto Financia
 financia = Financia(restaurante)
 
@@ -141,9 +141,9 @@ turno11 = Turno(TipoTurno.SEMANA, 3.0, 80000)
 # empleado5 = Cocinero("Moises", 234567891, "cocinero", restaurante, turno8)
 # empleado2.agregarTurno(turno9)
 # restaurante.contratarEmpleado(empleado5)
-empleado6 = Domiciliario("Rigo", 345678912, "domiciliario", restaurante, turno10)
-empleado6.agregarTurno(turno11)
-restaurante.contratarEmpleado(empleado6)
+#empleado6 = Domiciliario("Rigo", 345678912, "domiciliario", restaurante, turno10)
+#empleado6.agregarTurno(turno11)
+#restaurante.contratarEmpleado(empleado6)
 # empleado7 = Mesero("Brayan", 123456789, "mesero", restaurante, turno12)
 # empleado1.agregarTurno(turno13)
 # restaurante.contratarEmpleado(empleado7)
@@ -171,7 +171,10 @@ def salir():
     exit()
 
 def ver_descripcion():
-    opcion=messagebox.showinfo("Información sobre la aplicación","Esta aplicacion esta diseñada para que puedas llevar toda la gestion de tu restaurante como administrador, reservas, pedidos, empleados y materiales")
+    saludoBienvenida.config(state=NORMAL)
+    saludoBienvenida.delete(1.0,END)
+    saludoBienvenida.insert(END, "Esta aplicacion esta diseñada para que puedas llevar toda\nla gestion de tu restaurante como administrador\nreservas, pedidos, empleados y materiales")
+    saludoBienvenida.config(state=DISABLED)
 
 def cambiarHojaVida(hojaVida, widget):
     """
@@ -248,6 +251,7 @@ def nada():
     pass
 
 def infoApp():
+    
     opcion=messagebox.showinfo("Información sobre la aplicación","Esta aplicacion esta diseñada para que puedas llevar toda la gestion de tu restaurante como administrador, reservas, pedidos, empleados y materiales")
 
 def volverAInicio():
@@ -313,10 +317,25 @@ def gEmpleado():
     pass
 
 def gInventario():
+
+    #Elimina los frames aparte de inventario
+
     delete_frames_ventana_principal()
+
+    #crea un frame para la gestion de inventario
+
     gestion_inv = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
+
+    #crea un objeto gestionInventarioApp que se encarga de configurar el frame dentro del frame de inventario
+
     gestion_inv_app = GestionInventarioApp(gestion_inv,imagen_mat,restaurante)
+
+    #Ubica el frame de inventario
+
     gestion_inv.grid(row=1, column=0, sticky="nsew")
+
+    #Evita que el frame se ponga al lado otro frame
+
     gestion_inv.pack_propagate(False)
 
 def gFinanciera():
@@ -793,7 +812,8 @@ class FieldFrame(Frame):
 
         self.boton_borrar = Button(frameForm, text="Borrar", command=self.borrar_campos)
         self.boton_borrar.grid(row=i + 2, column=0, columnspan=2, pady=10)
-
+    #funcion que se activa cuando le das a Aceptar, se encarga de verificar que todos los campos del FieldFrame esten llenos y dependiendo del nombre del
+    #FielFrame se ejecuta una logica distinta
     def guardar_datos(self):
         for criterio, entry in self.entries.items():
             valor = entry.get()
@@ -801,16 +821,27 @@ class FieldFrame(Frame):
             if not valor and estado != "disabled":
                 messagebox.showwarning("Advertencia", f"Campo '{criterio}' no puede estar vacío.")
                 return  # Si un campo está vacío, mostrar advertencia y salir
-            self.dataform[criterio] = valor
+            if valor or estado == "disabled":
+                print("SI GUARDO VALOR")
+                print(criterio)
+                print(valor)
+                self.dataform[criterio] = valor
+
+        # Omitir la siguiente línea para evitar la impresión de None
+        # print(self.dataform)
+
 
         if self.consulta is not None:
+            print("gestionPedidosApp estado")
+            print(GestionPedidosApp.plato_seleccionado)
+            print("----------------------------")
             if GestionPedidosApp.plato_seleccionado == False:
                 messagebox.showinfo("Alerta", "Debes seleccionar al menos un plato antes de continuar.")
             else:
-                valores = self.getValues()
+                print("ESTOY VIENDO VALORES")
+                print(self.dataform)
+                valores = self.dataform
                 self.consulta(valores)
-                self.buttonClear.destroy()
-                self.buttonSubmmit.destroy()
         else:
             mensaje = ""
             for criterio, entry in self.entries.items():
@@ -834,19 +865,31 @@ class FieldFrame(Frame):
 
         for criterio in self.entries:
             self.entries[criterio].config(state="disabled")
-
+    #Funcion que se encarga de obtener el valor asociado al un criterio del FieldFrame
     def get_valor_by_criterio(self, criterio):
         return self.dataform.get(criterio)
-
+    #Funcion encargada de borrar la informacion dentro de los entry del FieldFrame
     def borrar_campos(self):
         for entry in self.entries.values():
             entry.delete(0, END)
 
+    def getValues(self):
+        self.dataform
+
+    #Metodo encargado de ingresar un valor asociado a un criterio, su uso se nota en el combobox de mas abajo
     def insertar_valor(self, criterio, valor):
         entry = self.entries.get(criterio)
         if entry:
             entry.delete(0, END)
             entry.insert(0, valor)
+   
+   
+    def prueba(self):
+        for i in self.dataform:
+            print(i)
+            print(self.dataform[i])
+    print("pruebaaa")
+    print(prueba)
 
 
 class ImageFrame(Frame):
@@ -1025,6 +1068,10 @@ class GestionPedidosApp:
         titulo_restaurante = Label(self.frame_restaurante, text="Restaurante", font=("Bold", 15)).place(x=150, y=30)
         self.frame_restaurante.grid(pady=5, padx=5)
         self.frame_restaurante.pack_propagate(False)
+    
+    def insertar_opcion_tipo_pedido(self,event):
+        opcion_seleccionada = self.combo.get()
+        self.busquedadPlatos.insertar_valor("tipo pedido", opcion_seleccionada)
 
     def function_frame_pedidos(self):
         # Definir frame pedidos
@@ -1036,6 +1083,14 @@ class GestionPedidosApp:
         self.frameSeleccionPlatos = Frame(self.frame_pedidos, width=500, height=400)
         self.busquedadPlatos = FieldFrame(self.frameSeleccionPlatos, "platos y tipo pedido", ["platos", "tipo pedido"], "presione los paltos y ingrese tipo pedido", [], [False, True], self.seleccionarCocinero)
         self.busquedadPlatos.grid(row = 0, column=0, padx=10, pady=10)
+
+        tipoConsumo = ["restaurante","domicilio"]
+        valorDefecto=StringVar(value="Seleccione tipo consumo")
+
+        self.combo=ttk.Combobox(self.frameSeleccionPlatos,values=tipoConsumo,textvariable=valorDefecto)
+
+        self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion_tipo_pedido)
+        self.combo.grid(row=0,column=1,pady=20,sticky="new")
 
         # Crear un Canvas para la cuadrícula dentro del Frame principal
         self.canvas = Canvas(self.frameSeleccionPlatos)
@@ -1092,8 +1147,12 @@ class GestionPedidosApp:
             # Si ya está seleccionado, quitarlo de la lista
             self.platos_seleccionados.remove(indice)
         
-    def seleccionarCocinero(self, valores):
+    def insertar_opcion_cocinero(self,event):
+        opcion_seleccionada = self.combo.get()
+        self.frameResultadosCocinero.insertar_valor("cocinero", opcion_seleccionada)
 
+    def seleccionarCocinero(self, valores):
+        print(valores)
         # Obtener el tipo de pedido
         tipo_pedido = valores["tipo pedido"]
 
@@ -1118,13 +1177,14 @@ class GestionPedidosApp:
         cocineros_sin_filtrar = restaurante.clasificarEmpleados(restaurante.getEmpleados(), "cocinero")
         cocineros = restaurante.verificarCocineros(restaurante.getEmpleados(), self.platos_temp)
 
-        print("sin filtrar")
+        """print("sin filtrar")
         print(cocineros_sin_filtrar)
         print()
-        print(cocineros)
+        print(cocineros)"""
 
         # Lista de cocineros (corregir la clave 'idenrificacion' a 'identificacion')
         self.cocineros = []
+        print(cocineros)
 
         for i, cocinero in enumerate(cocineros):
             cocinero_dict= {
@@ -1133,7 +1193,12 @@ class GestionPedidosApp:
                 "puesto": cocinero.getPuesto(),
             }
             self.cocineros.append(cocinero_dict)
-        
+
+        self.cocineros_names=[]
+
+        for cocinero in cocineros:
+            self.cocineros_names.append(cocinero.getNombre())
+
         # Según el tipo de pedido, mostrar diferentes frames y resultados
         if tipo_pedido == "restaurante":
             # Crear un nuevo Frame para la selección del cocinero
@@ -1147,6 +1212,14 @@ class GestionPedidosApp:
             
             # Colocar el Frame de resultados en el grid
             self.frameResultadosCocinero.grid(padx=10, pady=10)
+
+            cocineroSelec = self.cocineros_names
+            valorDefecto=StringVar(value="Seleccione su cocinero")
+
+            self.combo=ttk.Combobox(self.seleccionarCocineroFrame,values=cocineroSelec,textvariable=valorDefecto)
+
+            self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion_cocinero)
+            self.combo.grid(row=0,column=1,pady=20,sticky="new")
 
             # Crear un Canvas para mostrar los cocineros
             self.canvascocineros = Canvas( self.seleccionarCocineroFrame)
@@ -1188,6 +1261,14 @@ class GestionPedidosApp:
             
             # Colocar el Frame de resultados en el grid
             self.frameResultadosCocinero.grid(padx=10, pady=10)
+            
+            cocineroSelec = self.cocineros_names
+            valorDefecto=StringVar(value="Seleccione su cocinero")
+
+            self.combo=ttk.Combobox(self.seleccionarCocineroFrame,values=cocineroSelec,textvariable=valorDefecto)
+
+            self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion_cocinero)
+            self.combo.grid(row=0,column=1,pady=20,sticky="new")
 
             # Crear un Canvas para mostrar los cocineros
             self.canvascocineros = Canvas( self.seleccionarCocineroFrame)
@@ -1217,8 +1298,14 @@ class GestionPedidosApp:
                 # Mostrar identificación del cocinero
                 identificacion_label = Label(frame, text=f"Identificación: {cocinero['identificacion']}")
                 identificacion_label.pack(pady=5)
+    
+    def insertar_opcion_cocinero(self,event):
+        opcion_seleccionada = self.combo.get()
+        self.frameResultadosCocinero.insertar_valor("cocinero", opcion_seleccionada)
 
-
+    def insertar_opcion_domiciliario(self,event):
+        opcion_seleccionada = self.combo.get()
+        self.frameResultadosDomiciliario.insertar_valor("domiciliario", opcion_seleccionada)
     
     def seleccionarDomiciliario(self, valores):
         self.seleccionarCocineroFrame.destroy()
@@ -1227,8 +1314,8 @@ class GestionPedidosApp:
         domiciliarios = restaurante.verificarDomiciliarios(restaurante.getEmpleados())
 
         name = (valores["cocinero"])
-        for empleado in restaurante.listadoEmpleados:
-            print(empleado.getNombre())
+        """for empleado in restaurante.listadoEmpleados:
+            print(empleado.getNombre())"""
         cocinero = restaurante.buscarEmpleado(name , "cocinero")
         self.pedido["cocinero"] = cocinero
 
@@ -1242,11 +1329,21 @@ class GestionPedidosApp:
                 "puesto": domiciliario.getPuesto(),
             }
             self.domiciliarios.append(domiciliario_dict)
+        
+        self.domiciliarios_names = [ domiciliario.getNombre() for domiciliario in domiciliarios]
 
         self.frameSeleccionarDomiciliario = Frame(self.frame_pedidos, width=500, height=400)
 
         self.frameResultadosDomiciliario = FieldFrame( self.frameSeleccionarDomiciliario, "Domiciliario", ["domiciliario"], "ingrese el nombre del domiciliario", [], [True], self.crearPedido)
         self.frameResultadosDomiciliario.grid(padx=10, pady=10)
+
+        domiciliarioSelec = self.domiciliarios_names
+        valorDefecto = StringVar(value="Seleccione su cocinero")
+
+        self.combo = ttk.Combobox(self.frameSeleccionarDomiciliario,values=domiciliarioSelec,textvariable=valorDefecto)
+
+        self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion_domiciliario)
+        self.combo.grid(row=0,column=1,pady=20,sticky="new")
 
         self.canvasdomiciliarios = Canvas(self.frameSeleccionarDomiciliario)
         self.canvasdomiciliarios.grid(row=1, column=0, padx=10, pady=10)
@@ -1272,7 +1369,10 @@ class GestionPedidosApp:
                 # Mostrar identificación del cocinero
                 identificacion_label = Label(frame, text=f"Identificación: {domiciliario['identificacion']}")
                 identificacion_label.pack(pady=5)
-
+    
+    def insertar_opcion_mesero(self):
+        opcion_seleccionada = self.combo.get()
+        self.frameResultadosMesero.insertar_valor("mesero", opcion_seleccionada)
 
     def seleccionarMesero(self, valores):
         self.seleccionarCocineroFrame.destroy()
@@ -1289,6 +1389,8 @@ class GestionPedidosApp:
                 "puesto": mesero.getPuesto(),
             }
             self.meseros.append(mesero_dict)
+        
+        self.meseros_names = [ mesero.getNombre() for mesero in meseros]
             
         cocinero = restaurante.buscarEmpleado((valores["cocinero"]), "cocinero")
         self.pedido["cocinero"] = cocinero
@@ -1297,6 +1399,14 @@ class GestionPedidosApp:
 
         self.frameResultadosMesero = FieldFrame(self.frameSeleccionarMesero, "Mesero", ["mesero"], "ingrese el nombre del mesero", [], [True], self.detectarReserva)
         self.frameResultadosMesero.grid(padx=10, pady=10)
+
+        meseroSelec = self.meseros_names
+        valorDefecto=StringVar(value="Seleccione su mesero")
+
+        self.combo=ttk.Combobox(self.frameSeleccionarMesero, values=meseroSelec, textvariable=valorDefecto)
+
+        self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion_mesero)
+        self.combo.grid(row=0,column=1,pady=20,sticky="new")
 
         self.canvasmeseros = Canvas(self.frameSeleccionarMesero)
         self.canvasmeseros.grid(row=1, column=0, padx=10, pady=10)
@@ -1369,8 +1479,8 @@ class GestionPedidosApp:
         for plato in restaurante.pedidos[0].getPlatos():
             print(plato.detallesPlato())
 
-        print("PEDIDO")
-        print(restaurante.pedidos[0])
+        """print("PEDIDO")
+        print(restaurante.pedidos[0])"""
         # print(Pedido.pedidos[0].getPlatos())
     #     self.delete_frames()
 
@@ -1424,19 +1534,22 @@ class GestionInventarioApp:
         self.imagen_mat=imagen_mat
         self.frames_temporales=[]
         self.framePadre=framePadre
+        #En este frame se gestionara toda la funcionalidad
         self.funcionalidad_gestionInv = Frame(self.framePadre, bg='#c3c3c3', width=100, height=500)
         self.funcionalidad_gestionInv.grid(row=0, column=0, sticky="nsew")
+        #En este frame se desplegaran los botones encargados de cambiar el frame de cada funcion
         self.options_frame = Frame(self.funcionalidad_gestionInv, bg='#c3c3c3', width=120, height=500)
         self.options_frame.grid(row=0, column=0, sticky="nsew")
+        #Evita que los frames se pongan uno al lado del otro
         self.options_frame.pack_propagate(False)
 
-
+        #En este frame se iran intercambiando los frames de cada funcion
         self.main_frame = Frame(self.funcionalidad_gestionInv,
                                 highlightbackground='black',
                                 highlightthickness=2,
                                 width=500,
                                 height=400)
-        #Botones frame
+        #Botones de las opciones
         self.btn_home_page = Button(self.options_frame, text="Inicio", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_home_page, self.home_indicate))
         self.btn_home_page.grid(row=0, column=0, padx=0, pady=30)
 
@@ -1476,26 +1589,34 @@ class GestionInventarioApp:
         self.framePadre.grid_columnconfigure(1, weight=1)
 
 
+    #Funcion encargada de cambiar al frame de inicio donde se le dara la bienvenida a la gestion de la funcionalidad
 
     def function_home_page(self):
         self.frame_home = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_home, text="Bienvenido a la gestion de Inventario", font=("Bold", 15)).place(x=150, y=30)
+        Label(self.frame_home, text="Bienvenido a la gestion de Inventario", font=("Bold", 15)).place(x=100, y=30)
+        descripcionInv="Con esta funcionalidad puedes consultar los materiales que hayan en tu inventario\nComprar o desechar los mismo y finalmente añadir mesas al restaurante\nde manera rápida y sencilla"
+        Label(self.frame_home,text=descripcionInv,font=("Bond",10)).place(x=10,y=150)
         self.frame_home.grid(pady=5, padx=5)
         self.frame_home.pack_propagate(False)
+
+    #Funcion encargada de cambiar al frame que se encarga de mostrar los materiales del inventario y su cantidad
 
     def function_frame_consultar_inventario(self):
         self.frame_inventario = Frame(self.main_frame, width=500, height=400)
         Label(self.frame_inventario, text="Inventario", font=("Bold", 15)).place(x=150, y=30)
         self.frame_inventario.grid(row=0,column=1,pady=5, padx=5)
         self.frame_inventario.pack_propagate(False)
+        #Canvas para crear un frame temporal que se encarga de desplegar las imagenes
         self.canvas = Canvas(self.frame_inventario)
         self.canvas.grid(row = 1, column=0, padx=10, pady=10)
         self.frames_temporales.append(self.canvas)
-        #configurar lista
+        #configurar las columnas para las imagenes
         columnas=4
-        filas=len(self.imagen_mat)//columnas+1
+        #contadores para la configuracion de columnas y filas del grid
         fil=0
         col=0
+        #El primer parametro el el Tipo de cada material mientras que el segundo parametro es el diccionario asociado al Tipo el cual
+        #tiene como elementos 2 diccionarios a los cuales se les asocia la imagen del material y la cantidad de este
         for tipo,dato in imagen_mat.items():
 
             fila=fil//columnas
@@ -1503,7 +1624,7 @@ class GestionInventarioApp:
 
             imagen=dato["imagen"]
             cantidad=dato["cantidad"]
-
+            #se crea un frame para cada material
             frame=Frame(self.canvas,width=self.col_width,height=self.row_height,bd=2,relief=RIDGE)
             frame.grid(row=fila,column=columna,padx=5,pady=5)
 
@@ -1518,7 +1639,7 @@ class GestionInventarioApp:
 
             fil+=1
             col+=1
-
+    #Metodos para hacer que una opcion elejida de un combobox se tome como el dato en el entry de un campo del FieldFrame
     def insertar_opcion(self,event):
             opcion_seleccionada = self.combo.get()
             self.ff_desechar.insertar_valor("Material", opcion_seleccionada)
@@ -1526,25 +1647,29 @@ class GestionInventarioApp:
     def insertar_opcion2(self,event):
             opcion_seleccionada = self.combo.get()
             self.ff_comprar.insertar_valor("Material", opcion_seleccionada)
+    #Funcion encargada de cambiar al frame de comprar materiales
 
     def function_frame_comprar_mat(self):
-        # Definir frame pedidos
+
+        # Definir frame de comprar materiales
         self.frame_comprar_mat = Frame(self.main_frame, width=500, height=400)
         self.frame_comprar_mat.grid(pady=10,padx=10)
 
         # Frame de interacción
         self.frameFFcomprar = Frame(self.frame_comprar_mat, width=500, height=400)
+        #Se crea un FieldFrame en el cual se pide el tipo de material, la cantidad a comprar y a que precio
         self.ff_comprar = FieldFrame(self.frameFFcomprar, "Criterio", ["Material", "Cantidad","Precio"], "Valor", [], [True, True,True])
         self.ff_comprar.grid(row = 0, column=0, padx=10, pady=10)
+        #se le da un nombre al FieldFrame para poder utilizar la logica especifica de esta funcion
         self.ff_comprar.nombre="comprar"
-        #Combobox
+        #Se crea un combobox de los materiales para facilitar la visualizacion de los materiales presentes en el inventario
         materiales=["TOMATES", "CEBOLLAS", "PAPAS", "ACEITES", "VINOS","QUESOS",
         "CHAMPINONES", "RES", "PESCADOS", "CERDOS","POLLOS", "PANES", "AJOS", "ESPECIAS", "HUEVOS",
         "ATUN", "CUCHARAS", "TENEDORES", "PLATOS", "VASOS"]
         valorDefecto=StringVar(value="Seleccione Material")
-
+        #configuracion del combobox
         self.combo=ttk.Combobox(self.frameFFcomprar,values=materiales,textvariable=valorDefecto)
-
+        #asignacion del evento del combobox en el cual se usa la funcion que le asigna el valor seleccionado del combobox al campo de "Material"
         self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion2)
         self.combo.grid(row=0,column=1,pady=20,sticky="new")
         # Crear un Canvas para la cuadrícula dentro del Frame principal
@@ -1553,12 +1678,13 @@ class GestionInventarioApp:
 
         self.frames_temporales.append(self.canvas)
 
-        # Ubicación del frame seleccionPlatos dentro de frame_pedidos mediante grid
+        # Ubicación del frame de FieldFrame dentro del frame de interaccion mediante grid
         self.frameFFcomprar.grid(row=0, column=0)
 
+    #funcion encargada de cambiar al frame de desechar materiales
     def function_frame_desechar_mat(self):
 
-        # Definir frame pedidos
+        # Definir frame desechar mat
         self.frame_desechar_mat = Frame(self.main_frame, width=500, height=400)
         self.frame_desechar_mat.grid(pady=10,padx=10)
 
@@ -1566,15 +1692,16 @@ class GestionInventarioApp:
         self.frameFFdesdechar = Frame(self.frame_desechar_mat, width=500, height=400)
         self.ff_desechar = FieldFrame(self.frameFFdesdechar, "Criterio", ["Material", "Cantidad"], "Valor", [], [True, True])
         self.ff_desechar.grid(row = 0, column=0, padx=10, pady=10)
+        #nombre para usar logica especifica desde FieldFrame
         self.ff_desechar.nombre="desechar"
-        #Combobox
+        #Se crea un combobox de los materiales para facilitar la visualizacion de los materiales presentes en el inventario
         materiales=["TOMATES", "CEBOLLAS", "PAPAS", "ACEITES", "VINOS","QUESOS",
         "CHAMPINONES", "RES", "PESCADOS", "CERDOS","POLLOS", "PANES", "AJOS", "ESPECIAS", "HUEVOS",
         "ATUN", "CUCHARAS", "TENEDORES", "PLATOS", "VASOS"]
         valorDefecto=StringVar(value="Seleccione Material")
-
+        #configuracion del combobox
         self.combo=ttk.Combobox(self.frameFFdesdechar,values=materiales,textvariable=valorDefecto)
-
+        #asignacion del evento del combobox en el cual se usa la funcion que le asigna el valor seleccionado del combobox al campo de "Material"
         self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion)
         self.combo.grid(row=0,column=1,pady=20,sticky="new")
         # Crear un Canvas para la cuadrícula dentro del Frame principal
@@ -1583,22 +1710,25 @@ class GestionInventarioApp:
 
         self.frames_temporales.append(self.canvas)
 
-        # Ubicación del frame seleccionPlatos dentro de frame_pedidos mediante grid
+        # Ubicación del frame de FieldFrame dentro del frame de interaccion mediante grid
         self.frameFFdesdechar.grid(row=0, column=0)
-    def function_frame_comprar_mesa(self):
 
+    #funcion encargada de cambiar al frame para añadir mesas al restaurante
+    def function_frame_comprar_mesa(self):
+        #definir frame de comprar mesa
         self.frame_comprar_mesa=Frame(self.main_frame,width=500,height=400)
         self.frame_comprar_mesa.grid(pady=10,padx=10)
-
+        #Frame de interaccion
         self.frameFFmesa=Frame(self.frame_comprar_mesa,width=500,height=400)
         self.ff_mesa=FieldFrame(self.frameFFmesa,"Criterio",["Mesa","Capacidad"],"Valor",[],[True,True])
         self.ff_mesa.grid(row=0,column=0,padx=10,pady=10)
+        #nombre para usar logica especifica desde FieldFrame
         self.ff_mesa.nombre="mesa"
 
         self.canvas=Canvas(self.frame_comprar_mesa)
         self.canvas.grid(row=1,column=0,padx=10,pady=10)
         self.frames_temporales.append(self.canvas)
-
+        #ubicacion del FieldFrame dentro del frame de interaccion mediante grid
         self.frameFFmesa.grid(row=0,column=0)
     def delete_pages(self):
         """
@@ -1609,7 +1739,7 @@ class GestionInventarioApp:
         """
         for widget in self.main_frame.winfo_children():
             widget.destroy()
-
+    #funcion encargada de ocultar los indicadores laterales de los botones de las opciones que no han sido seleccionados
     def hide_indicators(self):
         self.home_indicate.config(bg='#c3c3c3')
         self.indicate_consultar_inventario.config(bg='#c3c3c3')
@@ -1892,14 +2022,15 @@ class GestionReservasApp:
     """
     Aqui se plantea toda la funcionalidad de gestion de reservas
     """
-    def __init__(self, framePadre):
+    def __init__(self, framePadre, restaurante):
         self.row_height = 200
         self.col_width = 200
+        self.restaurante = restaurante
         self.frames_temporales = []
         self.framePadre = framePadre
         self.funcionalidad_gestionReservas = Frame(self.framePadre, bg='#c3c3c3', width=100, height=500)
         self.funcionalidad_gestionReservas.grid(row=0, column=0, sticky="nsew")
-        self.options_frame = Frame(self.funcionalidad_gestionReservas, bg='#c3c3c3', width=100, height=500)
+        self.options_frame = Frame(self.funcionalidad_gestionReservas, bg='#c3c3c3', width=120, height=500)
         self.options_frame.grid(row=0, column=0, sticky="nsew")
         self.options_frame.pack_propagate(False)
         self.main_frame = Frame(self.funcionalidad_gestionReservas, highlightbackground='black', highlightthickness=2, width=500, height=400)
@@ -1951,20 +2082,34 @@ class GestionReservasApp:
     def function_home_page(self):
         self.frame_home = Frame(self.main_frame, width=500, height=400)
         Label(self.frame_home, text="Bienvenido a la gestion de reservas", font=("Bold", 15)).place(x=150, y=30)
+        descripcion_funcionalidad = Label(self.frame_home, text="Esta plataforma te permite consultar, cancelar, crear y confirmar las reservas de tus clientes", wraplength=400, justify="left")
+        descripcion_funcionalidad.place(relx=0.5, rely=0.4, anchor="center")
         self.frame_home.grid(pady=5, padx=5)
         self.frame_home.pack_propagate(False)
 
     def function_frame_RNC(self):
         self.frame_RNC = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_RNC, text="Reservas sin mesa asignada", font=("Bold", 15)).place(x=150, y=30)
-        self.frame_RNC.grid(pady=5, padx=5)
-        self.frame_RNC.pack_propagate(False)
+        self.frame_RNC.grid(row=1, column=1, pady=5, padx=5, sticky="nsew")
+        Label(self.frame_RNC, text="Reservas sin mesa asignada", font=("Bold", 15)).grid(row=0, column=0, padx=10, pady=10)
+        self.texto = Listbox(self.frame_RNC)
+        scrollbar = Scrollbar(self.frame_RNC, orient="vertical", command=self.texto.yview)
+        self.texto.configure(yscrollcommand=scrollbar.set)
+        self.texto.config(width=100, height=30)
+        self.texto.grid(row=1, column=0, padx=10, pady=10, sticky="nswe")
+        scrollbar.grid(row=1, column=1, padx=0, pady=0, sticky="ns")
+        self.texto.insert(END, self.restaurante.imprimirReservas())
 
     def function_frame_RC(self):
         self.frame_RC = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_RC, text="Reservas con mesa asignada", font=("Bold", 15)).place(x=150, y=30)
-        self.frame_RC.grid(pady=5, padx=5)
-        self.frame_RC.pack_propagate(False)
+        self.frame_RC.grid(row=1, column=1, pady=5, padx=5, sticky="nsew")
+        Label(self.frame_RC, text="Reservas con mesa asignada", font=("Bold", 15)).grid(row=0, column=0, padx=10, pady=10)
+        self.texto2 = Listbox(self.frame_RC)
+        scrollbar = Scrollbar(self.frame_RC, orient="vertical", command=self.texto2.yview)
+        self.texto2.configure(yscrollcommand=scrollbar.set)
+        self.texto2.config(width=100, height=30)
+        self.texto2.grid(row=1, column=0, padx=10, pady=10, sticky="nswe")
+        scrollbar.grid(row=1, column=1, padx=0, pady=0, sticky="ns")
+        self.texto2.insert(END, self.restaurante.imprimirReservas2())
 
     def function_frame_ANADIR_R(self):
         # Definir frame reservas
