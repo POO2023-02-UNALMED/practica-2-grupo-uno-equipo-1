@@ -104,55 +104,55 @@ restaurante.comprarMaterial(Tipo.VASOS,150,25,None)"""
 #     Plato("Tartiflette", 40000, 20, "Gratinado de Papa y Cerdo", tartiflette)
 #     ]
 # restaurante.setMenu(menu)
+"""
+#Crear turnos
+turno1 = Turno(TipoTurno.SEMANA, 5.0, 50000)
+turno2 = Turno(TipoTurno.SEMANA, 8.0, 60000)
+turno3 = Turno(TipoTurno.SEMANA, 2.0, 70000)
+turno4 = Turno(TipoTurno.SEMANA, 8.0, 55000)
+turno5 = Turno(TipoTurno.SEMANA, 2.0, 65000)
+turno6 = Turno(TipoTurno.SEMANA, 8.0, 75000)
+turno7 = Turno(TipoTurno.SEMANA, 2.0, 60000)
+turno8 = Turno(TipoTurno.SEMANA, 2.0, 70000)
+turno9 = Turno(TipoTurno.SEMANA, 8.0, 80000)
+turno10 = Turno(TipoTurno.SEMANA, 8.0, 65000)
+turno11 = Turno(TipoTurno.SEMANA, 3.0, 80000)
+turno12 = Turno(TipoTurno.SABADO, 7.0, 50000)
+turno13 = Turno(TipoTurno.SABADO, 3.0, 60000)
+turno14 = Turno(TipoTurno.SEMANA, 7.0, 70000)
+turno15 = Turno(TipoTurno.SEMANA, 2.0, 55000)
+turno16 = Turno(TipoTurno.SEMANA, 3.0, 55000)
+turno17 = Turno(TipoTurno.SEMANA, 2.0, 55000)
 
-# #Crear turnos
-# turno1 = Turno(TipoTurno.SEMANA, 5.0, 50000)
-# turno2 = Turno(TipoTurno.SEMANA, 8.0, 60000)
-# turno3 = Turno(TipoTurno.SEMANA, 2.0, 70000)
-# turno4 = Turno(TipoTurno.SEMANA, 8.0, 55000)
-# turno5 = Turno(TipoTurno.SEMANA, 2.0, 65000)
-# turno6 = Turno(TipoTurno.SEMANA, 8.0, 75000)
-# turno7 = Turno(TipoTurno.SEMANA, 2.0, 60000)
-# turno8 = Turno(TipoTurno.SEMANA, 2.0, 70000)
-# turno9 = Turno(TipoTurno.SEMANA, 8.0, 80000)
-# turno10 = Turno(TipoTurno.SEMANA, 8.0, 65000)
-# turno11 = Turno(TipoTurno.SEMANA, 3.0, 80000)
-# turno12 = Turno(TipoTurno.SABADO, 7.0, 50000)
-# turno13 = Turno(TipoTurno.SABADO, 3.0, 60000)
-# turno14 = Turno(TipoTurno.SEMANA, 7.0, 70000)
-# turno15 = Turno(TipoTurno.SEMANA, 2.0, 55000)
-# turno16 = Turno(TipoTurno.SEMANA, 3.0, 55000)
-# turno17 = Turno(TipoTurno.SEMANA, 2.0, 55000)
-
-# #Crear empleados
-# empleado1 = Mesero("Juan", 123456789, "mesero", restaurante, turno1)
-# empleado1.agregarTurno(turno2)
-# restaurante.contratarEmpleado(empleado1)
-# empleado2 = Cocinero("Fernando", 234567891, "cocinero", restaurante, turno2)
-# empleado2.agregarTurno(turno3)
-# restaurante.contratarEmpleado(empleado2)
-# empleado3 = Domiciliario("Santiago", 345678912, "domiciliario", restaurante, turno4)
-# empleado1.agregarTurno(turno5)
-# restaurante.contratarEmpleado(empleado3)
-# empleado4 = Mesero("Jhon", 123456789, "mesero", restaurante, turno6)
-# empleado1.agregarTurno(turno7)
-# restaurante.contratarEmpleado(empleado4)
-# empleado5 = Cocinero("Moises", 234567891, "cocinero", restaurante, turno8)
-# empleado2.agregarTurno(turno9)
-# restaurante.contratarEmpleado(empleado5)
-# empleado6 = Domiciliario("Rigo", 345678912, "domiciliario", restaurante, turno10)
-# empleado6.agregarTurno(turno11)
-# restaurante.contratarEmpleado(empleado6)
-# empleado7 = Mesero("Brayan", 123456789, "mesero", restaurante, turno12)
-# empleado1.agregarTurno(turno13)
-# restaurante.contratarEmpleado(empleado7)
-# empleado8 = Cocinero("Felipe", 234567891, "cocinero", restaurante, turno14)
-# empleado2.agregarTurno(turno15)
-# restaurante.contratarEmpleado(empleado8)
-# empleado9 = Domiciliario("Martin", 345678912, "domiciliario", restaurante, turno16)
-# empleado1.agregarTurno(turno17)
-# restaurante.contratarEmpleado(empleado9)
-
+#Crear empleados
+empleado1 = Mesero("Juan", 123456789, "mesero", restaurante, turno1)
+empleado1.agregarTurno(turno2)
+restaurante.contratarEmpleado(empleado1)
+empleado2 = Cocinero("Fernando", 234567891, "cocinero", restaurante, turno2)
+empleado2.agregarTurno(turno3)
+restaurante.contratarEmpleado(empleado2)
+empleado3 = Domiciliario("Santiago", 345678912, "domiciliario", restaurante, turno4)
+empleado1.agregarTurno(turno5)
+restaurante.contratarEmpleado(empleado3)
+empleado4 = Mesero("Jhon", 123456789, "mesero", restaurante, turno6)
+empleado1.agregarTurno(turno7)
+restaurante.contratarEmpleado(empleado4)
+empleado5 = Cocinero("Moises", 234567891, "cocinero", restaurante, turno8)
+empleado2.agregarTurno(turno9)
+restaurante.contratarEmpleado(empleado5)
+empleado6 = Domiciliario("Rigo", 345678912, "domiciliario", restaurante, turno10)
+empleado6.agregarTurno(turno11)
+restaurante.contratarEmpleado(empleado6)
+empleado7 = Mesero("Brayan", 123456789, "mesero", restaurante, turno12)
+empleado1.agregarTurno(turno13)
+restaurante.contratarEmpleado(empleado7)
+empleado8 = Cocinero("Felipe", 234567891, "cocinero", restaurante, turno14)
+empleado2.agregarTurno(turno15)
+restaurante.contratarEmpleado(empleado8)
+empleado9 = Domiciliario("Martin", 345678912, "domiciliario", restaurante, turno16)
+empleado1.agregarTurno(turno17)
+restaurante.contratarEmpleado(empleado9)
+"""
 
 #for mesa1 in restaurante.getMesas():
 #    mesa1.anadirNumero(mesa1.getNumeroMesa())
@@ -274,35 +274,6 @@ def gestion_pedidos():
     gestion_pedidos_app = GestionPedidosApp(gestion_pedidos)
     gestion_pedidos.grid(row=1, column=0, sticky="nsew")
     gestion_pedidos.pack_propagate(False)
-
-# (NO BORRAR) 
-# def añadir_pedido():
-#     frameAñadirPedido = Frame(padx=20, pady=20, bg="gray77")
-#     frameAñadirPedido.pack(row = 0, column = 0, sticky = "nsew")
-#     GestionEmpleados(ventanaPrincipal)
-    # framePedidos = Frame(ventanaPrincipal)
-    # framePedidos.grid(row=0, column=0, sticky="nsew")
-    # saludoPedidos = Label(framePedidos, text="Gestion de pedidos")
-    # saludoPedidos.grid(row=1, column=1, padx=10, pady=10)
-
-    # frameAñadirPedido = Frame(framePedidos)
-    # frameAñadirPedido.grid(row=2, column=0)
-    # tituloPlato = Label(frameAñadirPedido, text="Plato")
-    # # Creacion para hacer un pedido
-    # tituloPedido = Label(frameAñadirPedido, text="Añadir pedido")
-    # ListboxPlatos = Listbox(frameAñadirPedido)
-    # tituloPedido.grid(row=0, column=0)
-    # tituloPlato.grid(row=0, column=1)
-
-
-    # for plato in menu:
-    #     index = menu.index(plato)
-    #     item = f"{index+1}. {plato.getNombre()} - {plato.getPrecio()} - {plato.getDescripcion()} - {plato.getTiempoPreparacion()} - {plato.getIngredientes()}"
-    #     ListboxPlatos.insert(END, item)
-
-    # ListboxPlatos.grid(row=1, column=3)
-
-    # consulta1 = FieldFrame(frameAñadirPedido, "Platos" , ["platos"], "Platos deseados", [], [True])
 
 
 def gEmpleado():
@@ -723,28 +694,28 @@ imagenes_materiales = [
     vasos_imagen
 ]
 
-# imagen_mat={
-#     Tipo.TOMATES:{"imagen": tomates_imagen, "cantidad": restaurante.inventario[Tipo.TOMATES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.TOMATES].getPrecioUnitario()},
-#     Tipo.CEBOLLAS:{"imagen": cebollas_imagen, "cantidad": restaurante.inventario[Tipo.CEBOLLAS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.CEBOLLAS].getPrecioUnitario()},
-#     Tipo.PAPAS:{"imagen": papas_imagen, "cantidad": restaurante.inventario[Tipo.PAPAS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.PAPAS].getPrecioUnitario()},
-#     Tipo.ACEITES:{"imagen": aceites_imagen, "cantidad": restaurante.inventario[Tipo.ACEITES].getCantidad(),"precio unitario": restaurante.inventario[Tipo.ACEITES].getPrecioUnitario()},
-#     Tipo.VINOS:{"imagen": vinos_imagen, "cantidad": restaurante.inventario[Tipo.VINOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.VINOS].getPrecioUnitario()},
-#     Tipo.QUESOS:{"imagen": quesos_imagen, "cantidad": restaurante.inventario[Tipo.QUESOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.QUESOS].getPrecioUnitario()},
-#     Tipo.CHAMPINONES:{"imagen":champiñones_imagen, "cantidad": restaurante.inventario[Tipo.CHAMPINONES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.CHAMPINONES].getPrecioUnitario()},
-#     Tipo.RES:{"imagen": res_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.RES].getPrecioUnitario()},
-#     Tipo.PESCADOS:{"imagen": pescados_imagen, "cantidad": restaurante.inventario[Tipo.PESCADOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.PESCADOS].getPrecioUnitario()},
-#     Tipo.CERDOS:{"imagen": cerdos_imagen, "cantidad": restaurante.inventario[Tipo.CERDOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.CERDOS].getPrecioUnitario()},
-#     Tipo.POLLOS:{"imagen": pollos_imagen, "cantidad": restaurante.inventario[Tipo.POLLOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.POLLOS].getPrecioUnitario()},
-#     Tipo.PANES:{"imagen": panes_imagen, "cantidad": restaurante.inventario[Tipo.PANES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.PANES].getPrecioUnitario()},
-#     Tipo.AJOS:{"imagen":ajos_imagen, "cantidad": restaurante.inventario[Tipo.AJOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.AJOS].getPrecioUnitario()},
-#     Tipo.ESPECIAS:{"imagen": especies_imagen, "cantidad": restaurante.inventario[Tipo.ESPECIAS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.ESPECIAS].getPrecioUnitario()},
-#     Tipo.HUEVOS:{"imagen": huevos_imagen, "cantidad": restaurante.inventario[Tipo.HUEVOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.HUEVOS].getPrecioUnitario()},
-#     Tipo.ATUN:{"imagen": atun_imagen, "cantidad": restaurante.inventario[Tipo.ATUN].getCantidad(),"precio unitario": restaurante.inventario[Tipo.ATUN].getPrecioUnitario()},
-#     Tipo.CUCHARAS:{"imagen": cuchara_imagen, "cantidad": restaurante.inventario[Tipo.CUCHARAS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.CUCHARAS].getPrecioUnitario()},
-#     Tipo.TENEDORES:{"imagen": tenedores_imagen, "cantidad": restaurante.inventario[Tipo.TENEDORES].getCantidad(),"precio unitario": restaurante.inventario[Tipo.TENEDORES].getPrecioUnitario()},
-#     Tipo.PLATOS:{"imagen": plato_imagen, "cantidad": restaurante.inventario[Tipo.PLATOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.PLATOS].getPrecioUnitario()},
-#     Tipo.VASOS:{"imagen": vasos_imagen, "cantidad": restaurante.inventario[Tipo.VASOS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.VASOS].getPrecioUnitario()}
-#     }
+imagen_mat={
+    Tipo.TOMATES:{"imagen": tomates_imagen, "cantidad": restaurante.inventario[Tipo.TOMATES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.TOMATES].getPrecioUnitario()},
+    Tipo.CEBOLLAS:{"imagen": cebollas_imagen, "cantidad": restaurante.inventario[Tipo.CEBOLLAS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.CEBOLLAS].getPrecioUnitario()},
+    Tipo.PAPAS:{"imagen": papas_imagen, "cantidad": restaurante.inventario[Tipo.PAPAS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.PAPAS].getPrecioUnitario()},
+    Tipo.ACEITES:{"imagen": aceites_imagen, "cantidad": restaurante.inventario[Tipo.ACEITES].getCantidad(),"precio unitario": restaurante.inventario[Tipo.ACEITES].getPrecioUnitario()},
+    Tipo.VINOS:{"imagen": vinos_imagen, "cantidad": restaurante.inventario[Tipo.VINOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.VINOS].getPrecioUnitario()},
+    Tipo.QUESOS:{"imagen": quesos_imagen, "cantidad": restaurante.inventario[Tipo.QUESOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.QUESOS].getPrecioUnitario()},
+    Tipo.CHAMPINONES:{"imagen":champiñones_imagen, "cantidad": restaurante.inventario[Tipo.CHAMPINONES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.CHAMPINONES].getPrecioUnitario()},
+    Tipo.RES:{"imagen": res_imagen, "cantidad": restaurante.inventario[Tipo.RES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.RES].getPrecioUnitario()},
+    Tipo.PESCADOS:{"imagen": pescados_imagen, "cantidad": restaurante.inventario[Tipo.PESCADOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.PESCADOS].getPrecioUnitario()},
+    Tipo.CERDOS:{"imagen": cerdos_imagen, "cantidad": restaurante.inventario[Tipo.CERDOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.CERDOS].getPrecioUnitario()},
+    Tipo.POLLOS:{"imagen": pollos_imagen, "cantidad": restaurante.inventario[Tipo.POLLOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.POLLOS].getPrecioUnitario()},
+    Tipo.PANES:{"imagen": panes_imagen, "cantidad": restaurante.inventario[Tipo.PANES].getCantidad(), "precio unitario": restaurante.inventario[Tipo.PANES].getPrecioUnitario()},
+    Tipo.AJOS:{"imagen":ajos_imagen, "cantidad": restaurante.inventario[Tipo.AJOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.AJOS].getPrecioUnitario()},
+    Tipo.ESPECIAS:{"imagen": especies_imagen, "cantidad": restaurante.inventario[Tipo.ESPECIAS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.ESPECIAS].getPrecioUnitario()},
+    Tipo.HUEVOS:{"imagen": huevos_imagen, "cantidad": restaurante.inventario[Tipo.HUEVOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.HUEVOS].getPrecioUnitario()},
+    Tipo.ATUN:{"imagen": atun_imagen, "cantidad": restaurante.inventario[Tipo.ATUN].getCantidad(),"precio unitario": restaurante.inventario[Tipo.ATUN].getPrecioUnitario()},
+    Tipo.CUCHARAS:{"imagen": cuchara_imagen, "cantidad": restaurante.inventario[Tipo.CUCHARAS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.CUCHARAS].getPrecioUnitario()},
+    Tipo.TENEDORES:{"imagen": tenedores_imagen, "cantidad": restaurante.inventario[Tipo.TENEDORES].getCantidad(),"precio unitario": restaurante.inventario[Tipo.TENEDORES].getPrecioUnitario()},
+    Tipo.PLATOS:{"imagen": plato_imagen, "cantidad": restaurante.inventario[Tipo.PLATOS].getCantidad(), "precio unitario": restaurante.inventario[Tipo.PLATOS].getPrecioUnitario()},
+    Tipo.VASOS:{"imagen": vasos_imagen, "cantidad": restaurante.inventario[Tipo.VASOS].getCantidad(),"precio unitario": restaurante.inventario[Tipo.VASOS].getPrecioUnitario()}
+    }
 
 # Fieldframe para consultas
 
