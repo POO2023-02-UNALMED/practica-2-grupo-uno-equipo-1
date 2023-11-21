@@ -1,5 +1,5 @@
 from datetime import datetime
-# from gestorAplicacion.Restaurante.reserva import Reserva
+from gestorAplicacion.Restaurante.reserva import Reserva
 from gestorAplicacion.Restaurante.pedido import Pedido
 from gestorAplicacion.Restaurante.material import Material
 from gestorAplicacion.Restaurante.material import Tipo
@@ -16,13 +16,14 @@ class Restaurante():
 				contador += 1
 		return contador
 
-	def __init__(self, listadoMesas=None, listadoEmpleados=None, listadoClientes=None, inventario=None, listadoAspEmpleados=None):
+	def __init__(self, listadoMesas=None, listadoEmpleados=None, listadoClientes=None, inventario=None, listadoAspEmpleados=None, restaurante = None):
 		self.NOMBRE = "Le Quasó"
 		self.empleadoDelMes = None
 		self.numMesas = 0
 		self.numEmpleados = 0
 		self.numClientes = 0
 		self.pedidos = []
+		self.menu = listadoMesas if listadoMesas is not None else []
 		self.listadoMesas = listadoMesas if listadoMesas is not None else []
 		self.listadoEmpleados = listadoEmpleados if listadoEmpleados is not None else []
 		self.listadoClientes = listadoClientes if listadoClientes is not None else []
@@ -56,6 +57,9 @@ class Restaurante():
 
 	def getMesas (self):
 		return self.listadoMesas
+	
+	def getMenu(self):
+		return self.menu
 	
 	def getCocineros (self):
 		cocineros = []
@@ -91,6 +95,9 @@ class Restaurante():
     #Metodos setter
 	def setMesas(self,mesas):
 		self.listadoMesas=mesas
+	
+	def setMenu(self, menu):
+		self.menu=menu
 
 	def setEmpleadoDelMes (self, empleadoDelMes):
 		if (empleadoDelMes == None):
@@ -418,7 +425,7 @@ class Restaurante():
 			c1 = Cliente(nombre, cedula)
 			self.afiliarCliente(c1)
 		c1 = self.obtenerCliente(cedula)
-		diaReserva2 = Reserva.deStringaFecha(diaReserva)
+		diaReserva2 = Reserva.deStringAFecha(diaReserva)
 		c1.setReserva(Reserva(c1, numAsistentes, diaReserva2))
 
 	#retorna el listado de mesas que cumplen para la reserva que tenga asignada ek cliente
@@ -437,7 +444,7 @@ class Restaurante():
 	def confirmarReserva(self, numMesa, cedula):
 		c1 = self.obtenerCliente(cedula)
 		r1 = c1.getReserva()
-		if (Mesa.verificarNumero(numMesa)):
+		if (Mesa.verificarNumero(Mesa,numMesa)):
 			mesa1 = self.encontrarMesa(numMesa)
 			if (mesa1.suficienteCapacidad(r1)):
 				mesa1.reservarMesa(r1)

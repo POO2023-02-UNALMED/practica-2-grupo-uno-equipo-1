@@ -42,8 +42,11 @@ class Reserva:
     @staticmethod
     def deStringAFecha(fechaString):
         formato = "%d-%m-%Y"
-        fecha = datetime.strptime(fechaString, formato).date()
-        return fecha
+        try:
+            fecha=datetime.strptime(fechaString,formato).date()
+            return fecha
+        except ValueError:
+            raise ValueError
 
     @staticmethod
     def revisarFecha(fecha):
