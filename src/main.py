@@ -20,7 +20,10 @@ from baseDatos.Serializacion import serializar,deserializar
 
 
 restaurante=deserializar()
-mesa = Mesa(1,2)
+for material in restaurante.getInventario():
+    print(material)
+    print(restaurante.inventario[material].getCantidad())
+    print(restaurante.inventario[material].getPrecioUnitario())
 
 print(restaurante.getNombre())
 for mesa in restaurante.getMesas():
@@ -29,6 +32,8 @@ for empleado in restaurante.getEmpleados():
     print(empleado)
 #Crear un objeto Financia
 financia = Financia(restaurante)
+
+
 res = Material(Tipo.RES, 100, 100)
 especias = Material(Tipo.ESPECIAS, 100, 50)
 aceites = Material(Tipo.ACEITES, 100, 100)
@@ -44,7 +49,36 @@ atun = Material(Tipo.ATUN, 100, 250)
 panes = Material(Tipo.PANES, 200, 50)
 pescados = Material(Tipo.PESCADOS ,200 ,300 )
 papas = Material(Tipo.PAPAS ,200 ,100 )
-huevos = Material(Tipo.PAPAS ,200 ,100 )
+huevos = Material(Tipo.HUEVOS ,200 ,100)
+cucharas=Material(Tipo.CUCHARAS,300,10)
+tenedores=Material(Tipo.TENEDORES,300,10)
+platos=Material(Tipo.PLATOS,200,35)
+vasos=Material(Tipo.VASOS,150,25)
+
+
+"""
+restaurante.comprarMaterial(Tipo.RES, 100, 100,None)
+restaurante.comprarMaterial(Tipo.ESPECIAS, 100, 50,None)
+restaurante.comprarMaterial(Tipo.ACEITES, 100, 100,None)
+restaurante.comprarMaterial(Tipo.POLLOS, 100, 200,None)
+restaurante.comprarMaterial(Tipo.VINOS, 100, 300,None)
+restaurante.comprarMaterial(Tipo.CEBOLLAS, 100, 50,None)
+restaurante.comprarMaterial(Tipo.CHAMPINONES, 500, 100,None)
+restaurante.comprarMaterial(Tipo.AJOS, 100, 30,None)
+restaurante.comprarMaterial(Tipo.TOMATES, 400, 200,None)
+restaurante.comprarMaterial(Tipo.QUESOS, 300, 150,None)
+restaurante.comprarMaterial(Tipo.CERDOS, 100, 200,None)
+restaurante.comprarMaterial(Tipo.ATUN, 100, 250,None)
+restaurante.comprarMaterial(Tipo.PANES, 200, 50,None)
+restaurante.comprarMaterial(Tipo.PAPAS ,200 ,100,None)
+restaurante.comprarMaterial(Tipo.HUEVOS ,200 ,100,None)
+restaurante.comprarMaterial(Tipo.PESCADOS ,200 ,300,None)
+restaurante.comprarMaterial(Tipo.CUCHARAS,300,10,None)
+restaurante.comprarMaterial(Tipo.TENEDORES,300,10,None)
+restaurante.comprarMaterial(Tipo.PLATOS,200,35,None)
+restaurante.comprarMaterial(Tipo.VASOS,150,25,None)"""
+#restaurante.comprarMaterial(Tipo.RES,13,100,None)
+
 
 # Crear ingredientes de cada plato
 Muton = {res: 1, especias: 10, aceites: 1}
@@ -861,6 +895,17 @@ class FieldFrame2(Frame):
             numeroMesa=get_valor_by_criterio("Mesa")
             capacidadMesa=get_valor_by_criterio("Capacidad")
             restaurante.listadoMesas.append(Mesa(capacidadMesa,numeroMesa))
+        elif self.nombre=="comprar":
+            tipo=get_valor_by_criterio("Material")
+            tipos=getattr(Tipo, tipo.upper(), None)
+            cantidad=int(get_valor_by_criterio("Cantidad"))
+            precio=int(get_valor_by_criterio("Precio"))
+            restaurante.comprarMaterial(tipos,cantidad,precio,None)
+        elif self.nombre=="desechar":
+            tipo=get_valor_by_criterio("Material")
+            tipos=getattr(Tipo, tipo.upper(), None)
+            cantidad=int(get_valor_by_criterio("Cantidad"))
+            restaurante.botarMaterial(tipos,cantidad)
 
     def borrar_campos(self):
         for entry in self.entries.values():
@@ -1390,6 +1435,7 @@ class GestionInventarioApp:
     Aqui se plantea la funcionalidad de gestion de inventario
     """
     def __init__(self,framePadre,imagenes_ingredientes,restaurante):
+
         self.row_height = 300
         self.col_width = 300
         self.restaurante=restaurante
@@ -1460,6 +1506,11 @@ class GestionInventarioApp:
         Label(self.frame_inventario, text="Inventario", font=("Bold", 15)).place(x=150, y=30)
         self.frame_inventario.grid(pady=5, padx=5)
         self.frame_inventario.pack_propagate(False)
+        self.canvas = Canvas(self.frame_comprar_mat)
+        self.canvas.grid(row = 1, column=0, padx=10, pady=10)
+
+        materiales=[]
+        self.frames_temporales.append(self.canvas)
 
     def insertar_opcion(self,event):
             opcion_seleccionada = self.combo.get()
@@ -1478,6 +1529,7 @@ class GestionInventarioApp:
         self.frameFFcomprar = Frame(self.frame_comprar_mat, width=500, height=400)
         self.ff_comprar = FieldFrame2(self.frameFFcomprar, "Criterio", ["Material", "Cantidad","Precio"], "Valor", [], [True, True,True])
         self.ff_comprar.grid(row = 0, column=0, padx=10, pady=10)
+        self.ff_comprar.nombre="comprar"
         #Combobox
         materiales=["TOMATES", "CEBOLLAS", "PAPAS", "ACEITES", "VINOS","QUESOS",
         "CHAMPINONES", "RES", "PESCADOS", "CERDOS","POLLOS", "PANES", "AJOS", "ESPECIAS", "HUEVOS",
@@ -1507,6 +1559,7 @@ class GestionInventarioApp:
         self.frameFFdesdechar = Frame(self.frame_desechar_mat, width=500, height=400)
         self.ff_desechar = FieldFrame2(self.frameFFdesdechar, "Criterio", ["Material", "Cantidad"], "Valor", [], [True, True])
         self.ff_desechar.grid(row = 0, column=0, padx=10, pady=10)
+        self.ff_desechar.nombre="desechar"
         #Combobox
         materiales=["TOMATES", "CEBOLLAS", "PAPAS", "ACEITES", "VINOS","QUESOS",
         "CHAMPINONES", "RES", "PESCADOS", "CERDOS","POLLOS", "PANES", "AJOS", "ESPECIAS", "HUEVOS",
@@ -1953,7 +2006,6 @@ class GestionReservasApp:
 ventanaPrincipal = Toplevel()
 ventanaPrincipal.title("Gestion Administrativa Le Quasó")
 ventanaPrincipal.geometry("1080x720")
-ventanaPrincipal.resizable(False,False)
 
 # Creacion de frame
 frame1 = Frame(ventanaPrincipal,bg="gray89",height=720)
