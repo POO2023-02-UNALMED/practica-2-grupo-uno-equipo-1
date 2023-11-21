@@ -27,17 +27,8 @@ restaurante=deserializar()
 
 print(restaurante.getNombre())
 for mesa in restaurante.getMesas():
-<<<<<<< HEAD
     print(mesa)"""
-financia = Financia(restaurante)  # Creas una instancia de Financia
-pagos_totales_empleados = financia.pagosEmpleados()
-  # Llamas al método para calcular los pagos de los empleados
-print(pagos_totales_empleados)
-=======
-    print(mesa)
-for empleado in restaurante.getEmpleados():
-    print(empleado)"""
->>>>>>> 5e91859a34ec28f91e172b59859175ff6caf1278
+
 #Crear un objeto Financia
 financia = Financia(restaurante)
 
@@ -1152,11 +1143,7 @@ class GestionPedidosApp:
 
         # Frame de interacción
         self.frameSeleccionPlatos = Frame(self.frame_pedidos, width=500, height=400)
-<<<<<<< HEAD
-        self.busquedadPlatos = FieldFrame(self.frameSeleccionPlatos, "platos y tipo pedido", ["platos", "tipo pedido"], "presione los platos y ingrese tipo pedido", [], [False, True], self.seleccionarCocinero)
-=======
         self.busquedadPlatos = FieldFrame(self.frameSeleccionPlatos, "platos y tipo pedido", ["tipo pedido"], "presione los platos y ingrese tipo pedido", [], [True], self.seleccionarCocinero)
->>>>>>> 5e91859a34ec28f91e172b59859175ff6caf1278
         self.busquedadPlatos.grid(row = 0, column=0, padx=10, pady=10)
 
         tipoConsumo = ["restaurante","domicilio"]
@@ -1544,27 +1531,6 @@ class GestionPedidosApp:
                   pedido1.setVerificado(True)
                   Pedido.actualizarInventario(restaurante, pedido1)
 
-<<<<<<< HEAD
-        for plato in restaurante.pedidos:
-            print(plato)
-
-        """print("PEDIDO")
-        print(restaurante.pedidos[0])"""
-        # print(Pedido.pedidos[0].getPlatos())
-    #     self.delete_frames()
-
-    # def delete_frames(self):
-    #     widgets = self.main_frame.winfo_children()
-    #     # Recorrer y destruir todos los frames temporales
-    #     for widget in widgets:
-    #         if widget.winfo_children():
-    #             # Si el widget tiene hijos, también eliminar esos hijos
-    #             child_widgets = widget.winfo_children()
-    #             for child_widget in child_widgets:
-    #                 child_widget.destroy()
-
-=======
->>>>>>> 5e91859a34ec28f91e172b59859175ff6caf1278
 
     def delete_pages(self):
         """
@@ -1605,6 +1571,7 @@ class GestionInventarioApp:
         self.imagen_mat=imagen_mat
         self.frames_temporales=[]
         self.framePadre=framePadre
+        
         #En este frame se gestionara toda la funcionalidad
         self.funcionalidad_gestionInv = Frame(self.framePadre, bg='#c3c3c3', width=100, height=500)
         self.funcionalidad_gestionInv.grid(row=0, column=0, sticky="nsew")
@@ -1840,10 +1807,10 @@ class GestionFinancieraApp:
         self.col_width = 200
         self.imagen_mat=imagen_mat
         self.restaurante = restaurante
-        self.financia = Financia(restaurante=self.restaurante)
+        self.financia = Financia(restaurante)
         self.empleados = self.restaurante.listadoEmpleados  
         self.frames_temporales = []
-
+        self.material_seleccionado = None
         self.framePadre = framePadre
         self.funcionalidad_gestionFinanciera = Frame(self.framePadre, bg='#c3c3c3', width=100, height=500)
         self.funcionalidad_gestionFinanciera.grid(row=0, column=0, sticky="nsew")
@@ -1916,9 +1883,14 @@ class GestionFinancieraApp:
 
     def function_frame_presupuesto(self):
         self.frame_presupuesto = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_presupuesto, text="Presupuesto", font=("Bold", 15)).place(x=200, y=30)
+        Label(self.frame_presupuesto, text="Presupuesto", font=("Bold", 15)).place(x=300, y=30)
         self.frame_presupuesto.grid(pady=5, padx=5)
         self.frame_presupuesto.pack_propagate(False)
+
+        # Calcular los Ganancias Netas
+        presupuesto = self.financia.getPresupuesto()
+        self.lbl_presupuesto = Label(self.frame_presupuesto, text=f"El Presupuesto del restaurante es: {presupuesto}", font=("Arial", 15) )
+        self.lbl_presupuesto.grid(row=2, column=0, pady=300, padx=200)
 
     def function_frame_ganancias(self):
         self.frame_ganancias = Frame(self.main_frame, width=500, height=400)
@@ -1939,14 +1911,17 @@ class GestionFinancieraApp:
 
 
     def function_ganancias_netas(self):
-        ganancias_netas = self.financia.GananciasNetas()  # Obtener el valor de las ganancias netas
-        self.label_ganancias_netas.config(text=f"Ganancias Netas: {ganancias_netas}")  # Actualizar el texto del Label
-        self.label_ganancias_netas.place(x=50, y=200)
+         # Calcular los Ganancias Netas
+        ganancias_netas = self.financia.getGananciasNetas()
+        self.lbl_ganancias_netas = Label(self.frame_ganancias, text=f"Las Gananacias Nestas del restaurante son: {ganancias_netas}", font=("Arial", 15) )
+        self.lbl_ganancias_netas.grid(row=2, column=0, pady=300, padx=200)
+
 
     def function_ganancias_brutas(self):
-        ganancias_brutas = self.financia.GananciasBrutas()  # Obtener el valor de las ganancias brutas
-        self.label_ganancias_brutas.config(text=f"Ganancias Brutas: {ganancias_brutas}")  # Actualizar el texto del Label
-        self.label_ganancias_brutas.place(x=300, y=200)
+        # Calcular los Ganancias Brutas
+        ganancias_brutas = self.financia.getGananciasBrutas()
+        self.lbl_ganancias_brutas = Label(self.frame_ganancias, text=f"Las Gananacias Brutas del restaurante son: {ganancias_brutas}", font=("Arial", 15) )
+        self.lbl_ganancias_brutas.grid(row=2, column=0, pady=300, padx=200)
 
     def function_frame_gastos(self):
         self.frame_gastos = Frame(self.main_frame, width=500, height=400)
@@ -1958,29 +1933,20 @@ class GestionFinancieraApp:
         btn_gastos_Materiales = Button(self.frame_gastos, text="Gastos Materiales", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='black', command=self.function_gastos_materiales)
         btn_gastos_Materiales.place(x=50, y=100)
 
-        
         # Botón para los Pagos Empleados
         btn_pagos_empleados = Button(self.frame_gastos, text="Pagos Empleados", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='black', command=self.function_pagos_empleados)
         btn_pagos_empleados.place(x=300, y=100)
 
     def function_gastos_materiales(self):
         # Calcular los gastos de materiales
-        gastos_materiales = self.financia.GastosMateriales()
-
-        # Crear una etiqueta para mostrar los gastos de materiales
+        gastos_materiales = self.financia.getGastosMateriales()
         self.lbl_gastos_materiales = Label(self.frame_gastos, text=f"Gasto total del inventario del restaurante es: {gastos_materiales}", font=("Arial", 15) )
         self.lbl_gastos_materiales.grid(row=2, column=0, pady=300, padx=200)
 
     def function_pagos_empleados(self):
         # Obtener el valor de los pagos a empleados
-<<<<<<< HEAD
-        pagos_empleados = self.financia.getPagosEmpleados()
-
-        self.lbl_pagos_empleados = Label(self.frame_gastos, text=f"Pago total de los Empleados del restaurante es:{pagos_empleados}", font=("Arial", 15) )
-=======
-        pagos_empleados = self.financia.PagosEmpleados()  
+        pagos_empleados = self.financia.getPagosEmpleados()  
         self.lbl_pagos_empleados = Label(self.frame_gastos, text=f"Pago total de los Empleados del restaurante es: {pagos_empleados}", font=("Arial", 15) )
->>>>>>> 5e91859a34ec28f91e172b59859175ff6caf1278
         self.lbl_pagos_empleados.grid(row=2, column=0, pady=300, padx=200)
         
 
@@ -1993,7 +1959,6 @@ class GestionFinancieraApp:
         self.canvas = Canvas(self.frame_gastos_material)
         self.canvas.grid(row = 1, column=0, padx=15, pady=15)
         self.frames_temporales.append(self.canvas)
-
         Label(self.frame_gastos_material, text="SELECCIONE LA FOTO DEL MATERIAL :", font=("Bold", 10)).grid(row=1, column=4, padx=50, pady=80)
 
         # Agregar una barra de entrada (Entry)
@@ -2032,12 +1997,19 @@ class GestionFinancieraApp:
 
             fil+=1
             col+=1
-        
     def escribir_material(self, tipo):
         # Escribir el tipo de material en la barra de entrada
         self.material_entry.delete(0, END)  # Borrar cualquier texto existente
-        self.material_entry.insert(0, tipo.value)  # Insertar el tipo de material
-        
+        self.material_entry.insert(0, tipo.value)
+        self.material_seleccionado = tipo.value
+        self.mostrar_gasto_material()
+    def mostrar_gasto_material(self):
+        valor_gasto = self.financia.gastoMaterialEspecifico(self.material_seleccionado)
+
+        # Ahora, imprime este valor en algún lugar de tu interfaz
+        resultado_label = Label(self.frame_gastos_material, text=f"Gasto del material seleccionado: {valor_gasto}")
+        resultado_label.grid(row=6, column=0, padx=5, pady=5)
+
     def function_frame_pago_empleado_especifico(self):
         self.frame_gastos_material_especifico = Frame(self.main_frame, width=500, height=400)
         Label(self.frame_gastos_material_especifico, text="Pago Empleado Especifico", font=("Bold", 15)).place(x=150, y=30)

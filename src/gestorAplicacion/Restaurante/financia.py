@@ -1,24 +1,24 @@
 from datetime import datetime
 
 class Financia():
-	def __init__(self, restaurante=None, presupuesto=1000000, gastosMateriales=0, gastoMaterialEspecifico=0, pagosEmpleados=0, gananciasBrutas=0, gananciasNetas=0):
-		from gestorAplicacion.Restaurante.restaurante import Restaurante
-		from gestorAplicacion.Restaurante.material import Material
-		from gestorAplicacion.Restaurante.pedido import Pedido
-		from gestorAplicacion.Restaurante.reserva import Reserva
-		from gestorAplicacion.Restaurante.mesa import Mesa
-		from gestorAplicacion.Restaurante.turno import Turno
-		from gestorAplicacion.Restaurante.plato import Plato
-		from gestorAplicacion.Personas.empleado import Empleado
-		from gestorAplicacion.Personas.persona import Persona
-		self.presupuesto = 1000000
-		self.gastosMateriales = 0
-		self.gastoMaterialEspecifico = 0
-		self.pagosEmpleados = 0
-		self.gananciasBrutas = 0
-		self.gananciasNetas = 0
-		self.restaurante = restaurante
-
+	
+	def __init__(self, restaurante=None, presupuesto=1000000):
+			from gestorAplicacion.Restaurante.restaurante import Restaurante
+			from gestorAplicacion.Restaurante.material import Material
+			from gestorAplicacion.Restaurante.pedido import Pedido
+			from gestorAplicacion.Restaurante.reserva import Reserva
+			from gestorAplicacion.Restaurante.mesa import Mesa
+			from gestorAplicacion.Restaurante.turno import Turno
+			from gestorAplicacion.Restaurante.plato import Plato
+			from gestorAplicacion.Personas.empleado import Empleado
+			from gestorAplicacion.Personas.persona import Persona
+			self.presupuesto = presupuesto
+			self.gastosMateriales = 0
+			self.gastoMaterialEspecifico = 0
+			self.pagosEmpleados = 0
+			self.gananciasBrutas = 0
+			self.gananciasNetas = 0
+			self.restaurante = restaurante
 
 	def getPresupuesto(self):
 		return self.presupuesto
@@ -28,7 +28,7 @@ class Financia():
 
 	def getGastoMaterialEspecifico(self):
 		return self.gastoMaterialEspecifico
-
+	
 	def getPagosEmpleados(self):
 		return self.pagosEmpleados
 
@@ -38,46 +38,31 @@ class Financia():
 	def getGananciasNetas(self):
 		return self.gananciasNetas
 
-	def GastosMateriales(self):
+	def gastosMateriales(self):
 		total_gastos_materiales = 0
-		# Recorre cada pedido del restaurante
 		for pedido in self.restaurante.getPedidos():
-			# Recorre cada plato de los pedidos
 			for plato in pedido.getPlatos():
-				# Recorre los ingredientes de cada plato con su cantidad usada y luego multiplica el precio unitario de material por su cantidad
 				for material, cantidad_utilizada in plato.getIngredientes().items():
 					total_gastos_materiales += material.getPrecioUnitario() * cantidad_utilizada
 		self.gastosMateriales = total_gastos_materiales
+		return total_gastos_materiales
 
-		return self.gastosMateriales
-
-	def GastoMaterialEspecifico(self, nombre_material):
+	def gastoMaterialEspecifico(self, material_seleccionado):
 		total_gasto_material = 0
 		for pedido in self.restaurante.getPedidos():
 			for plato in pedido.getPlatos():
 				for material, cantidad_utilizada in plato.getIngredientes().items():
-					if material.getNombre() == nombre_material:
-						total_gasto_material += material.getPrecioUnitario() * cantidad_utilizada
-						
+					if material.getNombre() == material_seleccionado:
+						total_gasto_material += cantidad_utilizada * material.getPrecioUnitario()
+		self.gastoMaterialEspecifico = total_gasto_material
 		return total_gasto_material
 
-    #Calcula el pago de un solo empleado
-
-
-    # Calcula el Pago total de todos los Empleados
-	
 	def pagosEmpleados(self):
 		totalPagos = 0
 		for empleado in self.restaurante.getEmpleados():
-			totalPagos += self.pagoEmpleado(empleado)
-		self.pagosEmpleados = totalPagos  # Actualiza el atributo pagosEmpleados
+			totalPagos += self.calcularPagoEmpleado(empleado)
+			self.pagosEmpleados = totalPagos
 		return totalPagos
-	
-	def pagoEmpleado(self, empleado):
-		totalPago = 0
-		for turno in empleado.getTurnos():
-			totalPago += turno.getSalario()
-		return totalPago
 
 
     #Calcula las ganancias Brutas del restaurante
