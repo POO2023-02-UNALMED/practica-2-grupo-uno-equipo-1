@@ -1524,7 +1524,9 @@ class GestionInventarioApp:
 
     def function_home_page(self):
         self.frame_home = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_home, text="Bienvenido a la gestion de Inventario", font=("Bold", 15)).place(x=150, y=30)
+        Label(self.frame_home, text="Bienvenido a la gestion de Inventario", font=("Bold", 15)).place(x=100, y=30)
+        descripcionInv="Con esta funcionalidad puedes consultar los materiales que hayan en tu inventario\nComprar o desechar los mismo y finalmente añadir mesas al restaurante\nde manera rápida y sencilla"
+        Label(self.frame_home,text=descripcionInv,font=("Bond",10)).place(x=10,y=150)
         self.frame_home.grid(pady=5, padx=5)
         self.frame_home.pack_propagate(False)
 
