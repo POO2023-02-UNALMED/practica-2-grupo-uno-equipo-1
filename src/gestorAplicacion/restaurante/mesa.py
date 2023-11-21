@@ -68,7 +68,7 @@ class Mesa:
         self.getNumeroMesas().append(a)
 
     def suficienteCapacidad(self, reserva):
-        if self.capacidad >= reserva.getNumeroAsistentes():
+        if int(self.capacidad) >= int(reserva.getNumeroAsistentes()):
             return True
         else:
             return False

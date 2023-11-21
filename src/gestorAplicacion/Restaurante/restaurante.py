@@ -1,5 +1,5 @@
 from datetime import datetime
-# from gestorAplicacion.Restaurante.reserva import Reserva
+from gestorAplicacion.Restaurante.reserva import Reserva
 from gestorAplicacion.Restaurante.pedido import Pedido
 from gestorAplicacion.Restaurante.material import Material
 from gestorAplicacion.Restaurante.material import Tipo
@@ -418,7 +418,7 @@ class Restaurante():
 			c1 = Cliente(nombre, cedula)
 			self.afiliarCliente(c1)
 		c1 = self.obtenerCliente(cedula)
-		diaReserva2 = Reserva.deStringaFecha(diaReserva)
+		diaReserva2 = Reserva.deStringAFecha(diaReserva)
 		c1.setReserva(Reserva(c1, numAsistentes, diaReserva2))
 
 	#retorna el listado de mesas que cumplen para la reserva que tenga asignada ek cliente
@@ -437,7 +437,7 @@ class Restaurante():
 	def confirmarReserva(self, numMesa, cedula):
 		c1 = self.obtenerCliente(cedula)
 		r1 = c1.getReserva()
-		if (Mesa.verificarNumero(numMesa)):
+		if (Mesa.verificarNumero(Mesa,numMesa)):
 			mesa1 = self.encontrarMesa(numMesa)
 			if (mesa1.suficienteCapacidad(r1)):
 				mesa1.reservarMesa(r1)
