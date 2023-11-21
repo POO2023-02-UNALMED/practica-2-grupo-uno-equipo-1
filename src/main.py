@@ -736,200 +736,107 @@ imagen_mat={
     }
 
 # Fieldframe para consultas
+
+from tkinter import Frame, Label, Entry, Button, DISABLED, messagebox, E, W
+
 class FieldFrame(Frame):
-    """
-    hay dos formularios para que data se van guardando la inforfmacion de los widgets
-    para poder deshabilitarlos luego de haber respondido el formulario, en dataform
-    puedes visualizar los datos de los criterios que has mandado, como un diccionario
-    con el titulo de el criterio 
-    """
-    def __init__(self, master, tituloCriterios, criterios, tituloValores, valores, habilitado, consulta):
+    def __init__(self, master, tituloCriterios, criterios, tituloValores, valores=None, habilitado=None, consulta=None):
         super().__init__(master)
-
-        self.data = {}
+        self.nombre = ""
+        self.labels = {}
+        self.entries = {}
         self.dataform = {}
-
-        self.tituloValores = tituloValores
-        self.tituloCriterios = tituloCriterios
-        self.criterios = criterios
-        self.valores = valores
-        self.habilitado = habilitado
         self.consulta = consulta
 
         # Contenedor que tiene todo el formulario de la consulta
-        frameForm = Frame(self, bg="blue", borderwidth=1, relief="solid")
+        frameForm = Frame(self, bg="#c3c3c3", borderwidth=1, relief="solid")
         frameForm.grid(padx=5, pady=5)
         frameForm.grid_rowconfigure(0, weight=1)
         frameForm.grid_columnconfigure(0, weight=1)
 
-        # Contenedor que tiene el titulo de la consulta
-        tituloCriterios = Label(frameForm, text=f"{tituloCriterios}")
-        tituloCriterios.grid(row=0, column=0, padx=5, pady =10)
-        frameForm.grid_rowconfigure(0, weight=1)
-        frameForm.grid_columnconfigure(0, weight=1)
-
-        # Contenedor que contiene el titulo de valores
-        tituloValores = Label(frameForm, text=f"{tituloValores}")
-        tituloValores.grid(row=0, column=1, pady =10)
-        frameForm.grid_rowconfigure(0, weight=1)
-        frameForm.grid_columnconfigure(1, weight=1)
-
-        # Etiqueta para mostrar el titulo de la consulta
-        for index, criterio in enumerate(criterios):
-            criterio_label = Label(frameForm, text=f"{criterio}")
-            criterio_label.grid(row=index+1, column=0, padx=5, pady=10)
-            frameForm.grid_rowconfigure(index+1, weight=1)
-            frameForm.grid_columnconfigure(0, weight=1)
-            
-            input_widget = Entry(frameForm)
-            input_widget.grid(row=index+1, column=1, padx=5, pady=10)
-            frameForm.grid_rowconfigure(index+1, weight=1)
-            frameForm.grid_columnconfigure(0, weight=1)
-            
-            if valores and index < len(valores):
-                input_widget.insert(0, valores[index])
-            
-            if not habilitado[index]:
-                input_widget.config(state="disabled")
-            # Esta parte es necesaria para deshabilitarlos luego de haber 
-            # Mnadado el trabajo
-            self.data[criterio] = {
-                "widget": input_widget,
-                "value": None
-            }
-
-        # Botón para enviar el formulario
-        self.buttonSubmmit = Button(frameForm, text="enviar", command=self.enviar, height=1, width=7)
-        self.buttonSubmmit.grid(row=index+2, column=0, pady=20)
-        frameForm.grid_rowconfigure(index+2, weight=1)
-        frameForm.grid_columnconfigure(0, weight=1)
-
-        # Crear boton de eliminar campos
-        self.buttonClear = Button(frameForm, text="clear", bg="white", command=self.clear, height=1, width=6)
-        self.buttonClear.grid(row=index + 2, column=1)
-        frameForm.grid_rowconfigure(index+2, weight=1)
-        frameForm.grid_columnconfigure(1, weight=1)
-    
-    # Obtener valores por titulo de criterio
-    def getValue(self, criterio):
-        return self.dataform[criterio]["value"]
-    
-    # Obtener todos los valores
-    def getValues(self):
-        return self.dataform
-    
-    # Limpiar los campos
-    def clear(self):
-        for criterio, info in self.data.items():
-            info["widget"].delete(0, END)
-            info["value"] = None
-
-    def enviar(self):
-        """
-        Al momento de enviar el formulario, se selecciona los
-        valores de los campos y se deshabilitan los botones de clear
-        y submit, se manda la consulta de el usuario con los valores,
-        para que se vayan haciendo consultas en cadena, en caso de
-        que una consulta dependa de la otr
-        """
-        if GestionPedidosApp.plato_seleccionado == False:
-            messagebox.showinfo("Alerta", "Debes seleccionar al menos un plato antes de continuar.")
-        else:
-            self.submitForm()
-            valores = self.getValues()
-            self.consulta(valores)
-            self.buttonClear.destroy()
-            self.buttonSubmmit.destroy()
-
-    def submitForm(self):
-        """
-        Aqui se envia el formulario, se verifica que todos los campos
-        esten llenos, en caso de que no, se muestra una alerta, y se
-        retorna, en caso de que si, se deshabilitan los campos y se
-        guardan los valores en dataform
-        """
-        for criterio, info in self.data.items():
-            valor = info["widget"].get()
-            if valor is None or valor == "":
-                messagebox.showinfo("Alerta", f"Campo '{criterio}' no puede estar vacío.")
-                return
-            self.data[criterio]["widget"].config(state="disabled")
-            self.data[criterio]["widget"].config(state="disabled")
-
-            # Obtener el valor de el widget
-            self.data[criterio]["value"] = valor
-
-            # Guardar el valor en el formulario de dataform
-            self.dataform[criterio] = valor
-            # self.data["submit"].destroy()
-            # self.data["clear"].destroy()
-
-class FieldFrame2(Frame):
-    def __init__(self, master, tituloCriterios, criterios, tituloValores, valores=None, habilitado=None):
-        super().__init__(master)
-        self.nombre=""
-        self.labels = {}
-        self.entries = {}
-        self.dataform = {}
         # Títulos
-        label_criterios = Label(self, text=tituloCriterios)
-        label_criterios.grid(row=0, column=0, padx=5, pady=5)
+        label_criterios = Label(frameForm, text=tituloCriterios)
+        label_criterios.grid(row=0, column=0, padx=5, pady=5, sticky=E)
+        frameForm.grid_rowconfigure(0, weight=1)
+        frameForm.grid_columnconfigure(0, weight=1)
 
-        label_valores = Label(self, text=tituloValores)
-        label_valores.grid(row=0, column=1, padx=5, pady=5)
+        label_valores = Label(frameForm, text=tituloValores)
+        label_valores.grid(row=0, column=1, padx=5, pady=5, sticky=W)
+        frameForm.grid_rowconfigure(0, weight=1)
+        frameForm.grid_columnconfigure(0, weight=1)
 
         # Crear etiquetas y entradas dinámicamente
         for i, criterio in enumerate(criterios, start=1):
-            label = Label(self, text=criterio)
+            label = Label(frameForm, text=criterio)
             label.grid(row=i, column=0, padx=5, pady=5, sticky=E)
+            frameForm.grid_rowconfigure(i, weight=1)
+            frameForm.grid_columnconfigure(0, weight=1)
+
             self.labels[criterio] = label
 
-            entry = Entry(self)
+            entry = Entry(frameForm)
             entry.grid(row=i, column=1, padx=5, pady=5, sticky=W)
+            frameForm.grid_rowconfigure(i, weight=1)
+            frameForm.grid_columnconfigure(0, weight=1)
+
             self.entries[criterio] = entry
 
-            if habilitado and habilitado[i - 1] is None:
-                entry.configure(state=DISABLED)
+            if habilitado and (not habilitado[i - 1] or habilitado[i - 1] is None):
+                entry.configure(state="disabled")
 
             if valores and valores[i - 1] is not None:
                 entry.insert(0, valores[i - 1])
 
         # Botones
-        self.boton_aceptar = Button(self, text="Aceptar", command=self.guardar_datos)
-        self.boton_aceptar.grid(row=len(criterios) + 1, column=0, columnspan=2, pady=10)
+        self.boton_aceptar = Button(frameForm, text="Aceptar", command=self.guardar_datos)
+        self.boton_aceptar.grid(row=i + 1, column=0, columnspan=2, pady=10)
 
-        self.boton_borrar = Button(self, text="Borrar", command=self.borrar_campos)
-        self.boton_borrar.grid(row=len(criterios) + 2, column=0, columnspan=2, pady=10)
+        self.boton_borrar = Button(frameForm, text="Borrar", command=self.borrar_campos)
+        self.boton_borrar.grid(row=i + 2, column=0, columnspan=2, pady=10)
 
     def guardar_datos(self):
-        def get_valor_by_criterio(criterio):
-            return self.dataform.get(criterio)
-        
         for criterio, entry in self.entries.items():
-            valor=entry.get()
-            if not entry.get():
+            valor = entry.get()
+            estado = entry.cget("state")
+            if not valor and estado != "disabled":
                 messagebox.showwarning("Advertencia", f"Campo '{criterio}' no puede estar vacío.")
                 return  # Si un campo está vacío, mostrar advertencia y salir
             self.dataform[criterio] = valor
-        mensaje=""
-        for criterio, entry in self.entries.items():
-            mensaje+=f"{criterio}: {entry.get()}\n"
-        messagebox.showinfo("Operación exitosa",mensaje)
-        if self.nombre=="mesa":
-            numeroMesa=get_valor_by_criterio("Mesa")
-            capacidadMesa=get_valor_by_criterio("Capacidad")
-            restaurante.listadoMesas.append(Mesa(capacidadMesa,numeroMesa))
-        elif self.nombre=="comprar":
-            tipo=get_valor_by_criterio("Material")
-            tipos=getattr(Tipo, tipo.upper(), None)
-            cantidad=int(get_valor_by_criterio("Cantidad"))
-            precio=int(get_valor_by_criterio("Precio"))
-            restaurante.comprarMaterial(tipos,cantidad,precio,None)
-        elif self.nombre=="desechar":
-            tipo=get_valor_by_criterio("Material")
-            tipos=getattr(Tipo, tipo.upper(), None)
-            cantidad=int(get_valor_by_criterio("Cantidad"))
-            restaurante.botarMaterial(tipos,cantidad)
+
+        if self.consulta is not None:
+            if GestionPedidosApp.plato_seleccionado == False:
+                messagebox.showinfo("Alerta", "Debes seleccionar al menos un plato antes de continuar.")
+            else:
+                valores = self.getValues()
+                self.consulta(valores)
+                self.buttonClear.destroy()
+                self.buttonSubmmit.destroy()
+        else:
+            mensaje = ""
+            for criterio, entry in self.entries.items():
+                mensaje += f"{criterio}: {entry.get()}\n"
+            messagebox.showinfo("Operación exitosa", mensaje)
+            if self.nombre == "mesa":
+                numeroMesa = self.get_valor_by_criterio("Mesa")
+                capacidadMesa = self.get_valor_by_criterio("Capacidad")
+                restaurante.listadoMesas.append(Mesa(capacidadMesa, numeroMesa))
+            elif self.nombre == "comprar":
+                tipo = self.get_valor_by_criterio("Material")
+                tipos = getattr(Tipo, tipo.upper(), None)
+                cantidad = int(self.get_valor_by_criterio("Cantidad"))
+                precio = int(self.get_valor_by_criterio("Precio"))
+                restaurante.comprarMaterial(tipos, cantidad, precio, None)
+            elif self.nombre == "desechar":
+                tipo = self.get_valor_by_criterio("Material")
+                tipos = getattr(Tipo, tipo.upper(), None)
+                cantidad = int(self.get_valor_by_criterio("Cantidad"))
+                restaurante.botarMaterial(tipos, cantidad)
+
+        for criterio in self.entries:
+            self.entries[criterio].config(state="disabled")
+
+    def get_valor_by_criterio(self, criterio):
+        return self.dataform.get(criterio)
 
     def borrar_campos(self):
         for entry in self.entries.values():
@@ -941,8 +848,6 @@ class FieldFrame2(Frame):
             entry.delete(0, END)
             entry.insert(0, valor)
 
-    def get_valor_by_criterio(self, criterio):
-            return self.dataform.get(criterio)
 
 class ImageFrame(Frame):
     def __init__(self, master, image_paths):
@@ -1129,7 +1034,7 @@ class GestionPedidosApp:
 
         # Frame de interacción
         self.frameSeleccionPlatos = Frame(self.frame_pedidos, width=500, height=400)
-        self.busquedadPlatos = FieldFrame(self.frameSeleccionPlatos, "platos deseados y tipo de pedido", ["platos", "tipo pedido"], "Ingresa lo platos deseados y tipo de pedido", ["presiona los platos que desees"], [False, True], self.seleccionarCocinero)
+        self.busquedadPlatos = FieldFrame(self.frameSeleccionPlatos, "platos y tipo pedido", ["platos", "tipo pedido"], "presione los paltos y ingrese tipo pedido", [], [False, True], self.seleccionarCocinero)
         self.busquedadPlatos.grid(row = 0, column=0, padx=10, pady=10)
 
         # Crear un Canvas para la cuadrícula dentro del Frame principal
@@ -1629,7 +1534,7 @@ class GestionInventarioApp:
 
         # Frame de interacción
         self.frameFFcomprar = Frame(self.frame_comprar_mat, width=500, height=400)
-        self.ff_comprar = FieldFrame2(self.frameFFcomprar, "Criterio", ["Material", "Cantidad","Precio"], "Valor", [], [True, True,True])
+        self.ff_comprar = FieldFrame(self.frameFFcomprar, "Criterio", ["Material", "Cantidad","Precio"], "Valor", [], [True, True,True])
         self.ff_comprar.grid(row = 0, column=0, padx=10, pady=10)
         self.ff_comprar.nombre="comprar"
         #Combobox
@@ -1659,7 +1564,7 @@ class GestionInventarioApp:
 
         # Frame de interacción
         self.frameFFdesdechar = Frame(self.frame_desechar_mat, width=500, height=400)
-        self.ff_desechar = FieldFrame2(self.frameFFdesdechar, "Criterio", ["Material", "Cantidad"], "Valor", [], [True, True])
+        self.ff_desechar = FieldFrame(self.frameFFdesdechar, "Criterio", ["Material", "Cantidad"], "Valor", [], [True, True])
         self.ff_desechar.grid(row = 0, column=0, padx=10, pady=10)
         self.ff_desechar.nombre="desechar"
         #Combobox
@@ -1686,7 +1591,7 @@ class GestionInventarioApp:
         self.frame_comprar_mesa.grid(pady=10,padx=10)
 
         self.frameFFmesa=Frame(self.frame_comprar_mesa,width=500,height=400)
-        self.ff_mesa=FieldFrame2(self.frameFFmesa,"Criterio",["Mesa","Capacidad"],"Valor",[],[True,True])
+        self.ff_mesa=FieldFrame(self.frameFFmesa,"Criterio",["Mesa","Capacidad"],"Valor",[],[True,True])
         self.ff_mesa.grid(row=0,column=0,padx=10,pady=10)
         self.ff_mesa.nombre="mesa"
 
