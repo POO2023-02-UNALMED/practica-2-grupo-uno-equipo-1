@@ -27,35 +27,19 @@ restaurante=deserializar()
 
 print(restaurante.getNombre())
 for mesa in restaurante.getMesas():
+<<<<<<< HEAD
     print(mesa)"""
 financia = Financia(restaurante)  # Creas una instancia de Financia
 pagos_totales_empleados = financia.pagosEmpleados()
   # Llamas al método para calcular los pagos de los empleados
 print(pagos_totales_empleados)
+=======
+    print(mesa)
+for empleado in restaurante.getEmpleados():
+    print(empleado)"""
+>>>>>>> 5e91859a34ec28f91e172b59859175ff6caf1278
 #Crear un objeto Financia
 financia = Financia(restaurante)
-
-
-res = Material(Tipo.RES, 100, 100)
-especias = Material(Tipo.ESPECIAS, 100, 50)
-aceites = Material(Tipo.ACEITES, 100, 100)
-pollos = Material(Tipo.POLLOS, 100, 200)
-vinos = Material(Tipo.VINOS, 100, 300)
-cebollas = Material(Tipo.CEBOLLAS, 100, 50)
-champinones = Material(Tipo.CHAMPINONES, 500, 100)
-ajos = Material(Tipo.AJOS, 100, 30)
-tomates = Material(Tipo.TOMATES, 400, 200)
-quesos = Material(Tipo.QUESOS, 300, 150)
-cerdos = Material(Tipo.CERDOS, 100, 200)
-atun = Material(Tipo.ATUN, 100, 250)
-panes = Material(Tipo.PANES, 200, 50)
-pescados = Material(Tipo.PESCADOS ,200 ,300 )
-papas = Material(Tipo.PAPAS ,200 ,100 )
-huevos = Material(Tipo.HUEVOS ,200 ,100)
-cucharas=Material(Tipo.CUCHARAS,300,10)
-tenedores=Material(Tipo.TENEDORES,300,10)
-platos=Material(Tipo.PLATOS,200,35)
-vasos=Material(Tipo.VASOS,150,25)
 
 
 """
@@ -80,6 +64,27 @@ restaurante.comprarMaterial(Tipo.TENEDORES,300,10,None)
 restaurante.comprarMaterial(Tipo.PLATOS,200,35,None)
 restaurante.comprarMaterial(Tipo.VASOS,150,25,None)"""
 #restaurante.comprarMaterial(Tipo.RES,13,100,None)
+
+res = Material(Tipo.RES, 100, 100)
+especias = Material(Tipo.ESPECIAS, 100, 50)
+aceites = Material(Tipo.ACEITES, 100, 100)
+pollos = Material(Tipo.POLLOS, 100, 200)
+vinos = Material(Tipo.VINOS, 100, 300)
+cebollas = Material(Tipo.CEBOLLAS, 100, 50)
+champinones = Material(Tipo.CHAMPINONES, 500, 100)
+ajos = Material(Tipo.AJOS, 100, 30)
+tomates = Material(Tipo.TOMATES, 400, 200)
+quesos = Material(Tipo.QUESOS, 300, 150)
+cerdos = Material(Tipo.CERDOS, 100, 200)
+atun = Material(Tipo.ATUN, 100, 250)
+panes = Material(Tipo.PANES, 200, 50)
+pescados = Material(Tipo.PESCADOS ,200 ,300 )
+papas = Material(Tipo.PAPAS ,200 ,100 )
+huevos = Material(Tipo.HUEVOS ,200 ,100)
+cucharas=Material(Tipo.CUCHARAS,300,10)
+tenedores=Material(Tipo.TENEDORES,300,10)
+platos=Material(Tipo.PLATOS,200,35)
+vasos=Material(Tipo.VASOS,150,25)
 
 
 # Crear ingredientes de cada plato
@@ -824,9 +829,6 @@ class FieldFrame(Frame):
                 messagebox.showwarning("Advertencia", f"Campo '{criterio}' no puede estar vacío.")
                 return  # Si un campo está vacío, mostrar advertencia y salir
             if valor or estado == "disabled":
-                print("SI GUARDO VALOR")
-                print(criterio)
-                print(valor)
                 self.dataform[criterio] = valor
 
         # Omitir la siguiente línea para evitar la impresión de None
@@ -834,14 +836,9 @@ class FieldFrame(Frame):
 
 
         if self.consulta is not None:
-            print("gestionPedidosApp estado")
-            print(GestionPedidosApp.plato_seleccionado)
-            print("----------------------------")
             if GestionPedidosApp.plato_seleccionado == False:
-                messagebox.showinfo("Alerta", "Debes seleccionar al menos un plato antes de continuar.")
+                messagebox.showinfo("Alerta", "Debes presionar al menos un plato antes de continuar.")
             else:
-                print("ESTOY VIENDO VALORES")
-                print(self.dataform)
                 valores = self.dataform
                 self.consulta(valores)
         else:
@@ -911,14 +908,6 @@ class FieldFrame(Frame):
         if entry:
             entry.delete(0, END)
             entry.insert(0, valor)
-   
-   
-    def prueba(self):
-        for i in self.dataform:
-            print(i)
-            print(self.dataform[i])
-    print("pruebaaa")
-    print(prueba)
 
 
 class ImageFrame(Frame):
@@ -1163,7 +1152,11 @@ class GestionPedidosApp:
 
         # Frame de interacción
         self.frameSeleccionPlatos = Frame(self.frame_pedidos, width=500, height=400)
+<<<<<<< HEAD
         self.busquedadPlatos = FieldFrame(self.frameSeleccionPlatos, "platos y tipo pedido", ["platos", "tipo pedido"], "presione los platos y ingrese tipo pedido", [], [False, True], self.seleccionarCocinero)
+=======
+        self.busquedadPlatos = FieldFrame(self.frameSeleccionPlatos, "platos y tipo pedido", ["tipo pedido"], "presione los platos y ingrese tipo pedido", [], [True], self.seleccionarCocinero)
+>>>>>>> 5e91859a34ec28f91e172b59859175ff6caf1278
         self.busquedadPlatos.grid(row = 0, column=0, padx=10, pady=10)
 
         tipoConsumo = ["restaurante","domicilio"]
@@ -1234,7 +1227,6 @@ class GestionPedidosApp:
         self.frameResultadosCocinero.insertar_valor("cocinero", opcion_seleccionada)
 
     def seleccionarCocinero(self, valores):
-        print(valores)
         # Obtener el tipo de pedido
         tipo_pedido = valores["tipo pedido"]
 
@@ -1259,14 +1251,8 @@ class GestionPedidosApp:
         cocineros_sin_filtrar = restaurante.clasificarEmpleados(restaurante.getEmpleados(), "cocinero")
         cocineros = restaurante.verificarCocineros(restaurante.getEmpleados(), self.platos_temp)
 
-        """print("sin filtrar")
-        print(cocineros_sin_filtrar)
-        print()
-        print(cocineros)"""
-
         # Lista de cocineros (corregir la clave 'idenrificacion' a 'identificacion')
         self.cocineros = []
-        print(cocineros)
 
         for i, cocinero in enumerate(cocineros):
             cocinero_dict= {
@@ -1396,8 +1382,6 @@ class GestionPedidosApp:
         domiciliarios = restaurante.verificarDomiciliarios(restaurante.getEmpleados())
 
         name = (valores["cocinero"])
-        """for empleado in restaurante.listadoEmpleados:
-            print(empleado.getNombre())"""
         cocinero = restaurante.buscarEmpleado(name , "cocinero")
         self.pedido["cocinero"] = cocinero
 
@@ -1452,7 +1436,7 @@ class GestionPedidosApp:
                 identificacion_label = Label(frame, text=f"Identificación: {domiciliario['identificacion']}")
                 identificacion_label.pack(pady=5)
     
-    def insertar_opcion_mesero(self):
+    def insertar_opcion_mesero(self, event):
         opcion_seleccionada = self.combo.get()
         self.frameResultadosMesero.insertar_valor("mesero", opcion_seleccionada)
 
@@ -1483,11 +1467,11 @@ class GestionPedidosApp:
         self.frameResultadosMesero.grid(padx=10, pady=10)
 
         meseroSelec = self.meseros_names
-        valorDefecto=StringVar(value="Seleccione su mesero")
+        valorDefecto = StringVar(value="Seleccione su mesero")
 
         self.combo=ttk.Combobox(self.frameSeleccionarMesero, values=meseroSelec, textvariable=valorDefecto)
 
-        self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion_mesero)
+        self.combo.bind("<<ComboboxSelected>>", self.insertar_opcion_mesero)
         self.combo.grid(row=0,column=1,pady=20,sticky="new")
 
         self.canvasmeseros = Canvas(self.frameSeleccionarMesero)
@@ -1537,6 +1521,7 @@ class GestionPedidosApp:
             self.pedido["domiciliario"] = domiciliario
 
             pedido2 = Pedido(self.platos_temp, None, self.pedido["tipo pedido"], self.pedido["cocinero"], None, restaurante, None, self.pedido["domiciliario"])
+            messagebox.showinfo("Operación exitosa", "Pedido creado")
 
         if self.pedido["tipo pedido"] == 'restaurante':
             self.frameDetectarReserva.destroy()
@@ -1544,9 +1529,8 @@ class GestionPedidosApp:
             dueñoReserva = valores["dueño reserva"]
             reserva = restaurante.encontrarReserva(numMesa, dueñoReserva)
             mesaTemporal = restaurante.encontrarMesa(numMesa)
-
-            
             if reserva == None:
+                messagebox.showinfo("Operación exitosa", "Pedido creado")
                 pedido1 = Pedido(self.platos_temp, mesaTemporal, self.pedido["tipo pedido"], self.pedido["cocinero"], self.pedido["mesero"], restaurante, None, None)
                 try:
                     pedido1.verificarPedido(restaurante, pedido1)
@@ -1554,11 +1538,13 @@ class GestionPedidosApp:
                     pass
 
             if reserva != None:
+                  messagebox.showinfo("Operación exitosa", "Pedido creado")
                   nombre1 = reserva.getDuenoReserva().getNombre()
-                  pedido1 = Pedido(self.platos_temp, reserva.getMesa, self.pedido["tipo pedido"], self.pedido["cocinero"], self.pedido["mesero"], restaurante, reserva, None)				      
+                  pedido1 = Pedido(self.platos_temp, reserva.getMesa(), self.pedido["tipo pedido"], self.pedido["cocinero"], self.pedido["mesero"], restaurante, reserva, None)				      
                   pedido1.setVerificado(True)
                   Pedido.actualizarInventario(restaurante, pedido1)
 
+<<<<<<< HEAD
         for plato in restaurante.pedidos:
             print(plato)
 
@@ -1577,6 +1563,8 @@ class GestionPedidosApp:
     #             for child_widget in child_widgets:
     #                 child_widget.destroy()
 
+=======
+>>>>>>> 5e91859a34ec28f91e172b59859175ff6caf1278
 
     def delete_pages(self):
         """
@@ -1852,7 +1840,7 @@ class GestionFinancieraApp:
         self.col_width = 200
         self.imagen_mat=imagen_mat
         self.restaurante = restaurante
-        self.financia = Financia(restaurante)
+        self.financia = Financia(restaurante=self.restaurante)
         self.empleados = self.restaurante.listadoEmpleados  
         self.frames_temporales = []
 
@@ -1954,13 +1942,11 @@ class GestionFinancieraApp:
         ganancias_netas = self.financia.GananciasNetas()  # Obtener el valor de las ganancias netas
         self.label_ganancias_netas.config(text=f"Ganancias Netas: {ganancias_netas}")  # Actualizar el texto del Label
         self.label_ganancias_netas.place(x=50, y=200)
-        self.frame_ganancias.pack_propagate(False)
 
     def function_ganancias_brutas(self):
         ganancias_brutas = self.financia.GananciasBrutas()  # Obtener el valor de las ganancias brutas
         self.label_ganancias_brutas.config(text=f"Ganancias Brutas: {ganancias_brutas}")  # Actualizar el texto del Label
         self.label_ganancias_brutas.place(x=300, y=200)
-  
 
     def function_frame_gastos(self):
         self.frame_gastos = Frame(self.main_frame, width=500, height=400)
@@ -1979,15 +1965,22 @@ class GestionFinancieraApp:
 
     def function_gastos_materiales(self):
         # Calcular los gastos de materiales
-        gastos_materiales = self.financia.getGastosMateriales()
-        self.lbl_gastos_materiales = Label(self.frame_gastos, text=f"Gasto total del inventario del restaurante es : {gastos_materiales}", font=("Arial", 15) )
+        gastos_materiales = self.financia.GastosMateriales()
+
+        # Crear una etiqueta para mostrar los gastos de materiales
+        self.lbl_gastos_materiales = Label(self.frame_gastos, text=f"Gasto total del inventario del restaurante es: {gastos_materiales}", font=("Arial", 15) )
         self.lbl_gastos_materiales.grid(row=2, column=0, pady=300, padx=200)
 
     def function_pagos_empleados(self):
         # Obtener el valor de los pagos a empleados
+<<<<<<< HEAD
         pagos_empleados = self.financia.getPagosEmpleados()
 
         self.lbl_pagos_empleados = Label(self.frame_gastos, text=f"Pago total de los Empleados del restaurante es:{pagos_empleados}", font=("Arial", 15) )
+=======
+        pagos_empleados = self.financia.PagosEmpleados()  
+        self.lbl_pagos_empleados = Label(self.frame_gastos, text=f"Pago total de los Empleados del restaurante es: {pagos_empleados}", font=("Arial", 15) )
+>>>>>>> 5e91859a34ec28f91e172b59859175ff6caf1278
         self.lbl_pagos_empleados.grid(row=2, column=0, pady=300, padx=200)
         
 

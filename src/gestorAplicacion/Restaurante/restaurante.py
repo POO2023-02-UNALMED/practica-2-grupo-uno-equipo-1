@@ -1,5 +1,5 @@
 from datetime import datetime
-from gestorAplicacion.Restaurante.reserva import Reserva
+# from gestorAplicacion.Restaurante.reserva import Reserva
 from gestorAplicacion.Restaurante.pedido import Pedido
 from gestorAplicacion.Restaurante.material import Material
 from gestorAplicacion.Restaurante.material import Tipo
@@ -236,11 +236,17 @@ class Restaurante():
 
 	#Actualizar insumos despues de ya estar verificado el pedido
 	def actualizarInsumos(self, pedido):
+		print("entra a actualizar insumos")
 		for plato in pedido.getPlatos():
-			for entrada in plato.getIngredientes().entrySet():
-				material = entrada.getKey()
-				cantidadUtilizada = entrada.getValue()
+			for material, cantidadUtilizada in plato.getIngredientes().items():
+				print("antes de restar cantidad")
+				print(material.getCantidad())
+				print("AAAAAAAAAAAAAAAAAAAAAAAAAAA")
 				material.restarCantidad(cantidadUtilizada)
+				print("resta cantidad")
+				print(material.getCantidad())
+				print("AAAAAAAAAAAAAAAAAAAAAAAAAAA")
+
 
 	#Gestion de Pedidos
 	def actualizarTiempoEmpleados(self, pedido):

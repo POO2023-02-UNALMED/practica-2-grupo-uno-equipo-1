@@ -14,7 +14,7 @@ class Financia():
 		self.presupuesto = presupuesto
 		self.gastosMateriales = gastosMateriales
 		self.gastoMaterialEspecifico = gastoMaterialEspecifico
-		self.pagosEmpleados = pagosEmpleados
+		self.pagosEmpleados = 0
 		self.gananciasBrutas = gananciasBrutas
 		self.gananciasNetas = gananciasNetas
 		self.restaurante = restaurante
@@ -62,33 +62,22 @@ class Financia():
 		return total_gasto_material
 
     #Calcula el pago de un solo empleado
-	def pagoEmpleado(self, empleado):
-		totalPago = 0
-		for turno in empleado.getTurnos(self):
-			pago = turno.getSalario(self)
-			horasExtras = turno.HorasExtras(self)
-			if (horasExtras > 0):
-				pagoHoraExtra = 1.5 # Supongamos que las horas extras se pagan a 1.5 veces el salario regular por hora
-				pago += horasExtras * (empleado.getSalario() / turno.getHoras()) * pagoHoraExtra
-			totalPago += pago
-		return totalPago
+
 
     # Calcula el Pago total de todos los Empleados
 	
 	def pagosEmpleados(self):
-			totalPago = 0
-			for empleado in self.restaurante.getEmpleados():
-				for turno in empleado.getTurnos():
-					if turno.isCompletado() and not turno.isCobrado():
-						horasExtras = turno.HorasExtras()
-						salario_base = turno.getSalario()
-						if horasExtras > 0:
-							pagoHoraExtra = 1.5  # Supongamos que las horas extras se pagan a 1.5 veces el salario regular por hora
-							totalPago += salario_base + (horasExtras * (salario_base / turno.getHoras()) * pagoHoraExtra)
-						else:
-							totalPago += salario_base  # Agregar el salario base por las horas regulares
-			self.pagosEmpleados = totalPago  # Actualizar el atributo pagosEmpleados
-			return self.pagosEmpleados
+		totalPagos = 0
+		for empleado in self.restaurante.getEmpleados():
+			totalPagos += self.pagoEmpleado(empleado)
+		self.pagosEmpleados = totalPagos  # Actualiza el atributo pagosEmpleados
+		return totalPagos
+	
+	def pagoEmpleado(self, empleado):
+		totalPago = 0
+		for turno in empleado.getTurnos():
+			totalPago += turno.getSalario()
+		return totalPago
 
 
     #Calcula las ganancias Brutas del restaurante

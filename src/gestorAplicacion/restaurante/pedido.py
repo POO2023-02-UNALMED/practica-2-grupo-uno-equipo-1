@@ -67,6 +67,7 @@ class Pedido():
         return mesa
 
     def actualizarInventario(self, restaurante, pedido):
+        print("Actualizando inventario...")
         restaurante.actualizarTiempoEmpleados(pedido)
         restaurante.actualizarInsumos(pedido)
 
