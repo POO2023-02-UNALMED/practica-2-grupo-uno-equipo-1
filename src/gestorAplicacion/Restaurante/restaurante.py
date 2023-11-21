@@ -144,9 +144,10 @@ class Restaurante():
 	#Encontrar reserva, aqui se mira si segun los datos en el pedido hay una reserva
 	def encontrarReserva(self, numMesa, nombre):
 		mesa = self.encontrarMesa(numMesa)
-		for reserva in mesa.getReservas():
-			if ((reserva.getDuenoReserva().getNombre()) == nombre):
-				return reserva
+		if mesa!=None:
+			for reserva in mesa.getReservas():
+				if ((reserva.getDuenoReserva().getNombre()) == nombre):
+					return reserva
 		return None
 
 	#Clasificar empleados por su tipo
@@ -357,10 +358,11 @@ class Restaurante():
 
 	#encuentra una mesa por su numero
 	def encontrarMesa(self, numMesa):
-		for mesa1 in self.getMesas():
-			a = mesa1.getNumeroMesa()
-			if (int(numMesa) == a):
-				return mesa1
+		if self.getMesas() != None:
+			for mesa1 in self.getMesas():
+				a = mesa1.getNumeroMesa()
+				if (int(numMesa) == a):
+					return mesa1
 		return None
 
 	#Imprime las reservas por confirmar (sin mesa asignada)

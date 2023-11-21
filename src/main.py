@@ -863,8 +863,10 @@ class FieldFrame(Frame):
                 cantidad = int(self.get_valor_by_criterio("Cantidad"))
                 restaurante.botarMaterial(tipos, cantidad)
 
-        for criterio in self.entries:
-            self.entries[criterio].config(state="disabled")
+        for criterio, entry in self.entries.items():
+            if entry.winfo_exists():
+                entry.config(state="disabled")
+                
     #Funcion que se encarga de obtener el valor asociado al un criterio del FieldFrame
     def get_valor_by_criterio(self, criterio):
         return self.dataform.get(criterio)
@@ -1461,8 +1463,8 @@ class GestionPedidosApp:
             dueñoReserva = valores["dueño reserva"]
             reserva = restaurante.encontrarReserva(numMesa, dueñoReserva)
             mesaTemporal = restaurante.encontrarMesa(numMesa)
-
-            
+            print(reserva)
+            print(mesaTemporal)
             if reserva == None:
                 pedido1 = Pedido(self.platos_temp, mesaTemporal, self.pedido["tipo pedido"], self.pedido["cocinero"], self.pedido["mesero"], restaurante, None, None)
                 try:
