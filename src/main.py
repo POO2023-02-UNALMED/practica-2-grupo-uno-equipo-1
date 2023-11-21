@@ -17,6 +17,7 @@ from gestorAplicacion.Restaurante.reserva import Reserva
 from gestorAplicacion.Restaurante.restaurante import Restaurante
 from gestorAplicacion.Restaurante.turno import Turno, TipoTurno
 from baseDatos.Serializacion import serializar,deserializar
+from gestorAplicacion.excepciones import *
 
 
 restaurante=deserializar()
@@ -26,10 +27,7 @@ empleados=restaurante.getEmpleados()
 menu=restaurante.getMenu()
 for mesa in mesas:
     print(mesa)
-for empleado in empleados:
-    print(empleado)
-for plato in menu:
-    print(plato)
+
 
 """for material in restaurante.getInventario():
     print(material)
@@ -288,7 +286,11 @@ def gestion_pedidos():
 
 
 def gEmpleado():
-    pass
+    delete_frames_ventana_principal()
+    gestion_emp = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
+    gestion_emp_app = GestionEmpleadosApp(gestion_emp,imagen_mat,restaurante)
+    gestion_emp.grid(row=1, column=0, sticky="nsew")
+    gestion_emp.pack_propagate(False)
 
 def gInventario():
 
@@ -834,10 +836,11 @@ class FieldFrame(Frame):
                 numAsistentes = int(self.get_valor_by_criterio("numero de asistentes"))
                 diaReserva = self.get_valor_by_criterio("dia de la reserva")
                 try:
-                    Reserva.revisarFecha(diaReserva)
-                    restaurante.asignarReservaCliente(cedula, nombre, numAsistentes, diaReserva)
-                except ValueError:
-                    messagebox.showinfo("Alerta", "formato de fecha ingresado no válido")
+                    if validar_fecha(diaReserva) and Reserva.revisarFecha(diaReserva):
+                        restaurante.asignarReservaCliente(cedula, nombre, numAsistentes, diaReserva)
+                except ErrorAplicacion as e:
+                    messagebox.showerror("Error", str(e))
+                    return False
             elif self.nombre == "cancelar-reserva":
                 cedula = int(self.get_valor_by_criterio("cedula"))
                 if (restaurante.verificarCliente(cedula)):
@@ -1524,6 +1527,210 @@ class GestionPedidosApp:
         self.indicate_pedidos_dm.config(bg='#c3c3c3')
         self.indicate_pedidos_rs.config(bg='#c3c3c3')
         self.indicate_anadir_pedidos.config(bg='#c3c3c3')
+
+    def indicador(self, pagina, lb):
+        """
+        hide_indicatros para ocultar indicadores,
+        se configura para que se muestre el de la que
+        se selecciona, se elimina las paginas y se
+        muestra la pagina seleccionada
+        """
+        self.hide_indicators()
+        lb.config(bg='#158aff')
+        self.delete_pages()
+        pagina()
+class GestionEmpleadosApp:
+    """
+    Aqui se plantea la funcionalidad de gestion de inventario
+    """
+    def __init__(self,framePadre,imagen_mat,restaurante):
+
+        self.row_height = 300
+        self.col_width = 300
+        self.restaurante=restaurante
+        self.imagen_mat=imagen_mat
+        self.frames_temporales=[]
+        self.framePadre=framePadre
+        
+        #En este frame se gestionara toda la funcionalidad
+        self.funcionalidad_gestionInv = Frame(self.framePadre, bg='#c3c3c3', width=100, height=500)
+        self.funcionalidad_gestionInv.grid(row=0, column=0, sticky="nsew")
+        #En este frame se desplegaran los botones encargados de cambiar el frame de cada funcion
+        self.options_frame = Frame(self.funcionalidad_gestionInv, bg='#c3c3c3', width=120, height=500)
+        self.options_frame.grid(row=0, column=0, sticky="nsew")
+        #Evita que los frames se pongan uno al lado del otro
+        self.options_frame.pack_propagate(False)
+
+        #En este frame se iran intercambiando los frames de cada funcion
+        self.main_frame = Frame(self.funcionalidad_gestionInv,
+                                highlightbackground='black',
+                                highlightthickness=2,
+                                width=500,
+                                height=400)
+        #Botones de las opciones
+        self.btn_home_page = Button(self.options_frame, text="Inicio", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_home_page, self.home_indicate))
+        self.btn_home_page.grid(row=0, column=0, padx=0, pady=30)
+
+        self.btn_consultar_inventario = Button(self.options_frame, text="Consultar\n Empleados", font=('Bold', 15), bg ='#c3c3c3', bd = 0, fg='#158aff', command = lambda : self.indicador(self.function_frame_consultar_inventario, self.indicate_consultar_inventario))
+        self.btn_consultar_inventario.grid(row=1, column=0, padx=0, pady=30)
+
+        self.btn_comprar_mat = Button(self.options_frame, text="Contratar\n Empleado", font=('Bold', 15), bd = 0, bg ='#c3c3c3',fg='#158aff', command = lambda : self.indicador(self.function_frame_comprar_mat, self.indicate_comprar_mat))
+        self.btn_comprar_mat.grid(row=2, column=0, padx=0, pady=30)
+
+        self.btn_desechar_mat = Button(self.options_frame, text="Despedir\n Empleado", font=('Bold', 15), fg='#158aff', bd = 0, bg ='#c3c3c3',command = lambda : self.indicador(self.function_frame_desechar_mat, self.indicate_desechar_mat))
+        self.btn_desechar_mat.grid(row=3, column=0, padx=0, pady=30)
+
+        #Indicadores de los botones
+        self.home_indicate = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.home_indicate.place(x=5, y=30, width=5, height=40, )
+
+        self.indicate_consultar_inventario = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_consultar_inventario.place(x=5, y=135, width=5, height=40, )
+
+        self.indicate_comprar_mat = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_comprar_mat.place(x=5, y=255, width=5, height=40, )
+
+        self.indicate_desechar_mat = Label(self.options_frame, text="", bg='#c3c3c3')
+        self.indicate_desechar_mat.place(x=5, y=375, width=5, height=40, )
+
+        self.indicate_comprar_mesa=Label(self.options_frame,text="",bg='#c3c3c3')
+        self.indicate_comprar_mesa.place(x=5,y=495,width=5,height=40,)
+
+
+        self.main_frame.grid(row=0, column=1, sticky="nsew")
+        self.main_frame.pack_propagate(False)
+        self.framePadre.grid_rowconfigure(0, weight=1)
+        self.framePadre.grid_columnconfigure(0, weight=1)
+        self.framePadre.grid_columnconfigure(1, weight=1)
+
+
+    #Funcion encargada de cambiar al frame de inicio donde se le dara la bienvenida a la gestion de la funcionalidad
+
+    def function_home_page(self):
+        self.frame_home = Frame(self.main_frame, width=500, height=400)
+        Label(self.frame_home, text="Bienvenido a la gestion de Empleados", font=("Bold", 15)).place(x=100, y=30)
+        descripcionInv="Con esta funcionalidad puedes consultar los empleados contratados en el restaurante\nContratar nuevos empleados o despedirlos"
+        Label(self.frame_home,text=descripcionInv,font=("Bond",10)).place(x=10,y=150)
+        self.frame_home.grid(pady=5, padx=5)
+        self.frame_home.pack_propagate(False)
+
+    #Funcion encargada de cambiar al frame que se encarga de mostrar los materiales del inventario y su cantidad
+
+    def function_frame_consultar_inventario(self):
+        self.frame_RNC = Frame(self.main_frame, width=500, height=400)
+        self.frame_RNC.grid(row=1, column=1, pady=5, padx=5, sticky="nsew")
+        Label(self.frame_RNC, text="Lista de Empleados", font=("Bold", 15)).grid(row=0, column=0, padx=10, pady=10)
+        self.texto = scrolledtext.ScrolledText(self.frame_RNC, wrap="word", width=100, height=30)
+        self.texto.grid(row=1, column=0, padx=10, pady=10, sticky="nswe")
+        for empleado in (restaurante.getEmpleados()):
+            self.texto.insert(END, f"{empleado}\n")
+    #Metodos para hacer que una opcion elejida de un combobox se tome como el dato en el entry de un campo del FieldFrame
+    def insertar_opcion(self,event):
+            opcion_seleccionada = self.combo.get()
+            self.ff_desechar.insertar_valor("Material", opcion_seleccionada)
+
+    def insertar_opcion2(self,event):
+            opcion_seleccionada = self.combo.get()
+            self.ff_comprar.insertar_valor("Material", opcion_seleccionada)
+    #Funcion encargada de cambiar al frame de comprar materiales
+
+    def function_frame_comprar_mat(self):
+
+        self.frame_desechar_mat = Frame(self.main_frame, width=500, height=400)
+        self.frame_desechar_mat.grid(pady=10,padx=10)
+
+        # Frame de interacción
+        self.frameFFdesdechar = Frame(self.frame_desechar_mat, width=500, height=400)
+        self.ff_desechar = FieldFrame(self.frameFFdesdechar, "Criterio", ["Empleado", "Cedula"], "Valor", [], [True, True])
+        self.ff_desechar.grid(row = 0, column=0, padx=10, pady=10)
+        #nombre para usar logica especifica desde FieldFrame
+        self.ff_desechar.nombre="desechar"
+        """
+        #Se crea un combobox de los materiales para facilitar la visualizacion de los materiales presentes en el inventario
+        materiales=["TOMATES", "CEBOLLAS", "PAPAS", "ACEITES", "VINOS","QUESOS",
+        "CHAMPINONES", "RES", "PESCADOS", "CERDOS","POLLOS", "PANES", "AJOS", "ESPECIAS", "HUEVOS",
+        "ATUN", "CUCHARAS", "TENEDORES", "PLATOS", "VASOS"]
+        valorDefecto=StringVar(value="Seleccione Material")
+        #configuracion del combobox
+        self.combo=ttk.Combobox(self.frameFFdesdechar,values=materiales,textvariable=valorDefecto)
+        #asignacion del evento del combobox en el cual se usa la funcion que le asigna el valor seleccionado del combobox al campo de "Material"
+        self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion)
+        self.combo.grid(row=0,column=1,pady=20,sticky="new")"""
+        # Crear un Canvas para la cuadrícula dentro del Frame principal
+        self.canvas = Canvas(self.frame_desechar_mat)
+        self.canvas.grid(row = 1, column=0, padx=10, pady=10)
+
+        self.frames_temporales.append(self.canvas)
+
+        # Ubicación del frame de FieldFrame dentro del frame de interaccion mediante grid
+        self.frameFFdesdechar.grid(row=0, column=0)
+
+    #funcion encargada de cambiar al frame de desechar materiales
+    def function_frame_desechar_mat(self):
+
+        # Definir frame desechar mat
+        self.frame_desechar_mat = Frame(self.main_frame, width=500, height=400)
+        self.frame_desechar_mat.grid(pady=10,padx=10)
+
+        # Frame de interacción
+        self.frameFFdesdechar = Frame(self.frame_desechar_mat, width=500, height=400)
+        self.ff_desechar = FieldFrame(self.frameFFdesdechar, "Criterio", ["Empleado", "Cedula"], "Valor", [], [True, True])
+        self.ff_desechar.grid(row = 0, column=0, padx=10, pady=10)
+        #nombre para usar logica especifica desde FieldFrame
+        self.ff_desechar.nombre="desechar"
+        """
+        #Se crea un combobox de los materiales para facilitar la visualizacion de los materiales presentes en el inventario
+        materiales=["TOMATES", "CEBOLLAS", "PAPAS", "ACEITES", "VINOS","QUESOS",
+        "CHAMPINONES", "RES", "PESCADOS", "CERDOS","POLLOS", "PANES", "AJOS", "ESPECIAS", "HUEVOS",
+        "ATUN", "CUCHARAS", "TENEDORES", "PLATOS", "VASOS"]
+        valorDefecto=StringVar(value="Seleccione Material")
+        #configuracion del combobox
+        self.combo=ttk.Combobox(self.frameFFdesdechar,values=materiales,textvariable=valorDefecto)
+        #asignacion del evento del combobox en el cual se usa la funcion que le asigna el valor seleccionado del combobox al campo de "Material"
+        self.combo.bind("<<ComboboxSelected>>",self.insertar_opcion)
+        self.combo.grid(row=0,column=1,pady=20,sticky="new")"""
+        # Crear un Canvas para la cuadrícula dentro del Frame principal
+        self.canvas = Canvas(self.frame_desechar_mat)
+        self.canvas.grid(row = 1, column=0, padx=10, pady=10)
+
+        self.frames_temporales.append(self.canvas)
+
+        # Ubicación del frame de FieldFrame dentro del frame de interaccion mediante grid
+        self.frameFFdesdechar.grid(row=0, column=0)
+
+    #funcion encargada de cambiar al frame para añadir mesas al restaurante
+    def function_frame_comprar_mesa(self):
+        #definir frame de comprar mesa
+        self.frame_comprar_mesa=Frame(self.main_frame,width=500,height=400)
+        self.frame_comprar_mesa.grid(pady=10,padx=10)
+        #Frame de interaccion
+        self.frameFFmesa=Frame(self.frame_comprar_mesa,width=500,height=400)
+        self.ff_mesa=FieldFrame(self.frameFFmesa,"Criterio",["Mesa","Capacidad"],"Valor",[],[True,True])
+        self.ff_mesa.grid(row=0,column=0,padx=10,pady=10)
+        #nombre para usar logica especifica desde FieldFrame
+        self.ff_mesa.nombre="mesa"
+
+        self.canvas=Canvas(self.frame_comprar_mesa)
+        self.canvas.grid(row=1,column=0,padx=10,pady=10)
+        self.frames_temporales.append(self.canvas)
+        #ubicacion del FieldFrame dentro del frame de interaccion mediante grid
+        self.frameFFmesa.grid(row=0,column=0)
+    def delete_pages(self):
+        """
+        Esta se hace para borrar los frames actuales 
+        y evitar que se superpongan los frames,
+        para que solo se muestre el frame indicado
+        dentro de la funcionalidad
+        """
+        for widget in self.main_frame.winfo_children():
+            widget.destroy()
+    #funcion encargada de ocultar los indicadores laterales de los botones de las opciones que no han sido seleccionados
+    def hide_indicators(self):
+        self.home_indicate.config(bg='#c3c3c3')
+        self.indicate_consultar_inventario.config(bg='#c3c3c3')
+        self.indicate_comprar_mat.config(bg='#c3c3c3')
+        self.indicate_desechar_mat.config(bg='#c3c3c3')
+        self.indicate_comprar_mesa.config(bg='#c3c3c3')
 
     def indicador(self, pagina, lb):
         """
