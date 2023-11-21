@@ -25,8 +25,8 @@ restaurante=deserializar()
 mesas=restaurante.getMesas()
 empleados=restaurante.getEmpleados()
 menu=restaurante.getMenu()
-# for mesa in mesas:
-#     print(mesa)
+for mesa in mesas:
+    print(mesa)
 
 
 """for material in restaurante.getInventario():
