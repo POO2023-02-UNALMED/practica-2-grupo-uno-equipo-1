@@ -243,16 +243,9 @@ class Restaurante():
 
 	#Actualizar insumos despues de ya estar verificado el pedido
 	def actualizarInsumos(self, pedido):
-		print("entra a actualizar insumos")
 		for plato in pedido.getPlatos():
 			for material, cantidadUtilizada in plato.getIngredientes().items():
-				print("antes de restar cantidad")
-				print(material.getCantidad())
-				print("AAAAAAAAAAAAAAAAAAAAAAAAAAA")
 				material.restarCantidad(cantidadUtilizada)
-				print("resta cantidad")
-				print(material.getCantidad())
-				print("AAAAAAAAAAAAAAAAAAAAAAAAAAA")
 
 
 	#Gestion de Pedidos
