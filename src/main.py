@@ -801,16 +801,25 @@ class FieldFrame(Frame):
             if not valor and estado != "disabled":
                 messagebox.showwarning("Advertencia", f"Campo '{criterio}' no puede estar vacío.")
                 return  # Si un campo está vacío, mostrar advertencia y salir
-            self.dataform[criterio] = valor
+            if valor or estado == "disabled":
+                print("SI GUARDO VALOR")
+                print(criterio)
+                print(valor)
+                self.dataform[criterio] = valor
+
+        # Omitir la siguiente línea para evitar la impresión de None
+        # print(self.dataform)
+
 
         if self.consulta is not None:
             if GestionPedidosApp.plato_seleccionado == False:
                 messagebox.showinfo("Alerta", "Debes seleccionar al menos un plato antes de continuar.")
             else:
-                valores = self.getValues()
+                print("ESTOY VIENDO VALORES")
+                print(self.dataform)
+                valores = self.dataform
+
                 self.consulta(valores)
-                self.buttonClear.destroy()
-                self.buttonSubmmit.destroy()
         else:
             mensaje = ""
             for criterio, entry in self.entries.items():
@@ -842,11 +851,22 @@ class FieldFrame(Frame):
         for entry in self.entries.values():
             entry.delete(0, END)
 
+    def getValues(self):
+        self.dataform
+
     def insertar_valor(self, criterio, valor):
         entry = self.entries.get(criterio)
         if entry:
             entry.delete(0, END)
             entry.insert(0, valor)
+   
+   
+    def prueba(self):
+        for i in self.dataform:
+            print(i)
+            print(self.dataform[i])
+    print("pruebaaa")
+    print(prueba)
 
 
 class ImageFrame(Frame):
@@ -1093,7 +1113,7 @@ class GestionPedidosApp:
             self.platos_seleccionados.remove(indice)
         
     def seleccionarCocinero(self, valores):
-
+        print(valores)
         # Obtener el tipo de pedido
         tipo_pedido = valores["tipo pedido"]
 
