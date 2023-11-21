@@ -1639,7 +1639,7 @@ class GestionFinancieraApp:
         self.col_width = 200
         self.imagen_mat=imagen_mat
         self.restaurante = restaurante
-        self.financia = Financia()
+        self.financia = Financia(restaurante=self.restaurante)
         self.empleados = self.restaurante.listadoEmpleados  
         self.frames_temporales = []
 
@@ -1698,7 +1698,18 @@ class GestionFinancieraApp:
 
     def function_home_inicio(self):
         self.frame_home = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_home, text="Bienvenido a la Gestion de Financiera", font=("Bold", 15)).place(x=80, y=30)
+        # Saludo inicial
+        titulo_bienvenida = Label(self.frame_home, text="¡Bienvenido a la gestión Financiera!", font=("Bold", 15))
+        titulo_bienvenida.place(relx=0.5, rely=0.1, anchor="center")
+
+        # Título de la funcionalidad
+        titulo_funcionalidad = Label(self.frame_home, text="Funcionalidad de Gestión de Financia", font=("Bold", 12))
+        titulo_funcionalidad.place(relx=0.5, rely=0.25, anchor="center")
+
+        # Descripción de la funcionalidad
+        descripcion_funcionalidad = Label(self.frame_home, text="Esta plataforma te permite consultar el presupuesto total que tiene el restaurante, depedendiendo de las ganancias que el lugar genere, se calculara a traves de la ganancia bruta, la cual necesitara conocer los gastos totales del restaurante, como el abastecimiento del inventario y el pago total de los empleados; gracias a la Ganancia bruta se podra calcular la ganancia Neta que dira cuanto fue el lucro que genero como tal el restaurante.", wraplength=400, justify="left")
+        descripcion_funcionalidad.place(relx=0.5, rely=0.5, anchor="center")
+        
         self.frame_home.grid(pady=5, padx=5)
         self.frame_home.pack_propagate(False)
 
@@ -1752,16 +1763,19 @@ class GestionFinancieraApp:
         btn_pagos_empleados.place(x=300, y=100)
 
     def function_gastos_materiales(self):
+        # Calcular los gastos de materiales
+        gastos_materiales = self.financia.GastosMateriales()
 
-        gastos_materiales = self.financia.GastosMateriales()  # Obtener el valor de los gastos de materiales
-        self.label_gastos_materiales.config(text=f"Gastos Materiales: {gastos_materiales}")  
-        self.label_gastos_materiales.place(x=50, y=200)  # Mostrar el Label al presionar el botón
+        # Crear una etiqueta para mostrar los gastos de materiales
+        self.lbl_gastos_materiales = Label(self.frame_gastos, text=f"Gasto total del inventario del restaurante es: {gastos_materiales}", font=("Arial", 15) )
+        self.lbl_gastos_materiales.grid(row=2, column=0, pady=300, padx=200)
 
     def function_pagos_empleados(self):
-
-        pagos_empleados = self.financia.PagosEmpleados(self.restaurante)  # Obtener el valor de los pagos a empleados
-        self.label_pagos_empleados.config(text=f"Pagos Empleados: {pagos_empleados}")  
-        self.label_pagos_empleados.place(x=300, y=200)  # Mostrar el Label al presionar el botón
+        # Obtener el valor de los pagos a empleados
+        pagos_empleados = self.financia.PagosEmpleados()  
+        self.lbl_pagos_empleados = Label(self.frame_gastos, text=f"Pago total de los Empleados del restaurante es: {pagos_empleados}", font=("Arial", 15) )
+        self.lbl_pagos_empleados.grid(row=2, column=0, pady=300, padx=200)
+        
 
     
     def function_frame_gastos_material_especifico(self):
@@ -1773,9 +1787,11 @@ class GestionFinancieraApp:
         self.canvas.grid(row = 1, column=0, padx=15, pady=15)
         self.frames_temporales.append(self.canvas)
 
-        # Agregar un label que diga "Material:"
-        Label(self.frame_gastos_material, text="Material:", font=("Bold", 10)).grid(row=1, column=5, padx=150, pady=300)
+        Label(self.frame_gastos_material, text="SELECCIONE LA FOTO DEL MATERIAL :", font=("Bold", 10)).grid(row=1, column=4, padx=50, pady=80)
 
+        # Agregar una barra de entrada (Entry)
+        self.material_entry = Entry(self.frame_gastos_material)
+        self.material_entry.grid(row=1, column=5, padx=50, pady=100)
         
         #configurar lista
         columnas=4
@@ -1795,7 +1811,7 @@ class GestionFinancieraApp:
             frame=Frame(self.canvas,width=self.col_width,height=self.row_height,bd=2,relief=RIDGE)
             frame.grid(row=fila,column=columna,padx=5,pady=5)
 
-            boton=Button(frame,image=imagen)
+            boton=Button(frame, image=imagen, command=lambda tipo=tipo: self.escribir_material(tipo))
             boton.grid(row=2,column=0,padx=5,pady=5)
 
             label=Label(frame,text=f"{tipo.value}")
@@ -1810,7 +1826,11 @@ class GestionFinancieraApp:
             fil+=1
             col+=1
         
-    
+    def escribir_material(self, tipo):
+        # Escribir el tipo de material en la barra de entrada
+        self.material_entry.delete(0, END)  # Borrar cualquier texto existente
+        self.material_entry.insert(0, tipo.value)  # Insertar el tipo de material
+        
     def function_frame_pago_empleado_especifico(self):
         self.frame_gastos_material_especifico = Frame(self.main_frame, width=500, height=400)
         Label(self.frame_gastos_material_especifico, text="Pago Empleado Especifico", font=("Bold", 15)).place(x=150, y=30)

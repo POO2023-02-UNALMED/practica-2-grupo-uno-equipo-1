@@ -48,6 +48,7 @@ class Financia():
 				for material, cantidad_utilizada in plato.getIngredientes().items():
 					total_gastos_materiales += material.getPrecioUnitario() * cantidad_utilizada
 		self.gastosMateriales = total_gastos_materiales
+		return self.gastosMateriales
 
 	def GastoMaterialEspecifico(self, nombre_material):
 		total_gasto_material = 0
