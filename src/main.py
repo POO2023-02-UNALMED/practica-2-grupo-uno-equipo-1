@@ -1933,14 +1933,15 @@ class GestionReservasApp:
     """
     Aqui se plantea toda la funcionalidad de gestion de reservas
     """
-    def __init__(self, framePadre):
+    def __init__(self, framePadre, restaurante):
         self.row_height = 200
         self.col_width = 200
+        self.restaurante = restaurante
         self.frames_temporales = []
         self.framePadre = framePadre
         self.funcionalidad_gestionReservas = Frame(self.framePadre, bg='#c3c3c3', width=100, height=500)
         self.funcionalidad_gestionReservas.grid(row=0, column=0, sticky="nsew")
-        self.options_frame = Frame(self.funcionalidad_gestionReservas, bg='#c3c3c3', width=100, height=500)
+        self.options_frame = Frame(self.funcionalidad_gestionReservas, bg='#c3c3c3', width=120, height=500)
         self.options_frame.grid(row=0, column=0, sticky="nsew")
         self.options_frame.pack_propagate(False)
         self.main_frame = Frame(self.funcionalidad_gestionReservas, highlightbackground='black', highlightthickness=2, width=500, height=400)
@@ -1992,20 +1993,34 @@ class GestionReservasApp:
     def function_home_page(self):
         self.frame_home = Frame(self.main_frame, width=500, height=400)
         Label(self.frame_home, text="Bienvenido a la gestion de reservas", font=("Bold", 15)).place(x=150, y=30)
+        descripcion_funcionalidad = Label(self.frame_home, text="Esta plataforma te permite consultar, cancelar, crear y confirmar las reservas de tus clientes", wraplength=400, justify="left")
+        descripcion_funcionalidad.place(relx=0.5, rely=0.4, anchor="center")
         self.frame_home.grid(pady=5, padx=5)
         self.frame_home.pack_propagate(False)
 
     def function_frame_RNC(self):
         self.frame_RNC = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_RNC, text="Reservas sin mesa asignada", font=("Bold", 15)).place(x=150, y=30)
-        self.frame_RNC.grid(pady=5, padx=5)
-        self.frame_RNC.pack_propagate(False)
+        self.frame_RNC.grid(row=1, column=1, pady=5, padx=5, sticky="nsew")
+        Label(self.frame_RNC, text="Reservas sin mesa asignada", font=("Bold", 15)).grid(row=0, column=0, padx=10, pady=10)
+        self.texto = Listbox(self.frame_RNC)
+        scrollbar = Scrollbar(self.frame_RNC, orient="vertical", command=self.texto.yview)
+        self.texto.configure(yscrollcommand=scrollbar.set)
+        self.texto.config(width=100, height=30)
+        self.texto.grid(row=1, column=0, padx=10, pady=10, sticky="nswe")
+        scrollbar.grid(row=1, column=1, padx=0, pady=0, sticky="ns")
+        self.texto.insert(END, self.restaurante.imprimirReservas())
 
     def function_frame_RC(self):
         self.frame_RC = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_RC, text="Reservas con mesa asignada", font=("Bold", 15)).place(x=150, y=30)
-        self.frame_RC.grid(pady=5, padx=5)
-        self.frame_RC.pack_propagate(False)
+        self.frame_RC.grid(row=1, column=1, pady=5, padx=5, sticky="nsew")
+        Label(self.frame_RC, text="Reservas con mesa asignada", font=("Bold", 15)).grid(row=0, column=0, padx=10, pady=10)
+        self.texto2 = Listbox(self.frame_RC)
+        scrollbar = Scrollbar(self.frame_RC, orient="vertical", command=self.texto2.yview)
+        self.texto2.configure(yscrollcommand=scrollbar.set)
+        self.texto2.config(width=100, height=30)
+        self.texto2.grid(row=1, column=0, padx=10, pady=10, sticky="nswe")
+        scrollbar.grid(row=1, column=1, padx=0, pady=0, sticky="ns")
+        self.texto2.insert(END, self.restaurante.imprimirReservas2())
 
     def function_frame_ANADIR_R(self):
         # Definir frame reservas
