@@ -1860,13 +1860,18 @@ class GestionFinancieraApp:
 
     
     def function_frame_gastos_material_especifico(self):
-        self.frame_gastos_material= Frame(self.main_frame, width=800, height=500)
+        self.frame_gastos_material= Frame(self.main_frame, width=1000, height=800)
         Label(self.frame_gastos_material, text="Gastos Material Especifico", font=("Bold", 15)).grid(row=0, column=0, padx=150, pady=30)
         self.frame_gastos_material.grid(row=0,column=1,pady=5, padx=5)
         self.frame_gastos_material.pack_propagate(False)
         self.canvas = Canvas(self.frame_gastos_material)
         self.canvas.grid(row = 1, column=0, padx=15, pady=15)
         self.frames_temporales.append(self.canvas)
+
+        # Agregar un label que diga "Material:"
+        Label(self.frame_gastos_material, text="Material:", font=("Bold", 10)).grid(row=1, column=5, padx=150, pady=300)
+
+        
         #configurar lista
         columnas=4
         filas=len(self.imagen_mat)//columnas+1
@@ -1886,16 +1891,16 @@ class GestionFinancieraApp:
             frame.grid(row=fila,column=columna,padx=5,pady=5)
 
             boton=Button(frame,image=imagen)
-            boton.grid(row=1,column=0,padx=5,pady=5)
+            boton.grid(row=2,column=0,padx=5,pady=5)
 
             label=Label(frame,text=f"{tipo.value}")
-            label.grid(row=1,column=1,padx=5,pady=5)
+            label.grid(row=2,column=1,padx=5,pady=5)
 
-            label2=Label(frame,text=f"CantidadTotal{cantidad}")
-            label2.grid(row=2,column=1,padx=5,pady=5)
+            label2=Label(frame,text=f"CantidadTotal: {cantidad}")
+            label2.grid(row=3,column=1,padx=5,pady=5)
 
-            label3=Label(frame,text=f"PrecioUnitario{preciounitario}")
-            label3.grid(row=3,column=1,padx=5,pady=5)
+            label3=Label(frame,text=f"PrecioUnitario: {preciounitario}")
+            label3.grid(row=4,column=1,padx=5,pady=5)
 
             fil+=1
             col+=1
