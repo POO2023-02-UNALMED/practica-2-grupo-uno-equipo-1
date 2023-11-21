@@ -11,12 +11,12 @@ class Financia():
 		from gestorAplicacion.Restaurante.plato import Plato
 		from gestorAplicacion.Personas.empleado import Empleado
 		from gestorAplicacion.Personas.persona import Persona
-		self.presupuesto = presupuesto
-		self.gastosMateriales = gastosMateriales
-		self.gastoMaterialEspecifico = gastoMaterialEspecifico
+		self.presupuesto = 1000000
+		self.gastosMateriales = 0
+		self.gastoMaterialEspecifico = 0
 		self.pagosEmpleados = 0
-		self.gananciasBrutas = gananciasBrutas
-		self.gananciasNetas = gananciasNetas
+		self.gananciasBrutas = 0
+		self.gananciasNetas = 0
 		self.restaurante = restaurante
 
 
@@ -81,7 +81,7 @@ class Financia():
 
 
     #Calcula las ganancias Brutas del restaurante
-	def GananciasBrutas(self):
+	def gananciasBrutas(self):
 		totalGananciasBrutas = 0
 		for pedido in self.restaurante.getPedidos():
 			totalGananciasBrutas += pedido.getPrecioTotal()
@@ -89,14 +89,14 @@ class Financia():
 		return self.gananciasBrutas
 
     #Calcula las ganancias netas del restaurante
-	def GananciasNetas(self):
+	def gananciasNetas(self):
 		totalGastos = self.gastosMateriales + self.pagosEmpleados  # Acceder a los valores directamente
 		totalIngresos = self.GananciasBrutas()
 		self.gananciasNetas = totalIngresos - totalGastos
 		return self.gananciasNetas
 
     #Calcula el presupuesto considerando las ganancias del restaurante
-	def Presupuesto(self):
+	def presupuesto(self):
 		totalGastos = self.GastosMateriales() + self.pagosEmpleados(self.restaurante)
 		gananciasNetas = self.gananciasNetas()
 		self.presupuesto = self.presupuesto - totalGastos + gananciasNetas
