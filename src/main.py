@@ -261,7 +261,7 @@ def volverAInicio():
 def gReserva():
     delete_frames_ventana_principal()
     gestion_reservas = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
-    gestion_reservas_app = GestionReservasApp(gestion_reservas)
+    gestion_reservas_app = GestionReservasApp(gestion_reservas, restaurante)
     gestion_reservas.grid(row=1, column=0, sticky="nsew")
     gestion_reservas.pack_propagate(False)
 
