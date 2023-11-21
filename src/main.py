@@ -1570,6 +1570,7 @@ class GestionInventarioApp:
         pagina()
 
 from tkinter import ttk
+from tkinter import PhotoImage
 
 class GestionFinancieraApp:
     """
@@ -1597,21 +1598,6 @@ class GestionFinancieraApp:
         nombres_materiales = ["TOMATES", "CEBOLLAS", "PAPAS", "ACEITES", "VINOS","QUESOS",
             "CHAMPINONES", "RES", "PESCADOS", "CERDOS","POLLOS", "PANES", "AJOS", "ESPECIAS", "HUEVOS",
             "ATUN", "CUCHARAS", "TENEDORES", "PLATOS", "VASOS"]
-
-        for i, nombre in enumerate(nombres_materiales):
-            # Buscar el material en el inventario verificado
-            for material in inventario_verificado.values():
-                if material.getTipo().value == nombre:
-                    # Crear un diccionario para el material
-                    material_dict = {
-                        "nombre": material.getTipo().value,  
-                        "precio": material.getPrecioUnitario(),
-                        "cantidad": material.getCantidad(),
-                        "imagen": imagenes_materiales[i]
-                    }
-                    # Agregar el diccionario a la lista de materiales
-                    self.materiales.append(material_dict)
-                    break
 
     
         # Crear botones de selección de opción
@@ -1725,29 +1711,34 @@ class GestionFinancieraApp:
         self.label_pagos_empleados.config(text=f"Pagos Empleados: {pagos_empleados}")  
         self.label_pagos_empleados.place(x=300, y=200)  # Mostrar el Label al presionar el botón
 
+    
     def function_frame_gastos_material_especifico(self):
         self.frame_gastos_material_especifico = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_gastos_material_especifico, text="Gastos Material Especifico", font=("Bold", 15)).place(x=150, y=30)
+        Label(self.frame_gastos_material_especifico, text="Gastos Material Especifico", font=("Bold", 15)).grid(row=0, column=0, columnspan=4)
         
-        # Ubicación frame gastos_material_especifico
+        nombres_materiales = [
+            "Tomates", "Cebollas", "Papas", "Aceites", "Vinos", "Quesos", "Champiñones", "Res", 
+            "Pescados", "Cerdos", "Pollos", "Panes", "Ajos", "Especies", "Huevos", "Atun",
+            "Cuchara", "Tenedores", "Plato", "Vasos"
+        ]
+        
+        for i in range(len(imagenes_materiales)):
+            Button(self.frame_gastos_material_especifico, text=nombres_materiales[i], image=imagenes_materiales[i], compound='top', command=lambda i=i: self.toggle_seleccion(i)).grid(row=i//4 + 1, column=i%4, padx=10, pady=10)
+        
+        # Crear una etiqueta para mostrar el nombre del material seleccionado
+        Label(self.frame_gastos_material_especifico, text="Material :").grid(row=len(imagenes_materiales)//4 + 3, column=0)
+        self.material_seleccionado = StringVar()
+        Label(self.frame_gastos_material_especifico, textvariable=self.material_seleccionado).grid(row=len(imagenes_materiales)//4 + 3, column=1)
+        
         self.frame_gastos_material_especifico.grid(pady=5, padx=5)
         self.frame_gastos_material_especifico.pack_propagate(False)
-        # Crear un botón para cada material
-        for i, material in enumerate(self.materiales):
-            # Cargar la imagen del material
-            imagen_material = PhotoImage(file=material["imagen"])
 
-            # Crear el texto del botón
-            texto_boton = f"{material['nombre']}\nCantidad: {material['cantidad']}\nPrecio: {material['precio']}"
-
-            # Crear el botón
-            boton_material = Button(self.frame_gastos_material_especifico, text=texto_boton, image=imagen_material, compound="top")
-            boton_material.image = imagen_material  # Guardar una referencia a la imagen para evitar que sea eliminada por el recolector de basura
-
-            # Colocar el botón en el frame
-            boton_material.grid(row=i//5, column=i%5)  # Ajusta el número 5 según cuántos botones quieres por fila
+    def toggle_seleccion(self, indice):
+        # Actualizar la etiqueta con el nombre del material seleccionado
+        self.material_seleccionado.set(self.materiales[indice]['nombre'])
 
 
+    
     def function_frame_pago_empleado_especifico(self):
         self.frame_pago_empleado_especifico = Frame(self.main_frame, width=500, height=400)
         Label(self.frame_pago_empleado_especifico, text="Pago Empleado Especifico", font=("Bold", 15)).place(x=150, y=30)
@@ -1773,7 +1764,7 @@ class GestionFinancieraApp:
         # Actualizar el valor de self.nombre_empleado
         self.nombre_empleado.set(seleccionado)
 
-
+        
 
     def indicador(self, pagina, lb):
         """
