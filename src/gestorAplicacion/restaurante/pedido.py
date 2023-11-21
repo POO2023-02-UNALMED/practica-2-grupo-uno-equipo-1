@@ -1,4 +1,3 @@
-from gestorAplicacion.Restaurante.plato import Plato
 
 class Pedido():
 
@@ -73,26 +72,49 @@ class Pedido():
 
     def imprimirPlatos(self):
         stringPlatos = ""
-        for i, plato in enumerate(self.platos, 1):
-            if isinstance(plato, Plato):
-                stringPlatos += f"\n   Plato número {i}: {plato.detallesPlato()}\n"
-            else:
-                stringPlatos += f"\n   Plato número {i}: {plato}\n"
+        i=1
+        for plato in self.platos:
+            stringPlatos += f"\nPlato número {i}: {plato.detallesPlato()}\n"
+            i+=1
         return stringPlatos
 
 
-    # ToString de la clase
     def __str__(self):
-        mesaStr = str(self.mesa) if self.mesa is not None else "N/A"
-        meseroStr = self.mesero.getNombre() if self.mesero is not None else "N/A"
-        domiciliarioStr = self.domiciliario.getNombre() if self.domiciliario is not None else "N/A"
-        resumen = self.reserva.resumenReservaPedido() if self.reserva is not None else "no tiene reserva asociada"
+        # Crear una lista para almacenar las partes de la cadena
+        partes = []
 
-        return f"mesa: {mesaStr}" \
-               f"\n   cocinero: {self.cocinero}" \
-               f"\n   mesero: {meseroStr}" \
-               f"\n   domiciliario: {domiciliarioStr}" \
-               f"\n   número de platos: {len(self.platos)}" \
-               f"\n   platos: {self.imprimirPlatos()}" \
-               f"\n   Este pedido tiene esta reserva: {resumen}" \
-               f"\n   tipoPedido: {self.tipoPedido}"
+        # Añadir la información de la mesa si está disponible
+        if self.mesa is not None:
+            partes.append(f"mesa: {self.mesa}")
+
+        # Añadir la información del cocinero si está disponible
+        if self.cocinero is not None:
+            partes.append(f"{self.cocinero}")
+
+        # Añadir la información del mesero si está disponible
+        if self.mesero is not None:
+            meseroStr = self.mesero.getNombre()
+            if meseroStr != "N/A":
+                partes.append(f"mesero: {meseroStr}")
+
+        # Añadir la información del domiciliario si está disponible
+        if self.domiciliario is not None:
+            domiciliarioStr = self.domiciliario.getNombre()
+            if domiciliarioStr != "N/A":
+                partes.append(f"domiciliario: {domiciliarioStr}")
+
+        # Añadir la información de los platos
+        partes.append(f"número de platos: {len(self.platos)}")
+        partes.append(f"{self.imprimirPlatos()}")
+
+        # Añadir la información de la reserva si está disponible
+        if self.reserva is not None:
+            resumen = self.reserva.resumenReservaPedido()
+            if resumen != "no tiene reserva asociada":
+                partes.append(f"Este pedido tiene esta reserva: {resumen}")
+
+        # Añadir la información del tipo de pedido
+        partes.append(f"tipoPedido: {self.tipoPedido}")
+
+        # Unir todas las partes en una sola cadena de texto
+        return "\n   ".join(partes)

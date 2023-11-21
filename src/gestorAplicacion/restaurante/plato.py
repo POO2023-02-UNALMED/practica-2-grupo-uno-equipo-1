@@ -63,10 +63,10 @@ class Plato:
         return self.isVerificadoInsumos()
 
     def mostrarIngredientes(self):
-        tipos=[]
+        strIngredientes = ""
         for ingrediente in self.ingredientes:
-            tipos.append(ingrediente.getNombre())
-        return tipos
+            strIngredientes += f'\n{ingrediente.getNombre()}'
+        return strIngredientes
 
     def detallesPlato(self):
-        print(f"\nNombre: {self.getNombre()}\nPrecio: {self.getPrecio()}\nDescripcion: {self.getDescripcion()}\nTiempo de preparacion: {self.getTiempoPreparacion()}\nIngredientes: {self.mostrarIngredientes()}")
+        return f"\n  Nombre: {self.getNombre()}\nPrecio: {self.getPrecio()}\n               Descripcion: {self.getDescripcion()}\n    Tiempo de preparacion: {self.getTiempoPreparacion()}\n    Ingredientes: {self.mostrarIngredientes()}"
