@@ -19,7 +19,7 @@ from gestorAplicacion.Restaurante.turno import Turno, TipoTurno
 from baseDatos.Serializacion import serializar,deserializar
 
 
-restaurante=Restaurante()
+restaurante=deserializar()
 """for material in restaurante.getInventario():
     print(material)
     print(restaurante.inventario[material].getCantidad())
@@ -57,101 +57,102 @@ restaurante.comprarMaterial(Tipo.PLATOS,200,35,None)
 restaurante.comprarMaterial(Tipo.VASOS,150,25,None)"""
 #restaurante.comprarMaterial(Tipo.RES,13,100,None)
 
-res = Material(Tipo.RES, 100, 100)
-especias = Material(Tipo.ESPECIAS, 100, 50)
-aceites = Material(Tipo.ACEITES, 100, 100)
-pollos = Material(Tipo.POLLOS, 100, 200)
-vinos = Material(Tipo.VINOS, 100, 300)
-cebollas = Material(Tipo.CEBOLLAS, 100, 50)
-champinones = Material(Tipo.CHAMPINONES, 500, 100)
-ajos = Material(Tipo.AJOS, 100, 30)
-tomates = Material(Tipo.TOMATES, 400, 200)
-quesos = Material(Tipo.QUESOS, 300, 150)
-cerdos = Material(Tipo.CERDOS, 100, 200)
-atun = Material(Tipo.ATUN, 100, 250)
-panes = Material(Tipo.PANES, 200, 50)
-pescados = Material(Tipo.PESCADOS ,200 ,300 )
-papas = Material(Tipo.PAPAS ,200 ,100 )
-huevos = Material(Tipo.HUEVOS ,200 ,100)
-cucharas=Material(Tipo.CUCHARAS,300,10)
-tenedores=Material(Tipo.TENEDORES,300,10)
-platos=Material(Tipo.PLATOS,200,35)
-vasos=Material(Tipo.VASOS,150,25)
+# res = Material(Tipo.RES, 100, 100)
+# especias = Material(Tipo.ESPECIAS, 100, 50)
+# aceites = Material(Tipo.ACEITES, 100, 100)
+# pollos = Material(Tipo.POLLOS, 100, 200)
+# vinos = Material(Tipo.VINOS, 100, 300)
+# cebollas = Material(Tipo.CEBOLLAS, 100, 50)
+# champinones = Material(Tipo.CHAMPINONES, 500, 100)
+# ajos = Material(Tipo.AJOS, 100, 30)
+# tomates = Material(Tipo.TOMATES, 400, 200)
+# quesos = Material(Tipo.QUESOS, 300, 150)
+# cerdos = Material(Tipo.CERDOS, 100, 200)
+# atun = Material(Tipo.ATUN, 100, 250)
+# panes = Material(Tipo.PANES, 200, 50)
+# pescados = Material(Tipo.PESCADOS ,200 ,300 )
+# papas = Material(Tipo.PAPAS ,200 ,100 )
+# huevos = Material(Tipo.HUEVOS ,200 ,100)
+# cucharas=Material(Tipo.CUCHARAS,300,10)
+# tenedores=Material(Tipo.TENEDORES,300,10)
+# platos=Material(Tipo.PLATOS,200,35)
+# vasos=Material(Tipo.VASOS,150,25)
 
 
-# Crear ingredientes de cada plato
-Muton = {res: 1, especias: 10, aceites: 1}
-coq = {pollos: 1, vinos: 1, cebollas: 1, champinones: 5, ajos: 1}
-ratatouille = {champinones: 5, tomates: 4, aceites: 1, ajos: 2}
-boeuf = {res: 1, vinos: 1, cebollas: 1, champinones: 5, ajos: 1}
-quiche = {huevos: 3, quesos: 3, cerdos: 1}
-salade = {huevos: 3, tomates: 3, atun: 1, cebollas: 2, aceites: 1}
-soupe = {cebollas: 5, panes: 2, quesos: 3}
-croque = {panes: 2, cerdos: 1, quesos: 1}
-bouilla = {pescados: 2, tomates: 2, ajos: 2, aceites: 1}
-tartiflette = {papas: 2, cebollas: 2, cerdos: 1, quesos: 1}
+# # Crear ingredientes de cada plato
+# Muton = {res: 1, especias: 10, aceites: 1}
+# coq = {pollos: 1, vinos: 1, cebollas: 1, champinones: 5, ajos: 1}
+# ratatouille = {champinones: 5, tomates: 4, aceites: 1, ajos: 2}
+# boeuf = {res: 1, vinos: 1, cebollas: 1, champinones: 5, ajos: 1}
+# quiche = {huevos: 3, quesos: 3, cerdos: 1}
+# salade = {huevos: 3, tomates: 3, atun: 1, cebollas: 2, aceites: 1}
+# soupe = {cebollas: 5, panes: 2, quesos: 3}
+# croque = {panes: 2, cerdos: 1, quesos: 1}
+# bouilla = {pescados: 2, tomates: 2, ajos: 2, aceites: 1}
+# tartiflette = {papas: 2, cebollas: 2, cerdos: 1, quesos: 1}
 
-# Crear menu de restaurante
-menu = [
-    Plato("Muton Shot", 30000, 30, "Costillas de Res con Salsa especial", Muton, ),
-    Plato("Coq au Vin", 45000, 25,  "Guiso de Pollo cocido en Vino y Verduras", coq),
-    Plato("Rat a Toulile", 15000, 20, "Verduras asadas en aceite de oliva", ratatouille),
-    Plato("Boeuf Bourguignon", 60000,  30, "Guiso de Res cocido en Vino y Verduras",boeuf),
-    Plato("Quiche Lorraine", 30000, 35, "Pastel salado con cerdo", quiche),
-    Plato("Salade Nicoise", 15000, 10, "Ensalada con Huevo y Atun", salade),
-    Plato("Soupe a l'oignon", 20000, 25, "Sopa espesa de Cebolla", soupe),
-    Plato("Croque Monsieur", 15000, 25, "Sandwich con Cerdo y Queso", croque),
-    Plato("Bouillabaisse", 20000, 25, "Sopa de Pescado tradicional", bouilla),
-    Plato("Tartiflette", 40000, 20, "Gratinado de Papa y Cerdo", tartiflette)
-    ]
+# # Crear menu de restaurante
+# menu = [
+#     Plato("Muton Shot", 30000, 30, "Costillas de Res con Salsa especial", Muton, ),
+#     Plato("Coq au Vin", 45000, 25,  "Guiso de Pollo cocido en Vino y Verduras", coq),
+#     Plato("Rat a Toulile", 15000, 20, "Verduras asadas en aceite de oliva", ratatouille),
+#     Plato("Boeuf Bourguignon", 60000,  30, "Guiso de Res cocido en Vino y Verduras",boeuf),
+#     Plato("Quiche Lorraine", 30000, 35, "Pastel salado con cerdo", quiche),
+#     Plato("Salade Nicoise", 15000, 10, "Ensalada con Huevo y Atun", salade),
+#     Plato("Soupe a l'oignon", 20000, 25, "Sopa espesa de Cebolla", soupe),
+#     Plato("Croque Monsieur", 15000, 25, "Sandwich con Cerdo y Queso", croque),
+#     Plato("Bouillabaisse", 20000, 25, "Sopa de Pescado tradicional", bouilla),
+#     Plato("Tartiflette", 40000, 20, "Gratinado de Papa y Cerdo", tartiflette)
+#     ]
+# restaurante.setMenu(menu)
 
-#Crear turnos
-turno1 = Turno(TipoTurno.SEMANA, 5.0, 50000)
-turno2 = Turno(TipoTurno.SEMANA, 8.0, 60000)
-turno3 = Turno(TipoTurno.SEMANA, 2.0, 70000)
-turno4 = Turno(TipoTurno.SEMANA, 8.0, 55000)
-turno5 = Turno(TipoTurno.SEMANA, 2.0, 65000)
-turno6 = Turno(TipoTurno.SEMANA, 8.0, 75000)
-turno7 = Turno(TipoTurno.SEMANA, 2.0, 60000)
-turno8 = Turno(TipoTurno.SEMANA, 8.0, 70000)
-turno9 = Turno(TipoTurno.SEMANA, 2.0, 80000)
-turno10 = Turno(TipoTurno.SEMANA, 8.0, 65000)
-turno11 = Turno(TipoTurno.SEMANA, 3.0, 80000)
-turno12 = Turno(TipoTurno.SABADO, 7.0, 50000)
-turno13 = Turno(TipoTurno.SABADO, 3.0, 60000)
-turno14 = Turno(TipoTurno.SEMANA, 7.0, 70000)
-turno15 = Turno(TipoTurno.SEMANA, 2.0, 55000)
-turno16 = Turno(TipoTurno.SEMANA, 3.0, 55000)
-turno17 = Turno(TipoTurno.SEMANA, 2.0, 55000)
+# #Crear turnos
+# turno1 = Turno(TipoTurno.SEMANA, 5.0, 50000)
+# turno2 = Turno(TipoTurno.SEMANA, 8.0, 60000)
+# turno3 = Turno(TipoTurno.SEMANA, 2.0, 70000)
+# turno4 = Turno(TipoTurno.SEMANA, 8.0, 55000)
+# turno5 = Turno(TipoTurno.SEMANA, 2.0, 65000)
+# turno6 = Turno(TipoTurno.SEMANA, 8.0, 75000)
+# turno7 = Turno(TipoTurno.SEMANA, 2.0, 60000)
+# turno8 = Turno(TipoTurno.SEMANA, 2.0, 70000)
+# turno9 = Turno(TipoTurno.SEMANA, 8.0, 80000)
+# turno10 = Turno(TipoTurno.SEMANA, 8.0, 65000)
+# turno11 = Turno(TipoTurno.SEMANA, 3.0, 80000)
+# turno12 = Turno(TipoTurno.SABADO, 7.0, 50000)
+# turno13 = Turno(TipoTurno.SABADO, 3.0, 60000)
+# turno14 = Turno(TipoTurno.SEMANA, 7.0, 70000)
+# turno15 = Turno(TipoTurno.SEMANA, 2.0, 55000)
+# turno16 = Turno(TipoTurno.SEMANA, 3.0, 55000)
+# turno17 = Turno(TipoTurno.SEMANA, 2.0, 55000)
 
-#Crear empleados
-empleado1 = Mesero("Juan", 123456789, "mesero", restaurante, turno1)
-empleado1.agregarTurno(turno2)
-restaurante.contratarEmpleado(empleado1)
-empleado2 = Cocinero("Fernando", 234567891, "cocinero", restaurante, turno2)
-empleado2.agregarTurno(turno3)
-restaurante.contratarEmpleado(empleado2)
-empleado3 = Domiciliario("Santiago", 345678912, "domiciliario", restaurante, turno4)
-empleado1.agregarTurno(turno5)
-restaurante.contratarEmpleado(empleado3)
-empleado4 = Mesero("Jhon", 123456789, "mesero", restaurante, turno6)
-empleado1.agregarTurno(turno7)
-restaurante.contratarEmpleado(empleado4)
-empleado5 = Cocinero("Moises", 234567891, "cocinero", restaurante, turno8)
-empleado2.agregarTurno(turno9)
-restaurante.contratarEmpleado(empleado5)
-empleado6 = Domiciliario("Rigo", 345678912, "domiciliario", restaurante, turno10)
-empleado6.agregarTurno(turno11)
-restaurante.contratarEmpleado(empleado6)
-empleado7 = Mesero("Brayan", 123456789, "mesero", restaurante, turno12)
-empleado1.agregarTurno(turno13)
-restaurante.contratarEmpleado(empleado7)
-empleado8 = Cocinero("Felipe", 234567891, "cocinero", restaurante, turno14)
-empleado2.agregarTurno(turno15)
-restaurante.contratarEmpleado(empleado8)
-empleado9 = Domiciliario("Martin", 345678912, "domiciliario", restaurante, turno16)
-empleado1.agregarTurno(turno17)
-restaurante.contratarEmpleado(empleado9)
+# #Crear empleados
+# empleado1 = Mesero("Juan", 123456789, "mesero", restaurante, turno1)
+# empleado1.agregarTurno(turno2)
+# restaurante.contratarEmpleado(empleado1)
+# empleado2 = Cocinero("Fernando", 234567891, "cocinero", restaurante, turno2)
+# empleado2.agregarTurno(turno3)
+# restaurante.contratarEmpleado(empleado2)
+# empleado3 = Domiciliario("Santiago", 345678912, "domiciliario", restaurante, turno4)
+# empleado1.agregarTurno(turno5)
+# restaurante.contratarEmpleado(empleado3)
+# empleado4 = Mesero("Jhon", 123456789, "mesero", restaurante, turno6)
+# empleado1.agregarTurno(turno7)
+# restaurante.contratarEmpleado(empleado4)
+# empleado5 = Cocinero("Moises", 234567891, "cocinero", restaurante, turno8)
+# empleado2.agregarTurno(turno9)
+# restaurante.contratarEmpleado(empleado5)
+# empleado6 = Domiciliario("Rigo", 345678912, "domiciliario", restaurante, turno10)
+# empleado6.agregarTurno(turno11)
+# restaurante.contratarEmpleado(empleado6)
+# empleado7 = Mesero("Brayan", 123456789, "mesero", restaurante, turno12)
+# empleado1.agregarTurno(turno13)
+# restaurante.contratarEmpleado(empleado7)
+# empleado8 = Cocinero("Felipe", 234567891, "cocinero", restaurante, turno14)
+# empleado2.agregarTurno(turno15)
+# restaurante.contratarEmpleado(empleado8)
+# empleado9 = Domiciliario("Martin", 345678912, "domiciliario", restaurante, turno16)
+# empleado1.agregarTurno(turno17)
+# restaurante.contratarEmpleado(empleado9)
 
 
 #for mesa1 in restaurante.getMesas():
@@ -269,12 +270,6 @@ def delete_frames_ventana_principal():
             widget.destroy()
 
 def gestion_pedidos():
-    res = Material(Tipo.RES, 100, 100)
-    especias = Material(Tipo.ESPECIAS, 100, 50)
-    aceites = Material(Tipo.ACEITES, 100, 100)
-    Muton = {res: 1, especias: 10, aceites: 1}
-    mutonShot = Plato("Muton Shot",30000,15,"Costillas de Res con Salsa especial",Muton)
-    menu = [mutonShot]
     delete_frames_ventana_principal()
     gestion_pedidos = Frame(ventanaPrincipal, padx=20, pady=20, bg="gray77")
     gestion_pedidos_app = GestionPedidosApp(gestion_pedidos)
@@ -961,7 +956,7 @@ class GestionPedidosApp:
         self.platos = []
 
         # Menu verificado
-        menu_verificado = restaurante.verificarMenu(menu)
+        menu_verificado = restaurante.verificarMenu(restaurante.getMenu())
 
         for i, plato in enumerate(menu_verificado):
             plato_dict = {
@@ -1223,7 +1218,7 @@ class GestionPedidosApp:
 
         # Filtrar los platos seleccionados
         for i in self.platos_seleccionados:
-            self.platos_temp.append(menu[i-1])
+            self.platos_temp.append(restaurante.getMenu()[i-1])
         
         self.pedido["platos"] = self.platos_temp
         self.pedido["tipo pedido"] = tipo_pedido
@@ -1519,7 +1514,7 @@ class GestionPedidosApp:
             if reserva == None:
                 messagebox.showinfo("Operación exitosa", "Pedido creado")
                 pedido1 = Pedido(self.platos_temp, mesaTemporal, self.pedido["tipo pedido"], self.pedido["cocinero"], self.pedido["mesero"], restaurante, None, None)
-                pedido1.actualizarInventario(restaurante, pedido2)
+                pedido1.actualizarInventario(restaurante, pedido1)
                 try:
                     pedido1.verificarPedido(restaurante, pedido1)
                 except:

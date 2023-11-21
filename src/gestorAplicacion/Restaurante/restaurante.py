@@ -16,13 +16,14 @@ class Restaurante():
 				contador += 1
 		return contador
 
-	def __init__(self, listadoMesas=None, listadoEmpleados=None, listadoClientes=None, inventario=None, listadoAspEmpleados=None):
+	def __init__(self, listadoMesas=None, listadoEmpleados=None, listadoClientes=None, inventario=None, listadoAspEmpleados=None, restaurante = None):
 		self.NOMBRE = "Le Quasó"
 		self.empleadoDelMes = None
 		self.numMesas = 0
 		self.numEmpleados = 0
 		self.numClientes = 0
 		self.pedidos = []
+		self.menu = listadoMesas if listadoMesas is not None else []
 		self.listadoMesas = listadoMesas if listadoMesas is not None else []
 		self.listadoEmpleados = listadoEmpleados if listadoEmpleados is not None else []
 		self.listadoClientes = listadoClientes if listadoClientes is not None else []
@@ -56,6 +57,9 @@ class Restaurante():
 
 	def getMesas (self):
 		return self.listadoMesas
+	
+	def getMenu(self):
+		return self.menu
 	
 	def getCocineros (self):
 		cocineros = []
@@ -91,6 +95,9 @@ class Restaurante():
     #Metodos setter
 	def setMesas(self,mesas):
 		self.listadoMesas=mesas
+	
+	def setMenu(self, menu):
+		self.menu=menu
 
 	def setEmpleadoDelMes (self, empleadoDelMes):
 		if (empleadoDelMes == None):
