@@ -1506,8 +1506,8 @@ class GestionPedidosApp:
             self.frameSeleccionarDomiciliario.destroy()
             domiciliario = restaurante.buscarEmpleado(valores["domiciliario"], "domiciliario")
             self.pedido["domiciliario"] = domiciliario
-
             pedido2 = Pedido(self.platos_temp, None, self.pedido["tipo pedido"], self.pedido["cocinero"], None, restaurante, None, self.pedido["domiciliario"])
+            pedido2.actualizarInventario(restaurante, pedido2)
             messagebox.showinfo("Operación exitosa", "Pedido creado")
 
         if self.pedido["tipo pedido"] == 'restaurante':
@@ -1519,6 +1519,7 @@ class GestionPedidosApp:
             if reserva == None:
                 messagebox.showinfo("Operación exitosa", "Pedido creado")
                 pedido1 = Pedido(self.platos_temp, mesaTemporal, self.pedido["tipo pedido"], self.pedido["cocinero"], self.pedido["mesero"], restaurante, None, None)
+                pedido1.actualizarInventario(restaurante, pedido2)
                 try:
                     pedido1.verificarPedido(restaurante, pedido1)
                 except:
@@ -1529,7 +1530,7 @@ class GestionPedidosApp:
                   nombre1 = reserva.getDuenoReserva().getNombre()
                   pedido1 = Pedido(self.platos_temp, reserva.getMesa(), self.pedido["tipo pedido"], self.pedido["cocinero"], self.pedido["mesero"], restaurante, reserva, None)				      
                   pedido1.setVerificado(True)
-                  Pedido.actualizarInventario(restaurante, pedido1)
+                  pedido1.actualizarInventario(restaurante, pedido1)
 
 
     def delete_pages(self):

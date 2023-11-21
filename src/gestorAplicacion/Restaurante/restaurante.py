@@ -256,27 +256,28 @@ class Restaurante():
 		for pedidoi in self.getPedidos():
 			if (pedidoi == pedido):
 				for turno in pedido.getCocinero().getTurnos():
-					if (turno.getTipo().toString() == dia):
+					if (turno.getTipo().value == dia):
 						if not (turno.isCompletado()):
-							turno.restarTiempo(turno, pedido.getTiempoTotal())
+							turno.actualizarTiempo(turno, pedido.getTiempoTotal())
 		#Llama metodo para cobrar turno
 		pedido.getCocinero().turnosCompletados(pedido.getCocinero())
 		#Si el pedido es de consumo en restaurante se actualiza tiempo a mesero
 		if (pedido.getMesero() != None):
+			pedido.getMesero().turnosCompletados(pedido.getMesero())
 			for turno in pedido.getMesero().getTurnos():
-				if (turno.getTipo().toString() == dia):
+				if (turno.getTipo().value == dia):
 					if not (turno.isCompletado()):
-						turno.restarTiempo(turno, Pedido.TIEMPO_MESERO)
+						turno.actualizarTiempo(turno, Pedido.TIEMPO_MESERO)
 		#Llama metodo para cobrar turno
-		pedido.getMesero().turnosCompletados(pedido.getMesero())
+		
 		#Si el pedido es de consumo en domicilio se actualiza tiempo a domiciliario
 		if (pedido.getDomiciliario()!=None):
+			pedido.getDomiciliario().turnosCompletados(pedido.getDomiciliario())
 			for turno in pedido.getDomiciliario().getTurnos():
-				if(turno.getTipo().toString() == dia):
+				if(turno.getTipo().value == dia):
 					if not (turno.isCobrado()):
-						turno.restarTiempo(turno,Pedido.TIEMPO_DOMICILIO)
+						turno.actualizarTiempo(turno,Pedido.TIEMPO_DOMICILIO)
 		#Llama metodo para cobrar turno
-		pedido.getDomiciliario().turnosCompletados(pedido.getDomiciliario())
 		#Buscar un por su nombre y puesto
 
 	def buscarEmpleado(self, nombre, puesto):
