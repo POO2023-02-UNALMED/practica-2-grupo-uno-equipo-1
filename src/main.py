@@ -881,6 +881,7 @@ class FieldFrame2(Frame):
     def guardar_datos(self):
         def get_valor_by_criterio(criterio):
             return self.dataform.get(criterio)
+        
         for criterio, entry in self.entries.items():
             valor=entry.get()
             if not entry.get():
@@ -910,11 +911,13 @@ class FieldFrame2(Frame):
     def borrar_campos(self):
         for entry in self.entries.values():
             entry.delete(0, END)
+
     def insertar_valor(self, criterio, valor):
         entry = self.entries.get(criterio)
         if entry:
             entry.delete(0, END)
             entry.insert(0, valor)
+
     def get_valor_by_criterio(self, criterio):
             return self.dataform.get(criterio)
 
@@ -1032,15 +1035,62 @@ class GestionPedidosApp:
 
     def function_home_page(self):
         self.frame_home = Frame(self.main_frame, width=500, height=400)
-        titulo_home = Label(self.frame_home, text="Bienvenido a la gestion de pedidos", font=("Bold", 15)).place(x=150, y=30)
+        
+        # Saludo inicial
+        titulo_bienvenida = Label(self.frame_home, text="¡Bienvenido a la gestión de pedidos!", font=("Bold", 15))
+        titulo_bienvenida.place(relx=0.5, rely=0.1, anchor="center")
+
+        # Título de la funcionalidad
+        titulo_funcionalidad = Label(self.frame_home, text="Funcionalidad de Gestión de Pedidos", font=("Bold", 12))
+        titulo_funcionalidad.place(relx=0.5, rely=0.25, anchor="center")
+
+        # Descripción de la funcionalidad
+        descripcion_funcionalidad = Label(self.frame_home, text="Esta plataforma te permite realizar un seguimiento detallado de tus pedidos. En crear pedidos se ajusta a tus necesidades según los materiales que tengas; de acuerdo con esto, se te mostrarán los pedidos que puedes agregar. Con respecto a los empleados, podrás ver según los datos de tu pedido los empleados capacitados para realizar la tarea.", wraplength=400, justify="left")
+        descripcion_funcionalidad.place(relx=0.5, rely=0.4, anchor="center")
+
+        # Otros elementos y configuraciones de la página de inicio...
+
         self.frame_home.grid(pady=5, padx=5)
         self.frame_home.pack_propagate(False)
 
     def function_frame_domicilio(self):
-        self.frame_domicilio = Frame(self.main_frame, width=500, height=400)
+        # Definir frame domicilio
+        self.frame_domicilio = Frame(self.main_frame, width=400, height=600)
         titulo_domicilios = Label(self.frame_domicilio, text="Domicilios", font=("Bold", 15)).place(x=150, y=30)
+
+        # Crear un Canvas y un Scrollbar dentro del frame_domicilio
+        canvas = Canvas(self.frame_domicilio)
+        scrollbar = Scrollbar(self.frame_domicilio, orient="vertical", command=canvas.yview)
+
+        # Crear un Frame principal dentro del Canvas
+        main_frame = Frame(canvas)
+
+        # Añadir el Frame principal al Canvas
+        canvas.create_window((0, 0), window=main_frame, anchor='nw')
+
+        # Añadir un Frame para cada objeto al Frame principal
+        pedidos_domicilio = restaurante.getPedidosDomicilio()
+        for objeto in pedidos_domicilio:
+            frame = Frame(main_frame, height=250, width=300)  # Ajusta la altura y la anchura según tus necesidades
+            frame.pack_propagate(0)  # Evita que el tamaño del Frame cambie para adaptarse a sus widgets
+            label = Label(frame, text=objeto)
+            label.pack(fill=BOTH, expand=1)  # Hace que la etiqueta llene el Frame
+            frame.pack()
+
+        # Configurar el Scrollbar para que se desplace con el Canvas
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        # Configurar el Canvas para que cambie de tamaño con el Frame principal
+        main_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+
+        # Empaquetar el Canvas y el Scrollbar
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+
+        # Frame de interacción
         self.frame_domicilio.grid(pady=5, padx=5)
         self.frame_domicilio.pack_propagate(False)
+
 
     def function_frame_restaurante(self):
         self.frame_restaurante = Frame(self.main_frame, width=500, height=400)
@@ -1388,6 +1438,10 @@ class GestionPedidosApp:
                   pedido1.setVerificado(True)
                   Pedido.actualizarInventario(restaurante, pedido1)
 
+        for plato in restaurante.pedidos[0].getPlatos():
+            print(plato.detallesPlato())
+
+        print("PEDIDO")
         print(restaurante.pedidos[0])
         # print(Pedido.pedidos[0].getPlatos())
     #     self.delete_frames()
@@ -1622,9 +1676,7 @@ class GestionInventarioApp:
         self.delete_pages()
         pagina()
 
-from tkinter import ttk
-from tkinter import PhotoImage
-
+import tkinter as tkk
 class GestionFinancieraApp:
     """
     Aqui se plantea toda la funcionalidad de gestion Financiera
@@ -1644,13 +1696,21 @@ class GestionFinancieraApp:
         self.options_frame.grid(row=0, column=0, sticky="nsew")
         self.options_frame.pack_propagate(False)
         self.main_frame = Frame(self.funcionalidad_gestionFinanciera, highlightbackground='black', highlightthickness=2, width=500, height=400)
+        
         # Crear una lista de materiales (nombre, imagen)
         self.materiales = []
+
+        # Inventario verificado
         inventario_verificado = self.restaurante.inventario
-        # Lista de nombres de materiales
-        nombres_materiales = ["TOMATES", "CEBOLLAS", "PAPAS", "ACEITES", "VINOS","QUESOS",
-            "CHAMPINONES", "RES", "PESCADOS", "CERDOS","POLLOS", "PANES", "AJOS", "ESPECIAS", "HUEVOS",
-            "ATUN", "CUCHARAS", "TENEDORES", "PLATOS", "VASOS"]
+
+        for i, (key, material) in enumerate(inventario_verificado.items()):
+            material_dict = {
+                "nombre": material.getTipo().value,  
+                "precio": material.getPrecioUnitario(),
+                "cantidad": material.getCantidad(),
+                "imagen": imagenes_materiales[i]
+            }
+            self.materiales.append(material_dict)
 
     
         # Crear botones de selección de opción
@@ -1699,7 +1759,7 @@ class GestionFinancieraApp:
 
     def function_home_inicio(self):
         self.frame_home = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_home, text="Bienvenido a la Gestion Financiera", font=("Bold", 15)).place(x=80, y=30)
+        Label(self.frame_home, text="Bienvenido a la Gestion de Financiera", font=("Bold", 15)).place(x=80, y=30)
         self.frame_home.grid(pady=5, padx=5)
         self.frame_home.pack_propagate(False)
 
@@ -1783,41 +1843,82 @@ class GestionFinancieraApp:
         self.material_seleccionado = StringVar()
         Label(self.frame_gastos_material_especifico, textvariable=self.material_seleccionado).grid(row=len(imagenes_materiales)//4 + 3, column=1)
         
+        # Frame de interacción
+        self.frameSeleccionMateriales = Frame(self.frame_gastos_material_especifico, width=500, height=400)
+        self.busquedaMateriales = FieldFrame(self.frameSeleccionMateriales, "materiales deseados", ["materiales"], "Ingresa los materiales deseados", ["presiona los materiales que desees"], [False], self.seleccionarMaterial)
+        self.busquedaMateriales.grid(row = 0, column=0, padx=10, pady=10)
+
+        # Crear un Canvas para la cuadrícula dentro del Frame principal
+        self.canvas = Canvas(self.frameSeleccionMateriales)
+        self.canvas.grid(row = 1, column=0, padx=10, pady=10)
+
+        self.frames_temporales.append(self.canvas)
+
+        # Ubicación del frame seleccionMateriales dentro de frame_gastos_material_especifico mediante grid
+        self.frameSeleccionMateriales.grid(row=0, column=0)
+
+        # Configurar la cuadrícula
+        cols=2
+        rows = len(self.materiales) // cols+1
+
+        # Dentro del bucle para mostrar materiales en la cuadrícula
+        for i, material in enumerate(self.materiales):
+            row = i // cols
+            col = i % cols
+
+            # Crear un Frame para cada material dentro del Canvas
+            frame = Frame(self.canvas, width=self.col_width, height=self.row_height, bd=2, relief=RIDGE)
+            frame.grid(row=row, column=col, padx=5, pady=5)
+
+            # Cargar la imagen 
+            imagen = material["imagen"]
+
+            # Mostrar imagen del material (esto podría ser un botón en lugar de una etiqueta)
+            boton_material = Button(frame, image=imagen, command=lambda i=i: self.toggle_seleccion(i))
+            boton_material.grid(row=0, column=0, padx=5, pady=5, sticky="w")  # sticky="w" alinea a la izquierda
+
+            # Mostrar nombre del material
+            nombre_label = Label(frame, text=material["nombre"])
+            nombre_label.grid(row=0, column=1, padx=5, pady=1)
+
+            # Mostrar precio del material
+            precio_label = Label(frame, text=f"Precio: {material['precio']}")
+            precio_label.grid(row=1, column=1, padx=5, pady=1)
+
+
+        # Ubicación frame gastos_material_especifico
         self.frame_gastos_material_especifico.grid(pady=5, padx=5)
         self.frame_gastos_material_especifico.pack_propagate(False)
-
-    def toggle_seleccion(self, indice):
-        # Actualizar la etiqueta con el nombre del material seleccionado
-        self.material_seleccionado.set(self.materiales[indice]['nombre'])
 
 
     
     def function_frame_pago_empleado_especifico(self):
-        self.frame_pago_empleado_especifico = Frame(self.main_frame, width=500, height=400)
-        Label(self.frame_pago_empleado_especifico, text="Pago Empleado Especifico", font=("Bold", 15)).place(x=150, y=30)
-
-        Label(self.frame_pago_empleado_especifico, text="Nombre :", font=("Bold", 10)).place(x=80, y=90)
-        self.nombre_empleado = StringVar()
-        Entry(self.frame_pago_empleado_especifico, textvariable=self.nombre_empleado).place(x=200, y=90)
-
-        # Agregar Listbox para la lista de empleados
-        self.lista_empleados = Listbox(self.frame_pago_empleado_especifico)
-        self.lista_empleados.place(x=200, y=120)
-
-        lista_empleados = [empleado.getNombre() for empleado in self.empleados]
-        for empleado in lista_empleados:
-            self.lista_empleados.insert(END, empleado)
-        self.lista_empleados.bind('<<ListboxSelect>>', self.actualizar_nombre_empleado)
-
-        self.frame_pago_empleado_especifico.grid(pady=5, padx=5)
-        self.frame_pago_empleado_especifico.pack_propagate(False)
-
-    def actualizar_nombre_empleado(self, event):
-        seleccionado = self.lista_empleados.get(self.lista_empleados.curselection())
-        # Actualizar el valor de self.nombre_empleado
-        self.nombre_empleado.set(seleccionado)
-
+        self.frame_gastos_material_especifico = Frame(self.main_frame, width=500, height=400)
+        Label(self.frame_gastos_material_especifico, text="Pago Empleado Especifico", font=("Bold", 15)).place(x=150, y=30)
         
+        # Obtener la lista de empleados del restaurante
+        lista_empleados = [empleado.getNombre() for empleado in self.empleados]
+
+        # Crear una etiqueta para el texto
+        label = Label(self.main_frame, text="Seleccione el empleado:")
+        label.grid(row=0, column=0)  # Ubicar la etiqueta en la fila 0, columna 0
+
+        # Crear el Combobox
+        combobox = ttk.Combobox(self.main_frame, values=lista_empleados)
+        combobox.grid(row=0, column=1)  # Ubicar el combobox en la fila 0, columna 1
+
+        # Ubicación frame pago_empleado_especifico
+        self.main_frame.grid(pady=5, padx=5)
+        self.main_frame.pack_propagate(False)
+
+    def pagar_empleado_seleccionado(self):
+        empleado_seleccionado = self.combo_empleados.get()
+        if not empleado_seleccionado:
+            messagebox.showwarning("Error", "Por favor, selecciona un empleado.")
+        else:
+            # Realizar la lógica para el pago al empleado seleccionado
+            messagebox.showinfo("Pago Realizado", f"Se ha realizado el pago a: {empleado_seleccionado}")
+
 
     def indicador(self, pagina, lb):
         """
