@@ -442,6 +442,8 @@ class Restaurante():
 
 	#Si la mesa seleccionada cumple, le asigna la reserva a la mesa
 	def confirmarReserva(self, numMesa, cedula):
+		numMesa=int(numMesa)
+		cedula=int(cedula)
 		c1 = self.obtenerCliente(cedula)
 		r1 = c1.getReserva()
 		if (Mesa.verificarNumero(Mesa,numMesa)):

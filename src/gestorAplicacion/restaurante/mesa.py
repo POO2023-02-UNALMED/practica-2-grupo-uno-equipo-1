@@ -5,11 +5,12 @@ class Mesa:
     numeroMesas = []
 
     def __init__(self, capacidad, numeroMesa):
-        self.capacidad = capacidad
+        self.capacidad = int(capacidad)
+        numeroMesa=int(numeroMesa)
         if Mesa.verificarNumero(Mesa, numeroMesa):
             self.numeroMesa = Mesa.generarNumeroMesa(Mesa)
         else:
-            self.numeroMesa = numeroMesa
+            self.numeroMesa = int(numeroMesa)
         self.ocupada = False
         self.reservas = []
         Mesa.numeroMesas.append(self.numeroMesa)

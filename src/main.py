@@ -20,6 +20,17 @@ from baseDatos.Serializacion import serializar,deserializar
 
 
 restaurante=deserializar()
+
+mesas=restaurante.getMesas()
+empleados=restaurante.getEmpleados()
+menu=restaurante.getMenu()
+for mesa in mesas:
+    print(mesa)
+for empleado in empleados:
+    print(empleado)
+for plato in menu:
+    print(plato)
+
 """for material in restaurante.getInventario():
     print(material)
     print(restaurante.inventario[material].getCantidad())
@@ -387,8 +398,8 @@ botonCambio.grid(row=1, column=0, padx=5, pady=5)
 hojasDeVida = [
     "Nombre: Daniel Felipe Garzon Acosta\nFecha de Nacimiento: 25 de Septiembre de 2005\nPasatiempos: Videojuegos y ver series",
     "Nombre: Samuel Ortiz Toro\nFecha de Nacimiento: 6 de Mayo de 2004\nPasatiempos: Política y Religión",
-    "hojaVida3",
-    "Nombre: Juan Sebastian Hoyos Castillo\nFecha de Nacimiento: 7 de Febrero de 2002\nPasatiempos: Jugar videojuegos y ver anime",
+    "Nombre: Jhogert David Bita Aldana\nFecha de Nacimiento: 13 de Septiembre de 2003\nPasatiempos: Gacha player",
+    "Nombre: Juan Sebastian Hoyos Castillo\nFecha de Nacimiento: 7 de Febrero de 2002\nPasatiempos: Fan de T1",
     "Nombre: Nicole Natalia Guaranguay Parra\nFecha de Nacimiento: 11 de Abril de 2005\nPasatiempos: Ver anime y salir con mis amigos"
     ]
 
@@ -423,10 +434,10 @@ imagen_samuel2 = Image.open("src\imagenes\imagen_samuel2.png")
 imagen_samuel3 = Image.open("src\imagenes\imagen_samuel3.png")
 imagen_samuel4 = Image.open("src\imagenes\imagen_samuel4.png")
 
-imagen_jhogert1 = Image.open("src\imagenes\imagen_jhogert1.png")
-imagen_jhogert2 = Image.open("src\imagenes\imagen_jhogert2.png")
-imagen_jhogert3 = Image.open("src\imagenes\imagen_jhogert3.png")
-imagen_jhogert4 = Image.open("src\imagenes\imagen_jhogert4.png")
+imagen_jhogert1 = Image.open("src\imagenes\imagen_jhogert1.jpeg")
+imagen_jhogert2 = Image.open("src\imagenes\imagen_jhogert2.jpeg")
+imagen_jhogert3 = Image.open("src\imagenes\imagen_jhogert3.jpeg")
+imagen_jhogert4 = Image.open("src\imagenes\imagen_jhogert4.jpeg")
 
 imagen_sebastian1 = Image.open("src\imagenes\imagen_sebastian1.jpeg")
 imagen_sebastian2 = Image.open("src\imagenes\imagen_sebastian2.jpeg")
@@ -803,8 +814,8 @@ class FieldFrame(Frame):
                 mensaje += f"{criterio}: {entry.get()}\n"
             messagebox.showinfo("Operación exitosa", mensaje)
             if self.nombre == "mesa":
-                numeroMesa = self.get_valor_by_criterio("Mesa")
-                capacidadMesa = self.get_valor_by_criterio("Capacidad")
+                numeroMesa = int(self.get_valor_by_criterio("Mesa"))
+                capacidadMesa = int(self.get_valor_by_criterio("Capacidad"))
                 restaurante.listadoMesas.append(Mesa(capacidadMesa, numeroMesa))
             elif self.nombre == "comprar":
                 tipo = self.get_valor_by_criterio("Material")
@@ -818,9 +829,9 @@ class FieldFrame(Frame):
                 cantidad = int(self.get_valor_by_criterio("Cantidad"))
                 restaurante.botarMaterial(tipos, cantidad)
             elif self.nombre == "crear-reserva":
-                cedula = self.get_valor_by_criterio("cedula")
+                cedula = int(self.get_valor_by_criterio("cedula"))
                 nombre = self.get_valor_by_criterio("nombre")
-                numAsistentes = self.get_valor_by_criterio("numero de asistentes")
+                numAsistentes = int(self.get_valor_by_criterio("numero de asistentes"))
                 diaReserva = self.get_valor_by_criterio("dia de la reserva")
                 try:
                     Reserva.revisarFecha(diaReserva)
@@ -828,15 +839,15 @@ class FieldFrame(Frame):
                 except ValueError:
                     messagebox.showinfo("Alerta", "formato de fecha ingresado no válido")
             elif self.nombre == "cancelar-reserva":
-                cedula = self.get_valor_by_criterio("cedula")
+                cedula = int(self.get_valor_by_criterio("cedula"))
                 if (restaurante.verificarCliente(cedula)):
                     messagebox.showinfo("Alerta", "El cliente no se encuentra afiliado al restaurante")
                 else:
                     restaurante.obtenerCliente(cedula).setReserva(None)
                     messagebox.showinfo("éxito", "Reserva cancelada")
             elif self.nombre == "confirmar-reserva":
-                cedula = self.get_valor_by_criterio("cedula")
-                numMesa = self.get_valor_by_criterio("numero de mesa")
+                cedula = int(self.get_valor_by_criterio("cedula"))
+                numMesa =int(self.get_valor_by_criterio("numero de mesa"))
                 if (restaurante.verificarCliente(cedula)):
                     messagebox.showinfo("Alerta", "El cliente no se encuentra afiliado al restaurante, por lo que no tiene una reserva")
                 else:
