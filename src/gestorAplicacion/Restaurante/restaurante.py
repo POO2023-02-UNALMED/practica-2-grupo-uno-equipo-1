@@ -2,6 +2,7 @@ from datetime import datetime
 from gestorAplicacion.Restaurante.reserva import Reserva
 from gestorAplicacion.Restaurante.pedido import Pedido
 from gestorAplicacion.Restaurante.material import Material
+from gestorAplicacion.Restaurante.material import Tipo
 from gestorAplicacion.Restaurante.mesa import Mesa
 from gestorAplicacion.Personas.cliente import Cliente
 
@@ -270,7 +271,7 @@ class Restaurante():
 		#Llama metodo para cobrar turno
 		pedido.getDomiciliario().turnosCompletados(pedido.getDomiciliario())
 		#Buscar un por su nombre y puesto
-		
+
 	def buscarEmpleado(self, nombre, puesto):
 		for empleado in self.listadoEmpleados:
 			if((empleado.getNombre()) == nombre and (empleado.getPuesto()) == puesto):
@@ -310,32 +311,26 @@ class Restaurante():
 	#que lo ultimo no coincida se crea una instancia diferente y si no existe la instancia se crea
 	def comprarMaterial (self, tipo, cantidad, precio, fecha=None):
 		#revisa si ya existe el material
-		if (self.inventario.containsKey(tipo)):
-			materialComprado = self.inventario.get(tipo)
-			vence = Reserva.deStringaFecha(fecha)
-			materialComprado.comprarMaterial(cantidad)
-			materialComprado.cambiarPrecioUnitario(precio)
-			if fecha != None:
-				materialComprado.cambiarFechaVencimiento(vence)
+		if tipo in self.inventario:
+			materialComprado = self.inventario[tipo]
+			materialComprado.cantidad+=cantidad
+			materialComprado.precioUnitario=precio
 		#no existe por lo que lo crea
 		else:
-			nuevoMaterial = Material(tipo,cantidad,precio,vence)
-			self.inventario.put(tipo, nuevoMaterial)
-			nuevoMaterial.cambiarPrecioUnitario(precio)
-			if fecha != None:
-				nuevoMaterial.cambiarFechaVencimiento(vence)
-				vence = Reserva.deStringaFecha(fecha)
+			nuevoMaterial = Material(tipo,cantidad,precio,None)
+			self.inventario[tipo]=nuevoMaterial
+			nuevoMaterial.precioUnitario=precio
 
 	#Se encarga de eliminar un material especifico
 	def botarMaterial(self, tipo,cantidad):
-		if (self.inventario.containsKey(tipo)):
-			materialEliminado = self.inventario.get(tipo)
+		if tipo in self.inventario:
+			materialEliminado = self.inventario[tipo]
 			if (materialEliminado.getCantidad()>=cantidad):
-				materialEliminado.botarMaterial(cantidad)
+				materialEliminado.cantidad-=cantidad
 			else:
-				self.operacionInvalida()
+				raise TypeError("Operacion Invalida")
 		else:
-			self.operacionInvalida()
+			raise TypeError("No existe el elemento en el inventario")
 
 	#metodo para decir si una accion no puede ser ejecutada
 	def operacionInvalida(self):

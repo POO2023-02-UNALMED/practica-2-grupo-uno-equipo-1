@@ -86,3 +86,6 @@ class Material:
             return "Este material no tiene fecha de vencimiento"
         else:
             return self.fechavencimiento.strftime("%d-%m-%Y")
+        
+    def __str__(self):
+        return f"{self.getCantidad} {self.getTipo} al precio de {self.getPrecioUnitario}"
