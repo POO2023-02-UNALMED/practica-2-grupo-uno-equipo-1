@@ -48,6 +48,7 @@ class Financia():
 				for material, cantidad_utilizada in plato.getIngredientes().items():
 					total_gastos_materiales += material.getPrecioUnitario() * cantidad_utilizada
 		self.gastosMateriales = total_gastos_materiales
+
 		return self.gastosMateriales
 
 	def GastoMaterialEspecifico(self, nombre_material):
@@ -73,19 +74,19 @@ class Financia():
 		return totalPago
 
     #Calcula el Pago total de todos los Empleados
-	def PagosEmpleados(self,restaurante):
+	def pagosEmpleados(self):
 		totalPago = 0
-		for empleado in restaurante.getEmpleados():
+		for empleado in self.restaurante.getEmpleados():
 			totalPago += empleado.getSalario()
-			totalPago += self.liquidacionEmpleado(empleado.getNombre()) # Sumar la liquidación del empleado
 			for turno in empleado.getTurnos():
-				if (turno.isCompletado() and not turno.isCobrado(self)):
+				if turno.isCompletado() and not turno.isCobrado():
 					horasExtras = turno.HorasExtras()
-					if (horasExtras > 0):
-						pagoHoraExtra = 1.5 # Supongamos que las horas extras se pagan a 1.5 veces el salario regular por hora
+					if horasExtras > 0:
+						pagoHoraExtra = 1.5  # Supongamos que las horas extras se pagan a 1.5 veces el salario regular por hora
 						totalPago += horasExtras * (empleado.getSalario() / turno.getHoras()) * pagoHoraExtra
 		self.pagosEmpleados = totalPago
 		return self.pagosEmpleados
+
 
     #Calcula las ganancias Brutas del restaurante
 	def GananciasBrutas(self):
