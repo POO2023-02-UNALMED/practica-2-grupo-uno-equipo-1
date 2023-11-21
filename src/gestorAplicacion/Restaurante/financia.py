@@ -73,19 +73,22 @@ class Financia():
 			totalPago += pago
 		return totalPago
 
-    #Calcula el Pago total de todos los Empleados
+    # Calcula el Pago total de todos los Empleados
+	
 	def pagosEmpleados(self):
-		totalPago = 0
-		for empleado in self.restaurante.getEmpleados():
-			totalPago += empleado.getSalario()
-			for turno in empleado.getTurnos():
-				if turno.isCompletado() and not turno.isCobrado():
-					horasExtras = turno.HorasExtras()
-					if horasExtras > 0:
-						pagoHoraExtra = 1.5  # Supongamos que las horas extras se pagan a 1.5 veces el salario regular por hora
-						totalPago += horasExtras * (empleado.getSalario() / turno.getHoras()) * pagoHoraExtra
-		self.pagosEmpleados = totalPago
-		return self.pagosEmpleados
+			totalPago = 0
+			for empleado in self.restaurante.getEmpleados():
+				for turno in empleado.getTurnos():
+					if turno.isCompletado() and not turno.isCobrado():
+						horasExtras = turno.HorasExtras()
+						salario_base = turno.getSalario()
+						if horasExtras > 0:
+							pagoHoraExtra = 1.5  # Supongamos que las horas extras se pagan a 1.5 veces el salario regular por hora
+							totalPago += salario_base + (horasExtras * (salario_base / turno.getHoras()) * pagoHoraExtra)
+						else:
+							totalPago += salario_base  # Agregar el salario base por las horas regulares
+			self.pagosEmpleados = totalPago  # Actualizar el atributo pagosEmpleados
+			return self.pagosEmpleados
 
 
     #Calcula las ganancias Brutas del restaurante
